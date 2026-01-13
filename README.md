@@ -19,5 +19,5 @@ https://docs.google.com/document/d/1PS1lkdti3LboKjr8F1f7ldjYVTTRcz4cq1GXkem7834/
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-python3 scripts/export_unsolved.py --input data/problems.yaml --output data/unsolved.jsonl --delay 1.0
+python3 scripts/export_unsolved.py --input data/problems.yaml --output data/unsolved.jsonl --delay 1.0 --skip 247,248
 ```

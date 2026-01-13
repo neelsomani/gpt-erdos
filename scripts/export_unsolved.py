@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import html
 import json
+import socket
 import sys
 import time
 from pathlib import Path
@@ -138,6 +139,7 @@ def fetch_latex(problem_number: str, base_url: str, timeout: float) -> tuple[str
     url = f"{base_url.rstrip('/')}/{problem_number}"
     retries = 10
     delay_seconds = 300
+    transient_delay = 30
     for attempt in range(1, retries + 1):
         try:
             with urlopen(url, timeout=timeout) as response:
@@ -159,7 +161,29 @@ def fetch_latex(problem_number: str, base_url: str, timeout: float) -> tuple[str
             raise RuntimeError(
                 f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
             )
+        except (socket.timeout, TimeoutError) as exc:
+            if attempt < retries:
+                print(
+                    f"Timeout fetching problem {problem_number}. "
+                    f"Retrying in {transient_delay} seconds "
+                    f"({attempt}/{retries}).",
+                    file=sys.stderr,
+                )
+                time.sleep(transient_delay)
+                continue
+            raise RuntimeError(
+                f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
+            )
         except URLError as exc:
+            if isinstance(exc.reason, socket.timeout) and attempt < retries:
+                print(
+                    f"Timeout fetching problem {problem_number}. "
+                    f"Retrying in {transient_delay} seconds "
+                    f"({attempt}/{retries}).",
+                    file=sys.stderr,
+                )
+                time.sleep(transient_delay)
+                continue
             raise RuntimeError(
                 f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
             )
@@ -198,11 +222,17 @@ def build_dataset(
     base_url: str,
     timeout: float,
     delay: float,
+    skip_numbers: set[str],
 ) -> None:
     problems = load_problems(input_path)
     unsolved = list(iter_unsolved(problems))
     existing_numbers = iter_existing_numbers(output_path)
-    remaining = [problem for problem in unsolved if problem["number"] not in existing_numbers]
+    remaining = [
+        problem
+        for problem in unsolved
+        if problem["number"] not in existing_numbers
+        and problem["number"] not in skip_numbers
+    ]
     total = len(remaining)
     if total == 0:
         print("No new problems to fetch.", file=sys.stderr)
@@ -269,11 +299,20 @@ def parse_args() -> argparse.Namespace:
         default=1.0,
         help="Delay in seconds between requests.",
     )
+    parser.add_argument(
+        "--skip",
+        default="",
+        help=(
+            "Comma-separated list of problem numbers to skip "
+            "(e.g. '247,248')."
+        ),
+    )
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
+    skip_numbers = {item for item in args.skip.split(",") if item}
     try:
         build_dataset(
             args.input,
@@ -281,6 +320,7 @@ def main() -> None:
             args.base_url,
             args.timeout,
             args.delay,
+            skip_numbers,
         )
     except Exception as exc:
         print(str(exc), file=sys.stderr)

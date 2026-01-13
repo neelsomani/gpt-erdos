@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Unsolved Problems Viewer</title>
+    <title>GPT-Erdos</title>
     <style>
       body {
         font-family: system-ui, -apple-system, sans-serif;
@@ -68,12 +68,23 @@
     </style>
   </head>
   <body>
-    <h1>Unsolved Problems Viewer</h1>
-    <p class="small">Load a JSONL file exported by <code>scripts/export_unsolved.py</code>.</p>
+    <h1>GPT-Erdos</h1>
+    <p class="small">
+      <a href="https://github.com/neelsomani/gpt-erdos" target="_blank" rel="noreferrer">
+        View repo
+      </a>
+    </p>
     <div class="controls">
       <label class="nowrap">
         Problems YAML:
-        <span class="small">Loaded from GitHub</span>
+        <a
+          class="small"
+          href="https://github.com/teorth/erdosproblems/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Loaded from GitHub
+        </a>
       </label>
       <label class="nowrap">
         Unsolved JSONL:
@@ -92,6 +103,10 @@
       </thead>
       <tbody></tbody>
     </table>
+    <p class="small">
+      The content on this website is dedicated to the public domain under CC0 1.0
+      Universal. No rights reserved.
+    </p>
 
     <script>
       window.MathJax = {
