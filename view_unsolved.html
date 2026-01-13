@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unsolved Problems Viewer</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        margin: 24px;
+        color: #111;
+      }
+      h1 {
+        margin-bottom: 8px;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        margin: 16px 0 24px;
+      }
+      .status {
+        color: #555;
+        font-size: 14px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      thead {
+        position: sticky;
+        top: 0;
+        background: #f5f5f5;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        vertical-align: top;
+        word-wrap: break-word;
+      }
+      th {
+        text-align: left;
+      }
+      tbody tr:nth-child(even) {
+        background: #fafafa;
+      }
+      .nowrap {
+        white-space: nowrap;
+      }
+      .small {
+        font-size: 12px;
+        color: #666;
+      }
+      .textarea-cell {
+        white-space: pre-line;
+      }
+      .latex-cell {
+        white-space: pre-line;
+      }
+      details summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Unsolved Problems Viewer</h1>
+    <p class="small">Load a JSONL file exported by <code>scripts/export_unsolved.py</code>.</p>
+    <div class="controls">
+      <input type="file" id="fileInput" accept=".jsonl" />
+      <label class="nowrap">
+        Max rows:
+        <input type="number" id="limitInput" value="200" min="1" max="10000" />
+      </label>
+      <button id="renderBtn">Render</button>
+      <span class="status" id="status"></span>
+    </div>
+    <table id="table" aria-live="polite">
+      <thead>
+        <tr>
+          <th style="width: 80px;">Number</th>
+          <th style="width: 100px;">State</th>
+          <th>Problem</th>
+          <th>Additional</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [
+            ["$", "$"],
+            ["\\(", "\\)"],
+          ],
+          displayMath: [
+            ["$$", "$$"],
+            ["\\[", "\\]"],
+          ],
+        },
+        options: {
+          skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+        },
+      };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <script>
+      const fileInput = document.getElementById("fileInput");
+      const limitInput = document.getElementById("limitInput");
+      const renderBtn = document.getElementById("renderBtn");
+      const statusEl = document.getElementById("status");
+      const tbody = document.querySelector("#table tbody");
+
+      function setStatus(message) {
+        statusEl.textContent = message;
+      }
+
+      function clearTable() {
+        tbody.innerHTML = "";
+      }
+
+      function parseJsonl(text, limit) {
+        const lines = text.split(/\r?\n/).filter((line) => line.trim() !== "");
+        const records = [];
+        for (const line of lines) {
+          if (records.length >= limit) break;
+          try {
+            records.push(JSON.parse(line));
+          } catch (error) {
+            console.warn("Skipping invalid JSONL line", error);
+          }
+        }
+        return { records, total: lines.length };
+      }
+
+      function renderRows(records) {
+        clearTable();
+        for (const record of records) {
+          const row = document.createElement("tr");
+
+          const numberCell = document.createElement("td");
+          numberCell.textContent = record.number ?? "";
+          row.appendChild(numberCell);
+
+          const stateCell = document.createElement("td");
+          stateCell.textContent = record.state ?? "";
+          row.appendChild(stateCell);
+
+          const problemCell = document.createElement("td");
+          problemCell.className = "latex-cell";
+          problemCell.textContent = record.latex ?? "";
+          row.appendChild(problemCell);
+
+          const additionalCell = document.createElement("td");
+          const details = document.createElement("details");
+          const summary = document.createElement("summary");
+          summary.textContent = "Show";
+          const additionalContent = document.createElement("div");
+          additionalContent.className = "latex-cell";
+          additionalContent.textContent = record.additional_text ?? "";
+          details.appendChild(summary);
+          details.appendChild(additionalContent);
+          additionalCell.appendChild(details);
+          row.appendChild(additionalCell);
+
+          tbody.appendChild(row);
+        }
+      }
+
+      renderBtn.addEventListener("click", () => {
+        const file = fileInput.files[0];
+        if (!file) {
+          setStatus("Choose a JSONL file first.");
+          return;
+        }
+
+        const limit = Math.max(1, Number(limitInput.value) || 200);
+        const reader = new FileReader();
+        reader.onload = () => {
+          const { records, total } = parseJsonl(reader.result, limit);
+          renderRows(records);
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            window.MathJax.typesetPromise();
+          }
+          setStatus(`Showing ${records.length} of ${total} records.`);
+        };
+        reader.onerror = () => {
+          setStatus("Failed to read file.");
+        };
+        reader.readAsText(file);
+      });
+    </script>
+  </body>
+</html>
