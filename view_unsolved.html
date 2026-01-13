@@ -71,7 +71,14 @@
     <h1>Unsolved Problems Viewer</h1>
     <p class="small">Load a JSONL file exported by <code>scripts/export_unsolved.py</code>.</p>
     <div class="controls">
-      <input type="file" id="fileInput" accept=".jsonl" />
+      <label class="nowrap">
+        Problems YAML:
+        <input type="file" id="problemsInput" accept=".yaml,.yml" />
+      </label>
+      <label class="nowrap">
+        Unsolved JSONL:
+        <input type="file" id="fileInput" accept=".jsonl" />
+      </label>
       <label class="nowrap">
         Max rows:
         <input type="number" id="limitInput" value="200" min="1" max="10000" />
@@ -109,8 +116,10 @@
       };
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 
     <script>
+      const problemsInput = document.getElementById("problemsInput");
       const fileInput = document.getElementById("fileInput");
       const limitInput = document.getElementById("limitInput");
       const renderBtn = document.getElementById("renderBtn");
@@ -158,42 +167,96 @@
           row.appendChild(problemCell);
 
           const additionalCell = document.createElement("td");
-          const details = document.createElement("details");
-          const summary = document.createElement("summary");
-          summary.textContent = "Show";
-          const additionalContent = document.createElement("div");
-          additionalContent.className = "latex-cell";
-          additionalContent.textContent = record.additional_text ?? "";
-          details.appendChild(summary);
-          details.appendChild(additionalContent);
-          additionalCell.appendChild(details);
+          const additionalText = record.additional_text ?? "";
+          if (additionalText) {
+            const details = document.createElement("details");
+            const summary = document.createElement("summary");
+            summary.textContent = "Show";
+            const additionalContent = document.createElement("div");
+            additionalContent.className = "latex-cell";
+            additionalContent.textContent = additionalText;
+            details.appendChild(summary);
+            details.appendChild(additionalContent);
+            additionalCell.appendChild(details);
+          } else {
+            additionalCell.textContent = "";
+          }
           row.appendChild(additionalCell);
 
           tbody.appendChild(row);
         }
       }
 
-      renderBtn.addEventListener("click", () => {
-        const file = fileInput.files[0];
-        if (!file) {
-          setStatus("Choose a JSONL file first.");
+      function readFile(file) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(new Error("Failed to read file."));
+          reader.readAsText(file);
+        });
+      }
+
+      renderBtn.addEventListener("click", async () => {
+        const problemsFile = problemsInput.files[0];
+        if (!problemsFile) {
+          setStatus("Choose a problems.yaml file first.");
           return;
         }
 
         const limit = Math.max(1, Number(limitInput.value) || 200);
-        const reader = new FileReader();
-        reader.onload = () => {
-          const { records, total } = parseJsonl(reader.result, limit);
-          renderRows(records);
-          if (window.MathJax && window.MathJax.typesetPromise) {
-            window.MathJax.typesetPromise();
+        try {
+          const yamlText = await readFile(problemsFile);
+          const problems = window.jsyaml.load(yamlText);
+          if (!Array.isArray(problems)) {
+            setStatus("problems.yaml did not parse to a list.");
+            return;
           }
-          setStatus(`Showing ${records.length} of ${total} records.`);
-        };
-        reader.onerror = () => {
-          setStatus("Failed to read file.");
-        };
-        reader.readAsText(file);
+
+          const jsonlFile = fileInput.files[0];
+          let jsonlRecords = [];
+          let jsonlTotal = 0;
+          if (jsonlFile) {
+            const jsonlText = await readFile(jsonlFile);
+            const parsed = parseJsonl(jsonlText, Number.POSITIVE_INFINITY);
+            jsonlRecords = parsed.records;
+            jsonlTotal = parsed.total;
+          }
+
+          const unsolvedMap = new Map(
+            jsonlRecords.map((record) => [String(record.number), record]),
+          );
+
+          const allowedStates = new Set(["open", "falsifiable", "verifiable"]);
+          const merged = [];
+          for (const problem of problems) {
+            if (merged.length >= limit) break;
+            const number = String(problem.number ?? "");
+            const state = problem.status?.state ?? "";
+            if (!allowedStates.has(state)) {
+              continue;
+            }
+            const match = unsolvedMap.get(number);
+            merged.push({
+              number,
+              state,
+              latex: match?.latex ?? "",
+              additional_text: match?.additional_text ?? "",
+            });
+          }
+
+          renderRows(merged);
+          if (window.MathJax && window.MathJax.typesetPromise) {
+            await window.MathJax.typesetPromise();
+          }
+          const baseStatus = `Showing ${merged.length} of ${problems.length} problems.`;
+          const jsonlStatus = jsonlFile
+            ? `Loaded ${jsonlRecords.length} of ${jsonlTotal} JSONL rows.`
+            : "No JSONL file loaded.";
+          setStatus(`${baseStatus} ${jsonlStatus}`);
+        } catch (error) {
+          console.error(error);
+          setStatus("Failed to parse files.");
+        }
       });
     </script>
   </body>

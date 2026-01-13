@@ -17,7 +17,7 @@ from urllib.request import urlopen
 import yaml
 
 
-UNSOLVED_STATES = {"open", "falsifiable"}
+UNSOLVED_STATES = {"open", "falsifiable", "verifiable"}
 
 
 class ProblemHTMLParser(HTMLParser):
@@ -136,15 +136,33 @@ def iter_unsolved(problems: Iterable[dict]) -> Iterable[dict]:
 
 def fetch_latex(problem_number: str, base_url: str, timeout: float) -> tuple[str, str]:
     url = f"{base_url.rstrip('/')}/{problem_number}"
-    try:
-        with urlopen(url, timeout=timeout) as response:
-            payload = response.read().decode("utf-8")
-            content, additional = extract_problem_sections(payload)
-            if not content and not additional:
-                content = payload
-            return content, additional
-    except (HTTPError, URLError) as exc:
-        raise RuntimeError(f"Failed to fetch LaTeX for problem {problem_number}: {exc}")
+    retries = 10
+    delay_seconds = 300
+    for attempt in range(1, retries + 1):
+        try:
+            with urlopen(url, timeout=timeout) as response:
+                payload = response.read().decode("utf-8")
+                content, additional = extract_problem_sections(payload)
+                if not content and not additional:
+                    content = payload
+                return content, additional
+        except HTTPError as exc:
+            if exc.code == 429 and attempt < retries:
+                print(
+                    f"Received 429 for problem {problem_number}. "
+                    f"Retrying in {delay_seconds} seconds "
+                    f"({attempt}/{retries}).",
+                    file=sys.stderr,
+                )
+                time.sleep(delay_seconds)
+                continue
+            raise RuntimeError(
+                f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
+            )
+        except URLError as exc:
+            raise RuntimeError(
+                f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
+            )
 
 
 def write_jsonl(records: Iterable[dict], output_path: Path) -> None:
@@ -153,6 +171,25 @@ def write_jsonl(records: Iterable[dict], output_path: Path) -> None:
         for record in records:
             handle.write(json.dumps(record, ensure_ascii=False))
             handle.write("\n")
+
+
+def iter_existing_numbers(output_path: Path) -> set[str]:
+    if not output_path.exists():
+        return set()
+    existing: set[str] = set()
+    with output_path.open("r", encoding="utf-8") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                record = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            number = record.get("number")
+            if number is not None:
+                existing.add(str(number))
+    return existing
 
 
 def build_dataset(
@@ -164,35 +201,39 @@ def build_dataset(
 ) -> None:
     problems = load_problems(input_path)
     unsolved = list(iter_unsolved(problems))
-    total = len(unsolved)
-    records: list[dict] = []
+    existing_numbers = iter_existing_numbers(output_path)
+    remaining = [problem for problem in unsolved if problem["number"] not in existing_numbers]
+    total = len(remaining)
+    if total == 0:
+        print("No new problems to fetch.", file=sys.stderr)
+        return
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     try:
-        for index, problem in enumerate(unsolved, start=1):
-            print(
-                f"[{index}/{total}] Fetching LaTeX for problem {problem['number']}...",
-                file=sys.stderr,
-                flush=True,
-            )
-            latex, additional_text = fetch_latex(problem["number"], base_url, timeout)
-            records.append(
-                {
+        with output_path.open("a", encoding="utf-8") as handle:
+            for index, problem in enumerate(remaining, start=1):
+                print(
+                    f"[{index}/{total}] Fetching LaTeX for problem {problem['number']}...",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                latex, additional_text = fetch_latex(problem["number"], base_url, timeout)
+                record = {
                     "number": problem["number"],
                     "state": problem["state"],
                     "latex": latex,
                     "additional_text": additional_text,
                 }
-            )
-            if delay > 0:
-                time.sleep(delay)
+                handle.write(json.dumps(record, ensure_ascii=False))
+                handle.write("\n")
+                handle.flush()
+                if delay > 0:
+                    time.sleep(delay)
     except BaseException:
-        if records:
-            print(
-                f"Error encountered. Writing {len(records)} records to {output_path}.",
-                file=sys.stderr,
-            )
-            write_jsonl(records, output_path)
+        print(
+            "Error encountered. Existing progress remains in the output file.",
+            file=sys.stderr,
+        )
         raise
-    write_jsonl(records, output_path)
 
 
 def parse_args() -> argparse.Namespace:
