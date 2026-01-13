@@ -8,16 +8,12 @@ https://github.com/teorth/erdosproblems/tree/main/data
 
 We scrape publicly available problem data from https://www.erdosproblems.com.
 
-## What the script does
+## Contributing
 
-`scripts/export_unsolved.py`:
+https://docs.google.com/document/d/1PS1lkdti3LboKjr8F1f7ldjYVTTRcz4cq1GXkem7834/edit?tab=t.0
 
-- reads `data/problems.yaml` for problem numbers and status
-- keeps only `open` and `falsifiable` problems
-- downloads LaTeX from `https://www.erdosproblems.com/latex/{number}`
-- writes a JSONL dataset containing `number`, `state`, and `latex`
 
-## Run
+## Appendix: Scrape Unsolved Problems
 
 ```bash
 python3 -m venv .venv
@@ -25,10 +21,3 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python3 scripts/export_unsolved.py --input data/problems.yaml --output data/unsolved.jsonl --delay 1.0
 ```
-
-## Downstream plan
-
-- Feed unsolved problems into OpenAI Deep Research to gather known solutions.
-- For open problems with no prior solutions, run GPT-5.2 Pro and Gemini.
-- Check the interactive table at https://teorth.github.io/erdosproblems/ to see whether a problem statement has already been formalized.
-- Send candidate proofs to Harmonic for formalization and track success.
