@@ -73,17 +73,12 @@
     <div class="controls">
       <label class="nowrap">
         Problems YAML:
-        <input type="file" id="problemsInput" accept=".yaml,.yml" />
+        <span class="small">Loaded from GitHub</span>
       </label>
       <label class="nowrap">
         Unsolved JSONL:
         <input type="file" id="fileInput" accept=".jsonl" />
       </label>
-      <label class="nowrap">
-        Max rows:
-        <input type="number" id="limitInput" value="200" min="1" max="10000" />
-      </label>
-      <button id="renderBtn">Render</button>
       <span class="status" id="status"></span>
     </div>
     <table id="table" aria-live="polite">
@@ -119,10 +114,9 @@
     <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
 
     <script>
-      const problemsInput = document.getElementById("problemsInput");
+      const problemsUrl =
+        "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
       const fileInput = document.getElementById("fileInput");
-      const limitInput = document.getElementById("limitInput");
-      const renderBtn = document.getElementById("renderBtn");
       const statusEl = document.getElementById("status");
       const tbody = document.querySelector("#table tbody");
 
@@ -196,16 +190,14 @@
         });
       }
 
-      renderBtn.addEventListener("click", async () => {
-        const problemsFile = problemsInput.files[0];
-        if (!problemsFile) {
-          setStatus("Choose a problems.yaml file first.");
-          return;
-        }
-
-        const limit = Math.max(1, Number(limitInput.value) || 200);
+      async function render() {
         try {
-          const yamlText = await readFile(problemsFile);
+          const response = await fetch(problemsUrl);
+          if (!response.ok) {
+            setStatus("Failed to load problems.yaml.");
+            return;
+          }
+          const yamlText = await response.text();
           const problems = window.jsyaml.load(yamlText);
           if (!Array.isArray(problems)) {
             setStatus("problems.yaml did not parse to a list.");
@@ -229,7 +221,6 @@
           const allowedStates = new Set(["open", "falsifiable", "verifiable"]);
           const merged = [];
           for (const problem of problems) {
-            if (merged.length >= limit) break;
             const number = String(problem.number ?? "");
             const state = problem.status?.state ?? "";
             if (!allowedStates.has(state)) {
@@ -256,6 +247,12 @@
         } catch (error) {
           console.error(error);
           setStatus("Failed to parse files.");
+        }
+      }
+
+      fileInput.addEventListener("change", () => {
+        if (fileInput.files.length) {
+          render();
         }
       });
     </script>
