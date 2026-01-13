@@ -65,6 +65,49 @@
         font-weight: 600;
         color: #333;
       }
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        z-index: 10;
+      }
+      .modal[hidden] {
+        display: none;
+      }
+      .modal-content {
+        background: #fff;
+        border-radius: 8px;
+        max-width: 900px;
+        width: 100%;
+        max-height: 80vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        border-bottom: 1px solid #eee;
+      }
+      .modal-body {
+        padding: 16px;
+        overflow: auto;
+        white-space: pre-wrap;
+      }
+      .modal-close {
+        border: none;
+        background: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
+      button {
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -90,6 +133,18 @@
         Unsolved JSONL:
         <input type="file" id="fileInput" accept=".jsonl" />
       </label>
+      <label class="nowrap">
+        Solutions manifest:
+        <input type="file" id="manifestInput" accept=".json" />
+      </label>
+      <label class="nowrap">
+        Candidate solution:
+        <input type="file" id="candidateInput" accept=".md,.markdown" />
+      </label>
+      <label class="nowrap">
+        Candidate problem #:
+        <input type="text" id="candidateNumber" inputmode="numeric" size="6" />
+      </label>
       <span class="status" id="status"></span>
     </div>
     <table id="table" aria-live="polite">
@@ -99,10 +154,24 @@
           <th style="width: 100px;">State</th>
           <th>Problem</th>
           <th>Additional</th>
+          <th style="width: 70px;">Prior solution found</th>
+          <th style="width: 160px;">Deep Research</th>
+          <th style="width: 80px;">Solution manually verified</th>
+          <th style="width: 160px;">5.2 Pro</th>
+          <th style="width: 140px;">Aristotle formal proof file</th>
         </tr>
       </thead>
       <tbody></tbody>
     </table>
+    <div class="modal" id="candidateModal" hidden>
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <strong id="candidateModalTitle"></strong>
+          <button class="modal-close" type="button" id="candidateModalClose">✕</button>
+        </div>
+        <div class="modal-body" id="candidateModalBody"></div>
+      </div>
+    </div>
     <p class="small">
       The content on this website is dedicated to the public domain under CC0 1.0
       Universal. No rights reserved.
@@ -127,13 +196,24 @@
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/js-yaml@4/dist/js-yaml.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <script>
       const problemsUrl =
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
       const fileInput = document.getElementById("fileInput");
+      const manifestInput = document.getElementById("manifestInput");
+      const candidateInput = document.getElementById("candidateInput");
+      const candidateNumberInput = document.getElementById("candidateNumber");
       const statusEl = document.getElementById("status");
       const tbody = document.querySelector("#table tbody");
+      const batchSize = 100;
+      let mergedRecords = [];
+      let renderedCount = 0;
+      let isRendering = false;
+      let jsonlStatusText = "";
+      let manifestStatusText = "";
+      let candidateStatusText = "";
 
       function setStatus(message) {
         statusEl.textContent = message;
@@ -141,6 +221,21 @@
 
       function clearTable() {
         tbody.innerHTML = "";
+        renderedCount = 0;
+      }
+
+      function updateStatus() {
+        const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
+        setStatus(
+          `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+        );
+      }
+
+      function estimateRowHeight() {
+        const firstRow = tbody.querySelector("tr");
+        if (!firstRow) return 32;
+        const height = firstRow.getBoundingClientRect().height;
+        return height || 32;
       }
 
       function parseJsonl(text, limit) {
@@ -157,13 +252,241 @@
         return { records, total: lines.length };
       }
 
-      function renderRows(records) {
-        clearTable();
+      function normalizeNumber(value) {
+        if (value === null || value === undefined) return "";
+        return String(value).trim();
+      }
+
+      function parseManifestEntries(data) {
+        if (!data || typeof data !== "object") return [];
+        if (Array.isArray(data)) return data;
+        if (Array.isArray(data.solutions)) return data.solutions;
+        if (Array.isArray(data.entries)) return data.entries;
+        if (Array.isArray(data.problems)) return data.problems;
+        return Object.values(data).filter((value) => typeof value === "object");
+      }
+
+      function pickValue(entry, keys) {
+        for (const key of keys) {
+          if (entry[key] !== undefined && entry[key] !== null) {
+            return entry[key];
+          }
+        }
+        return "";
+      }
+
+      function normalizeString(value) {
+        if (value === null || value === undefined) return "";
+        if (typeof value === "string") return value.trim();
+        return String(value).trim();
+      }
+
+      function parseTriState(value) {
+        if (value === null || value === undefined || value === "") return "N/A";
+        if (typeof value === "boolean") return value ? "✓" : "✗";
+        if (typeof value === "number") return value ? "✓" : "✗";
+        const normalized = String(value).trim().toLowerCase();
+        if (!normalized) return "N/A";
+        if (normalized.includes("true") || normalized === "yes") return "✓";
+        if (normalized.includes("false") || normalized === "no") return "✗";
+        return "N/A";
+      }
+
+      function buildSolutionsMap(entries) {
+        const map = new Map();
+        for (const entry of entries) {
+          if (!entry || typeof entry !== "object") continue;
+          const number = normalizeNumber(
+            pickValue(entry, [
+              "number",
+              "problem_number",
+              "problem",
+              "id",
+            ]),
+          );
+          if (!number) continue;
+          map.set(number, {
+            priorSolutionFound: normalizeString(
+              pickValue(entry, [
+                "prior_solution_found",
+                "prior_solution",
+                "deep_research_prior_solution",
+                "deep_research_prior",
+              ]),
+            ),
+            deepResearchResponse: normalizeString(
+              pickValue(entry, [
+                "deep_research_response",
+                "deep_research_link",
+                "deep_research_response_link",
+                "deep_research_drive_link",
+              ]),
+            ),
+            deepResearchPdfUrl: normalizeString(
+              pickValue(entry, ["deep_research_pdf_url", "deep_research_pdf_link"]),
+            ),
+            deepResearchShareUrl: normalizeString(
+              pickValue(entry, ["deep_research_share_url", "deep_research_chatgpt_link"]),
+            ),
+            solutionManuallyVerified: normalizeString(
+              pickValue(entry, [
+                "solution_manually_verified",
+                "manual_verification",
+                "pro_manual_verification",
+                "pro_solution_verified",
+              ]),
+            ),
+            proResponse: normalizeString(
+              pickValue(entry, [
+                "pro_response",
+                "pro_response_link",
+                "pro_link",
+                "pro_drive_link",
+                "pro_share_url",
+              ]),
+            ),
+            solutionShareUrl: normalizeString(
+              pickValue(entry, [
+                "solution_share_url",
+                "candidate_solution_share_url",
+                "solution_markdown_share_url",
+              ]),
+            ),
+            aristotleStatus: normalizeString(
+              pickValue(entry, [
+                "aristotle_status",
+                "aristotle_result",
+                "aristotle_formal_proof_status",
+              ]),
+            ),
+          });
+        }
+        return map;
+      }
+
+      function appendLink(cell, url, label) {
+        if (!url) {
+          return;
+        }
+        const link = document.createElement("a");
+        link.href = url;
+        link.textContent = label || url;
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        cell.appendChild(link);
+      }
+
+      function appendLinkGroup(cell, links) {
+        let hasLink = false;
+        for (const linkItem of links) {
+          if (!linkItem?.url) continue;
+          if (hasLink) {
+            cell.appendChild(document.createTextNode(" · "));
+          }
+          appendLink(cell, linkItem.url, linkItem.label);
+          hasLink = true;
+        }
+        return hasLink;
+      }
+
+      function buildCandidateLink(number, text) {
+        if (!text || !number) return null;
+        const link = document.createElement("button");
+        link.type = "button";
+        link.textContent = "View";
+        link.addEventListener("click", () => {
+          openCandidateModal(text, number);
+        });
+        return link;
+      }
+
+      function prepareMarkdownForMath(text) {
+        const escapedDelimiters = text
+          .replace(/(?<!\\)\\\[/g, "\\\\[")
+          .replace(/(?<!\\)\\\]/g, "\\\\]")
+          .replace(/(?<!\\)\\\(/g, "\\\\(")
+          .replace(/(?<!\\)\\\)/g, "\\\\)");
+        const preparedLines = escapedDelimiters
+          .split("\n")
+          .map((line) => {
+            if (/^\s*\[$/.test(line)) return "\\\\[";
+            if (/^\s*\]$/.test(line)) return "\\\\]";
+            const trimmed = line.trim();
+            if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+              const inner = trimmed.slice(1, -1).trim();
+              const looksMath =
+                /\\[a-zA-Z]+/.test(inner) || /[=<>^_]/.test(inner) || /\|/.test(inner);
+              if (inner && looksMath) {
+                const leading = line.match(/^\s*/)?.[0] ?? "";
+                return `${leading}\\\\[${inner}\\\\]`;
+              }
+            }
+            return line;
+          })
+          .join("\n");
+        return preparedLines.replace(
+          /\(([^()\n]*)\)/g,
+          (match, content, offset) => {
+            const prevChar = offset > 0 ? preparedLines[offset - 1] : "";
+            if (prevChar === "\\" || prevChar === "]") {
+              return match;
+            }
+            const trimmed = content.trim();
+            if (!trimmed) return match;
+            const hasCommand = /\\[a-zA-Z]+/.test(trimmed);
+            const hasOperator = /[=<>^_]/.test(trimmed) || /\|/.test(trimmed);
+            if (!hasCommand && !hasOperator) {
+              return match;
+            }
+            return `\\\\(${content}\\\\)`;
+          },
+        );
+      }
+
+      const candidateModal = document.getElementById("candidateModal");
+      const candidateModalTitle = document.getElementById("candidateModalTitle");
+      const candidateModalBody = document.getElementById("candidateModalBody");
+      const candidateModalClose = document.getElementById("candidateModalClose");
+
+      function openCandidateModal(text, number) {
+        candidateModalTitle.textContent = `Candidate solution for problem ${number}`;
+        if (window.marked) {
+          const prepared = prepareMarkdownForMath(text);
+          candidateModalBody.innerHTML = window.marked.parse(prepared);
+        } else {
+          candidateModalBody.textContent = text;
+        }
+        candidateModal.hidden = false;
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise([candidateModalBody]);
+        }
+      }
+
+      function closeCandidateModal() {
+        candidateModal.hidden = true;
+        candidateModalTitle.textContent = "";
+        candidateModalBody.textContent = "";
+      }
+
+      function renderRows(records, append = false) {
+        if (!append) {
+          clearTable();
+        }
         for (const record of records) {
           const row = document.createElement("tr");
 
           const numberCell = document.createElement("td");
-          numberCell.textContent = record.number ?? "";
+          const numberText = record.number ?? "";
+          if (numberText) {
+            const numberLink = document.createElement("a");
+            numberLink.textContent = numberText;
+            numberLink.href = `https://www.erdosproblems.com/${numberText}`;
+            numberLink.target = "_blank";
+            numberLink.rel = "noreferrer";
+            numberCell.appendChild(numberLink);
+          } else {
+            numberCell.textContent = "";
+          }
           row.appendChild(numberCell);
 
           const stateCell = document.createElement("td");
@@ -192,8 +515,68 @@
           }
           row.appendChild(additionalCell);
 
+          const priorSolutionCell = document.createElement("td");
+          priorSolutionCell.textContent = parseTriState(record.prior_solution_found);
+          row.appendChild(priorSolutionCell);
+
+          const deepResearchResponseCell = document.createElement("td");
+          appendLinkGroup(deepResearchResponseCell, [
+            { url: record.deep_research_pdf_url ?? "", label: "PDF Link" },
+            { url: record.deep_research_share_url ?? "", label: "ChatGPT Link" },
+          ]);
+          row.appendChild(deepResearchResponseCell);
+
+          const manualVerifiedCell = document.createElement("td");
+          manualVerifiedCell.textContent = parseTriState(
+            record.solution_manually_verified,
+          );
+          row.appendChild(manualVerifiedCell);
+
+          const proResponseCell = document.createElement("td");
+          const proLinks = [
+            { url: record.pro_response ?? "", label: "ChatGPT Link" },
+            { url: record.solution_share_url ?? "", label: "ChatGPT Link" },
+          ];
+          const hasProLinks = proLinks.some((link) => link.url);
+          if (record.candidate_solution_text && numberText) {
+            const viewButton = buildCandidateLink(
+              numberText,
+              record.candidate_solution_text,
+            );
+            if (viewButton) {
+              proResponseCell.appendChild(viewButton);
+              if (hasProLinks) {
+                proResponseCell.appendChild(document.createTextNode(" · "));
+              }
+            }
+          }
+          appendLinkGroup(proResponseCell, proLinks);
+          row.appendChild(proResponseCell);
+
+          const aristotleCell = document.createElement("td");
+          const aristotleStatus = record.aristotle_status ?? "";
+          aristotleCell.textContent = aristotleStatus || "N/A";
+          row.appendChild(aristotleCell);
+
           tbody.appendChild(row);
         }
+      }
+
+      async function renderNextBatch() {
+        if (isRendering) return;
+        if (renderedCount >= mergedRecords.length) return;
+        isRendering = true;
+        const nextBatch = mergedRecords.slice(
+          renderedCount,
+          renderedCount + batchSize,
+        );
+        renderRows(nextBatch, true);
+        renderedCount += nextBatch.length;
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          await window.MathJax.typesetPromise();
+        }
+        updateStatus();
+        isRendering = false;
       }
 
       function readFile(file) {
@@ -229,6 +612,35 @@
             jsonlTotal = parsed.total;
           }
 
+          const manifestFile = manifestInput.files[0];
+          let manifestEntries = [];
+          if (manifestFile) {
+            const manifestText = await readFile(manifestFile);
+            const manifestData = JSON.parse(manifestText);
+            manifestEntries = parseManifestEntries(manifestData);
+          }
+          const solutionsMap = buildSolutionsMap(manifestEntries);
+
+          const candidateFile = candidateInput.files[0];
+          const candidateNumber = normalizeNumber(candidateNumberInput.value);
+          let candidateText = "";
+          if (candidateFile) {
+            candidateText = await readFile(candidateFile);
+          }
+          if (candidateText && candidateNumber) {
+            const existing = solutionsMap.get(candidateNumber) ?? {
+              priorSolutionFound: "",
+              deepResearchResponse: "",
+              deepResearchPdfUrl: "",
+              deepResearchShareUrl: "",
+              solutionManuallyVerified: "",
+              proResponse: "",
+              solutionShareUrl: "",
+              aristotleStatus: "",
+            };
+            solutionsMap.set(candidateNumber, { ...existing });
+          }
+
           const unsolvedMap = new Map(
             jsonlRecords.map((record) => [String(record.number), record]),
           );
@@ -242,23 +654,42 @@
               continue;
             }
             const match = unsolvedMap.get(number);
+            const solution = solutionsMap.get(number);
             merged.push({
               number,
               state,
               latex: match?.latex ?? "",
               additional_text: match?.additional_text ?? "",
+              prior_solution_found: solution?.priorSolutionFound ?? "",
+              deep_research_response: solution?.deepResearchResponse ?? "",
+              deep_research_pdf_url: solution?.deepResearchPdfUrl ?? "",
+              deep_research_share_url: solution?.deepResearchShareUrl ?? "",
+              solution_manually_verified: solution?.solutionManuallyVerified ?? "",
+              pro_response: solution?.proResponse ?? "",
+              solution_share_url: solution?.solutionShareUrl ?? "",
+              aristotle_status: solution?.aristotleStatus ?? "",
+              candidate_solution_text:
+                candidateNumber === number ? candidateText : "",
             });
           }
 
-          renderRows(merged);
-          if (window.MathJax && window.MathJax.typesetPromise) {
-            await window.MathJax.typesetPromise();
-          }
-          const baseStatus = `Showing ${merged.length} of ${problems.length} problems.`;
+          mergedRecords = merged;
+          renderRows([]);
           const jsonlStatus = jsonlFile
             ? `Loaded ${jsonlRecords.length} of ${jsonlTotal} JSONL rows.`
             : "No JSONL file loaded.";
-          setStatus(`${baseStatus} ${jsonlStatus}`);
+          const manifestStatus = manifestFile
+            ? `Loaded ${manifestEntries.length} manifest entries.`
+            : "No manifest file loaded.";
+          const candidateStatus = candidateFile
+            ? candidateNumber
+              ? `Loaded candidate solution for problem ${candidateNumber}.`
+              : "Candidate solution loaded (missing problem #)."
+            : "No candidate solution loaded.";
+          jsonlStatusText = jsonlStatus;
+          manifestStatusText = manifestStatus;
+          candidateStatusText = candidateStatus;
+          await renderNextBatch();
         } catch (error) {
           console.error(error);
           setStatus("Failed to parse files.");
@@ -268,6 +699,39 @@
       fileInput.addEventListener("change", () => {
         if (fileInput.files.length) {
           render();
+        }
+      });
+      manifestInput.addEventListener("change", () => {
+        if (manifestInput.files.length) {
+          render();
+        }
+      });
+      candidateInput.addEventListener("change", () => {
+        if (candidateInput.files.length) {
+          render();
+        }
+      });
+      candidateNumberInput.addEventListener("input", () => {
+        if (candidateInput.files.length) {
+          render();
+        }
+      });
+      candidateModalClose.addEventListener("click", () => {
+        closeCandidateModal();
+      });
+      candidateModal.addEventListener("click", (event) => {
+        if (event.target === candidateModal) {
+          closeCandidateModal();
+        }
+      });
+      window.addEventListener("scroll", () => {
+        const thresholdRows = 25;
+        const thresholdPixels = estimateRowHeight() * thresholdRows;
+        const nearBottom =
+          window.innerHeight + window.scrollY >=
+          document.body.offsetHeight - thresholdPixels;
+        if (nearBottom) {
+          renderNextBatch();
         }
       });
     </script>

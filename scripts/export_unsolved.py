@@ -149,14 +149,15 @@ def fetch_latex(problem_number: str, base_url: str, timeout: float) -> tuple[str
                     content = payload
                 return content, additional
         except HTTPError as exc:
-            if exc.code == 429 and attempt < retries:
+            if attempt < retries:
+                retry_delay = delay_seconds if exc.code == 429 else transient_delay
                 print(
-                    f"Received 429 for problem {problem_number}. "
-                    f"Retrying in {delay_seconds} seconds "
+                    f"Received {exc.code} for problem {problem_number}. "
+                    f"Retrying in {retry_delay} seconds "
                     f"({attempt}/{retries}).",
                     file=sys.stderr,
                 )
-                time.sleep(delay_seconds)
+                time.sleep(retry_delay)
                 continue
             raise RuntimeError(
                 f"Failed to fetch LaTeX for problem {problem_number}: {exc}"
