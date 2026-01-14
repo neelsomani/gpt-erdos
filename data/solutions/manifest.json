@@ -121,7 +121,7 @@
     },    
     {
         "number": 17,
-        "solution_share_url": "",
+        "solution_share_url": "https://chatgpt.com/share/69672938-ce94-800c-9301-397a12289ee2",
         "deep_research_share_url": "https://chatgpt.com/share/696726a7-fc8c-800c-816b-dd6110c0385d",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1qIW7FmWAWEymTU7q-BE2ZVOawvtZ0FGe/view?usp=drive_link",
         "prior_solution": false,
@@ -138,5 +138,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Zehan Li"
+    },
+    {
+        "number": 18,
+        "solution_share_url": "https://chatgpt.com/share/696729bc-2f74-800c-8cf6-6e345008209e",
+        "deep_research_share_url": "https://chatgpt.com/share/696729ed-f288-800c-a2c0-e36a7139d322",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1_wdzwTaamuwx9ZcLJAjtPUWZhu8Hf06e/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
     }
 ]
