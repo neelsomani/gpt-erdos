@@ -128,5 +128,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Zehan Li"
+    },
+    {
+        "number": 25,
+        "solution_share_url": "https://chatgpt.com/share/696731bc-cb34-8003-975a-de89ff3f483f",
+        "deep_research_share_url": "https://chatgpt.com/share/696731d9-ddec-8003-a397-e867ee82f152",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1ulkcV9CEPcMQPsA0cv4YcJyX9CbG09Rq/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Zehan Li"
     }
 ]
