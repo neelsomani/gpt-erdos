@@ -218,5 +218,15 @@
         "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
+    },
+    {
+        "number": 78,
+        "solution_share_url": "https://chatgpt.com/share/6968225d-fb70-8003-b54e-347005b20ab1",
+        "deep_research_share_url": "https://chatgpt.com/share/6968224a-98c8-8003-bfb1-924248037b7f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/15sOsddy3kCvTAji7DA_oPc6vVsGPerXp/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
     }
 ]
