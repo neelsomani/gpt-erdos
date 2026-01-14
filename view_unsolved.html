@@ -190,7 +190,14 @@
         </label>
         <label class="nowrap">
           Unsolved JSONL:
-          <input type="file" id="fileInput" accept=".jsonl" />
+          <a
+            class="small"
+            href="https://www.ocf.berkeley.edu/~neel/unsolved.jsonl"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Loaded from server
+          </a>
         </label>
       </div>
       <div class="controls-row">
@@ -277,7 +284,7 @@
     <script>
       const problemsUrl =
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
-      const fileInput = document.getElementById("fileInput");
+      const unsolvedUrl = "https://www.ocf.berkeley.edu/~neel/unsolved.jsonl";
       const manifestInput = document.getElementById("manifestInput");
       const candidateInput = document.getElementById("candidateInput");
       const candidateNumberInput = document.getElementById("candidateNumber");
@@ -982,15 +989,15 @@
             return;
           }
 
-          const jsonlFile = fileInput.files[0];
-          let jsonlRecords = [];
-          let jsonlTotal = 0;
-          if (jsonlFile) {
-            const jsonlText = await readFile(jsonlFile);
-            const parsed = parseJsonl(jsonlText, Number.POSITIVE_INFINITY);
-            jsonlRecords = parsed.records;
-            jsonlTotal = parsed.total;
+          const unsolvedResponse = await fetch(unsolvedUrl);
+          if (!unsolvedResponse.ok) {
+            setStatus("Failed to load unsolved.jsonl from server.");
+            return;
           }
+          const jsonlText = await unsolvedResponse.text();
+          const parsed = parseJsonl(jsonlText, Number.POSITIVE_INFINITY);
+          const jsonlRecords = parsed.records;
+          const jsonlTotal = parsed.total;
 
           const manifestFile = manifestInput.files[0];
           let manifestEntries = [];
@@ -1056,9 +1063,7 @@
 
           mergedRecords = merged;
           renderRows([]);
-          const jsonlStatus = jsonlFile
-            ? `Loaded ${jsonlRecords.length} of ${jsonlTotal} JSONL rows.`
-            : "No JSONL file loaded.";
+          const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = manifestFile
             ? `Loaded ${manifestEntries.length} manifest entries.`
             : "No manifest file loaded.";
@@ -1077,11 +1082,6 @@
         }
       }
 
-      fileInput.addEventListener("change", () => {
-        if (fileInput.files.length) {
-          render();
-        }
-      });
       manifestInput.addEventListener("change", () => {
         if (manifestInput.files.length) {
           render();
@@ -1122,6 +1122,9 @@
         if (shouldLoadNextBatch()) {
           renderNextBatch();
         }
+      });
+      window.addEventListener("DOMContentLoaded", () => {
+        render();
       });
     </script>
   </body>
