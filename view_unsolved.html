@@ -29,6 +29,25 @@
         color: #555;
         font-size: 14px;
       }
+      .toast-status {
+        position: fixed;
+        right: 16px;
+        bottom: 16px;
+        background: rgba(17, 17, 17, 0.72);
+        color: #fff;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-size: 12px;
+        z-index: 20;
+        pointer-events: none;
+        opacity: 0;
+        transform: translateY(6px);
+        transition: opacity 150ms ease, transform 150ms ease;
+      }
+      .toast-status.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
       table {
         width: 100%;
         border-collapse: collapse;
@@ -77,6 +96,9 @@
       }
       .mobile-only {
         display: none;
+      }
+      .footer-status {
+        margin-top: 16px;
       }
       .details-list {
         display: flex;
@@ -214,7 +236,7 @@
           <input type="text" id="candidateNumber" inputmode="numeric" size="6" />
         </label>
       </div>
-      <span class="status" id="status"></span>
+      <span class="status" id="status" hidden></span>
     </div>
     <div class="table-wrap">
       <table id="table" aria-live="polite">
@@ -255,6 +277,7 @@
         <div class="modal-body" id="detailsModalBody"></div>
       </div>
     </div>
+    <div class="toast-status" id="toastStatus" aria-live="polite"></div>
     <p class="small">
       The content on this website is dedicated to the public domain under CC0 1.0
       Universal. No rights reserved.
@@ -289,17 +312,22 @@
       const candidateInput = document.getElementById("candidateInput");
       const candidateNumberInput = document.getElementById("candidateNumber");
       const statusEl = document.getElementById("status");
+      const toastStatusEl = document.getElementById("toastStatus");
       const tbody = document.querySelector("#table tbody");
       const batchSize = 150;
       let mergedRecords = [];
       let renderedCount = 0;
       let isRendering = false;
+      let hasRenderedOnce = false;
+      let isScrollTriggered = false;
       let jsonlStatusText = "";
       let manifestStatusText = "";
       let candidateStatusText = "";
 
       function setStatus(message) {
-        statusEl.textContent = message;
+        if (statusEl) {
+          statusEl.textContent = message;
+        }
       }
 
       function clearTable() {
@@ -314,18 +342,16 @@
         return window.scrollY / maxScroll >= 0.75;
       }
 
-      function shouldLoadNextBatch() {
-        const doc = document.documentElement;
-        const maxScroll = doc.scrollHeight - window.innerHeight;
-        if (maxScroll <= 0) return true;
-        return window.scrollY / maxScroll >= 0.75;
-      }
-
       function updateStatus() {
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
+        const loadingStatus = "";
         setStatus(
           `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
+        if (toastStatusEl) {
+          toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
+          toastStatusEl.classList.add("is-visible");
+        }
       }
 
       function estimateRowHeight() {
@@ -792,17 +818,17 @@
             parseTriState(record.solution_manually_verified),
           ),
         );
-          const proLinks = document.createElement("div");
-          if (record.candidate_solution_text && numberText) {
-            const candidateButton = buildCandidateLink(
-              numberText,
-              record.candidate_solution_text,
-              closeDetailsModal,
-            );
-            if (candidateButton) {
-              proLinks.appendChild(candidateButton);
-              if (record.pro_response || record.solution_share_url) {
-                proLinks.appendChild(document.createTextNode(" · "));
+        const proLinks = document.createElement("div");
+        if (record.candidate_solution_text && numberText) {
+          const candidateButton = buildCandidateLink(
+            numberText,
+            record.candidate_solution_text,
+            closeDetailsModal,
+          );
+          if (candidateButton) {
+            proLinks.appendChild(candidateButton);
+            if (record.pro_response || record.solution_share_url) {
+              proLinks.appendChild(document.createTextNode(" · "));
             }
           }
         }
@@ -949,19 +975,27 @@
         }
       }
 
-      async function renderNextBatch() {
+      async function renderNextBatch({ triggeredByScroll = false } = {}) {
         if (isRendering) return;
         if (renderedCount >= mergedRecords.length) return;
         isRendering = true;
+        isScrollTriggered = triggeredByScroll;
+        const isInitialBatch = !hasRenderedOnce;
         const nextBatch = mergedRecords.slice(
           renderedCount,
           renderedCount + batchSize,
         );
-        renderRows(nextBatch, true);
         renderedCount += nextBatch.length;
+        updateStatus();
+        await new Promise((resolve) => requestAnimationFrame(resolve));
+        renderRows(nextBatch, true);
+        if (isInitialBatch) {
+          hasRenderedOnce = true;
+        }
         if (window.MathJax && window.MathJax.typesetPromise) {
           await window.MathJax.typesetPromise();
         }
+        isScrollTriggered = false;
         updateStatus();
         isRendering = false;
       }
@@ -977,6 +1011,12 @@
 
       async function render() {
         try {
+          setStatus("");
+          if (toastStatusEl) {
+            toastStatusEl.textContent = "Loading problems...";
+            toastStatusEl.classList.add("is-visible");
+          }
+          await new Promise((resolve) => requestAnimationFrame(resolve));
           const response = await fetch(problemsUrl);
           if (!response.ok) {
             setStatus("Failed to load problems.yaml.");
@@ -1075,6 +1115,7 @@
           jsonlStatusText = jsonlStatus;
           manifestStatusText = manifestStatus;
           candidateStatusText = candidateStatus;
+          updateStatus();
           await renderNextBatch();
         } catch (error) {
           console.error(error);
@@ -1115,12 +1156,12 @@
       });
       window.addEventListener("scroll", () => {
         if (shouldLoadNextBatch()) {
-          renderNextBatch();
+          renderNextBatch({ triggeredByScroll: true });
         }
       });
       window.addEventListener("resize", () => {
         if (shouldLoadNextBatch()) {
-          renderNextBatch();
+          renderNextBatch({ triggeredByScroll: true });
         }
       });
       window.addEventListener("DOMContentLoaded", () => {
