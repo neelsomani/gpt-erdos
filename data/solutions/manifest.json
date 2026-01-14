@@ -148,5 +148,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    },
+    {
+        "number": 20,
+        "solution_share_url": "https://chatgpt.com/share/69672cc0-80f8-800c-a254-327e2c6709aa",
+        "deep_research_share_url": "https://chatgpt.com/share/69672c69-a0a4-800c-b7bb-254f230d3568",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1oeFasVU6yxlumqXdhSaaEihGw8x6rJfF/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
     }
 ]
