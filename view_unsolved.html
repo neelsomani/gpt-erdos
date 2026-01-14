@@ -25,6 +25,19 @@
         gap: 12px;
         align-items: center;
       }
+      .branch-form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin: 0;
+      }
+      .branch-input {
+        padding: 4px 6px;
+      }
+      .branch-button {
+        padding: 4px 10px;
+      }
       .status {
         color: #555;
         font-size: 14px;
@@ -199,6 +212,13 @@
     </p>
     <div class="controls">
       <div class="controls-row">
+        <form class="branch-form" id="branchForm">
+          <label class="nowrap" for="branchInput">Branch:</label>
+          <input class="branch-input" id="branchInput" type="text" value="main" />
+          <button class="branch-button" type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="controls-row">
         <label class="nowrap">
           Problems YAML:
           <a
@@ -225,15 +245,25 @@
       <div class="controls-row">
         <label class="nowrap">
           Solutions manifest:
-          <input type="file" id="manifestInput" accept=".json" />
+          <a
+            class="small"
+            href="https://github.com/neelsomani/gpt-erdos"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Loaded from GitHub
+          </a>
         </label>
         <label class="nowrap">
-          Candidate solution:
-          <input type="file" id="candidateInput" accept=".md,.markdown" />
-        </label>
-        <label class="nowrap">
-          Candidate problem #:
-          <input type="text" id="candidateNumber" inputmode="numeric" size="6" />
+          Candidate solutions:
+          <a
+            class="small"
+            href="https://github.com/neelsomani/gpt-erdos"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Loaded from GitHub
+          </a>
         </label>
       </div>
       <span class="status" id="status" hidden></span>
@@ -308,21 +338,29 @@
       const problemsUrl =
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
       const unsolvedUrl = "https://www.ocf.berkeley.edu/~neel/unsolved.jsonl";
-      const manifestInput = document.getElementById("manifestInput");
-      const candidateInput = document.getElementById("candidateInput");
-      const candidateNumberInput = document.getElementById("candidateNumber");
+      const githubToken = "REDACTED";
+      const githubOwner = "neelsomani";
+      const githubRepo = "gpt-erdos";
+      let githubRef = "main";
+      const manifestPath = "data/solutions/manifest.json";
+      const solutionsBasePath = "data/solutions";
       const statusEl = document.getElementById("status");
       const toastStatusEl = document.getElementById("toastStatus");
       const tbody = document.querySelector("#table tbody");
+      const branchForm = document.getElementById("branchForm");
+      const branchInput = document.getElementById("branchInput");
       const batchSize = 150;
       let mergedRecords = [];
       let renderedCount = 0;
       let isRendering = false;
       let hasRenderedOnce = false;
       let isScrollTriggered = false;
+      let isLoading = false;
+      let pendingRender = false;
       let jsonlStatusText = "";
       let manifestStatusText = "";
       let candidateStatusText = "";
+      const candidateCache = new Map();
 
       function setStatus(message) {
         if (statusEl) {
@@ -330,9 +368,48 @@
         }
       }
 
+      function buildGithubHeaders() {
+        if (!githubToken) return null;
+        return {
+          Authorization: `Bearer ${githubToken}`,
+          Accept: "application/vnd.github+json",
+          "X-GitHub-Api-Version": "2022-11-28",
+        };
+      }
+
+      async function fetchGithubJson(path) {
+        const url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${path}?ref=${githubRef}`;
+        const response = await fetch(url, {
+          headers: buildGithubHeaders() ?? undefined,
+        });
+        if (!response.ok) {
+          throw new Error(`${response.status}: ${await response.text()}`);
+        }
+        return response.json();
+      }
+
+      async function fetchGithubText(path) {
+        const payload = await fetchGithubJson(path);
+        if (!payload?.content) {
+          throw new Error("GitHub API response missing content.");
+        }
+        const b64 = String(payload.content).replace(/\n/g, "");
+        const bytes = Uint8Array.from(atob(b64), (char) => char.charCodeAt(0));
+        return new TextDecoder("utf-8").decode(bytes);
+      }
+
       function clearTable() {
         tbody.innerHTML = "";
         renderedCount = 0;
+      }
+
+      function resetRenderState() {
+        mergedRecords = [];
+        renderedCount = 0;
+        isRendering = false;
+        hasRenderedOnce = false;
+        isScrollTriggered = false;
+        clearTable();
       }
 
       function shouldLoadNextBatch() {
@@ -485,6 +562,7 @@
             prompter: normalizeString(
               pickValue(entry, ["author", "prompter", "prompt_author"]),
             ),
+            candidateSolutionUrl: `${solutionsBasePath}/${number}/candidate_solution.md`,
           });
         }
         return map;
@@ -515,16 +593,16 @@
         return hasLink;
       }
 
-      function buildCandidateLink(number, text, onBeforeOpen) {
-        if (!text || !number) return null;
+      function buildCandidateLink(number, url, onBeforeOpen) {
+        if (!url || !number) return null;
         const link = document.createElement("button");
         link.type = "button";
         link.textContent = "View";
-        link.addEventListener("click", () => {
+        link.addEventListener("click", async () => {
           if (typeof onBeforeOpen === "function") {
             onBeforeOpen();
           }
-          openCandidateModal(text, number);
+          await openCandidateModalFromUrl(number, url);
         });
         return link;
       }
@@ -726,10 +804,23 @@
       const candidateModalTitle = document.getElementById("candidateModalTitle");
       const candidateModalBody = document.getElementById("candidateModalBody");
       const candidateModalClose = document.getElementById("candidateModalClose");
+      const candidateModalContent = candidateModal?.querySelector(".modal-content");
       const detailsModal = document.getElementById("detailsModal");
       const detailsModalTitle = document.getElementById("detailsModalTitle");
       const detailsModalBody = document.getElementById("detailsModalBody");
       const detailsModalClose = document.getElementById("detailsModalClose");
+      const detailsModalContent = detailsModal?.querySelector(".modal-content");
+
+      function resetModalScroll(bodyEl, contentEl) {
+        if (bodyEl) {
+          bodyEl.scrollTop = 0;
+          bodyEl.scrollLeft = 0;
+        }
+        if (contentEl) {
+          contentEl.scrollTop = 0;
+          contentEl.scrollLeft = 0;
+        }
+      }
 
       function openCandidateModal(text, number) {
         candidateModalTitle.textContent = `Candidate solution for problem ${number}`;
@@ -739,9 +830,31 @@
         } else {
           candidateModalBody.textContent = text;
         }
+        resetModalScroll(candidateModalBody, candidateModalContent);
         candidateModal.hidden = false;
         if (window.MathJax && window.MathJax.typesetPromise) {
-          window.MathJax.typesetPromise([candidateModalBody]);
+          window.MathJax.typesetPromise([candidateModalBody]).then(() => {
+            resetModalScroll(candidateModalBody, candidateModalContent);
+          });
+        }
+      }
+
+      async function openCandidateModalFromUrl(number, url) {
+        if (!number || !url) return;
+        const cached = candidateCache.get(number);
+        if (cached) {
+          openCandidateModal(cached, number);
+          return;
+        }
+        setStatus(`Loading candidate solution for problem ${number}...`);
+        try {
+          const text = await fetchGithubText(url);
+          candidateCache.set(number, text);
+          openCandidateModal(text, number);
+          setStatus(`Loaded candidate solution for problem ${number}.`);
+        } catch (error) {
+          console.error(error);
+          setStatus(`Failed to load candidate solution for problem ${number}.`);
         }
       }
 
@@ -783,6 +896,7 @@
           ? `Problem ${numberText} details`
           : "Problem details";
         detailsModalBody.textContent = "";
+        resetModalScroll(detailsModalBody, detailsModalContent);
         const list = document.createElement("div");
         list.className = "details-list";
         list.appendChild(buildDetailsItem("State", record.state ?? ""));
@@ -819,10 +933,10 @@
           ),
         );
         const proLinks = document.createElement("div");
-        if (record.candidate_solution_text && numberText) {
+        if (record.candidate_solution_url && numberText) {
           const candidateButton = buildCandidateLink(
             numberText,
-            record.candidate_solution_text,
+            record.candidate_solution_url,
             closeDetailsModal,
           );
           if (candidateButton) {
@@ -849,7 +963,9 @@
         detailsModalBody.appendChild(list);
         detailsModal.hidden = false;
         if (window.MathJax && window.MathJax.typesetPromise) {
-          window.MathJax.typesetPromise([detailsModalBody]);
+          window.MathJax.typesetPromise([detailsModalBody]).then(() => {
+            resetModalScroll(detailsModalBody, detailsModalContent);
+          });
         }
       }
 
@@ -934,10 +1050,10 @@
             { url: record.solution_share_url ?? "", label: "ChatGPT Link" },
           ];
           const hasProLinks = proLinks.some((link) => link.url);
-          if (record.candidate_solution_text && numberText) {
+          if (record.candidate_solution_url && numberText) {
             const viewButton = buildCandidateLink(
               numberText,
-              record.candidate_solution_text,
+              record.candidate_solution_url,
             );
             if (viewButton) {
               proResponseCell.appendChild(viewButton);
@@ -1000,16 +1116,13 @@
         isRendering = false;
       }
 
-      function readFile(file) {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = () => reject(new Error("Failed to read file."));
-          reader.readAsText(file);
-        });
-      }
-
       async function render() {
+        if (isLoading) {
+          pendingRender = true;
+          return;
+        }
+        isLoading = true;
+        pendingRender = false;
         try {
           setStatus("");
           if (toastStatusEl) {
@@ -1039,34 +1152,20 @@
           const jsonlRecords = parsed.records;
           const jsonlTotal = parsed.total;
 
-          const manifestFile = manifestInput.files[0];
           let manifestEntries = [];
-          if (manifestFile) {
-            const manifestText = await readFile(manifestFile);
-            const manifestData = JSON.parse(manifestText);
-            manifestEntries = parseManifestEntries(manifestData);
-          }
-          const solutionsMap = buildSolutionsMap(manifestEntries);
+          const solutionsDir = await fetchGithubJson(solutionsBasePath);
+          const solutionNumbers = new Set(
+            Array.isArray(solutionsDir)
+              ? solutionsDir
+                  .filter((entry) => entry?.type === "dir")
+                  .map((entry) => String(entry.name))
+              : [],
+          );
 
-          const candidateFile = candidateInput.files[0];
-          const candidateNumber = normalizeNumber(candidateNumberInput.value);
-          let candidateText = "";
-          if (candidateFile) {
-            candidateText = await readFile(candidateFile);
-          }
-          if (candidateText && candidateNumber) {
-            const existing = solutionsMap.get(candidateNumber) ?? {
-              priorSolutionFound: "",
-              deepResearchResponse: "",
-              deepResearchPdfUrl: "",
-              deepResearchShareUrl: "",
-              solutionManuallyVerified: "",
-              proResponse: "",
-              solutionShareUrl: "",
-              aristotleStatus: "",
-            };
-            solutionsMap.set(candidateNumber, { ...existing });
-          }
+          const manifestText = await fetchGithubText(manifestPath);
+          const manifestData = JSON.parse(manifestText);
+          manifestEntries = parseManifestEntries(manifestData);
+          const solutionsMap = buildSolutionsMap(manifestEntries);
 
           const unsolvedMap = new Map(
             jsonlRecords.map((record) => [String(record.number), record]),
@@ -1096,22 +1195,18 @@
               solution_share_url: solution?.solutionShareUrl ?? "",
               prompter: solution?.prompter ?? "",
               aristotle_status: solution?.aristotleStatus ?? "",
-              candidate_solution_text:
-                candidateNumber === number ? candidateText : "",
+              candidate_solution_url: solutionNumbers.has(number)
+                ? solution?.candidateSolutionUrl ?? ""
+                : "",
             });
           }
 
           mergedRecords = merged;
           renderRows([]);
           const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
-          const manifestStatus = manifestFile
-            ? `Loaded ${manifestEntries.length} manifest entries.`
-            : "No manifest file loaded.";
-          const candidateStatus = candidateFile
-            ? candidateNumber
-              ? `Loaded candidate solution for problem ${candidateNumber}.`
-              : "Candidate solution loaded (missing problem #)."
-            : "No candidate solution loaded.";
+          const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
+          const candidateStatus =
+            "Candidate solutions load from GitHub when you click View.";
           jsonlStatusText = jsonlStatus;
           manifestStatusText = manifestStatus;
           candidateStatusText = candidateStatus;
@@ -1120,24 +1215,15 @@
         } catch (error) {
           console.error(error);
           setStatus("Failed to parse files.");
+        } finally {
+          isLoading = false;
+          if (pendingRender) {
+            pendingRender = false;
+            render();
+          }
         }
       }
 
-      manifestInput.addEventListener("change", () => {
-        if (manifestInput.files.length) {
-          render();
-        }
-      });
-      candidateInput.addEventListener("change", () => {
-        if (candidateInput.files.length) {
-          render();
-        }
-      });
-      candidateNumberInput.addEventListener("input", () => {
-        if (candidateInput.files.length) {
-          render();
-        }
-      });
       candidateModalClose.addEventListener("click", () => {
         closeCandidateModal();
       });
@@ -1165,8 +1251,25 @@
         }
       });
       window.addEventListener("DOMContentLoaded", () => {
+        if (branchInput) {
+          branchInput.value = githubRef;
+        }
         render();
       });
+      if (branchForm) {
+        branchForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const nextRef = branchInput?.value?.trim() || "main";
+          if (nextRef === githubRef) return;
+          githubRef = nextRef;
+          candidateCache.clear();
+          manifestStatusText = "";
+          candidateStatusText = "";
+          resetRenderState();
+          setStatus(`Switching to branch ${githubRef}...`);
+          render();
+        });
+      }
     </script>
   </body>
 </html>
