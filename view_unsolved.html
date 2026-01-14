@@ -167,6 +167,7 @@
           <th style="width: 160px;">Deep Research</th>
           <th style="width: 80px;">Solution manually verified</th>
           <th style="width: 160px;">5.2 Pro</th>
+          <th style="width: 140px;">Prompter</th>
           <th style="width: 140px;">Aristotle formal proof file</th>
         </tr>
       </thead>
@@ -216,7 +217,7 @@
       const candidateNumberInput = document.getElementById("candidateNumber");
       const statusEl = document.getElementById("status");
       const tbody = document.querySelector("#table tbody");
-      const batchSize = 100;
+      const batchSize = 150;
       let mergedRecords = [];
       let renderedCount = 0;
       let isRendering = false;
@@ -231,6 +232,13 @@
       function clearTable() {
         tbody.innerHTML = "";
         renderedCount = 0;
+      }
+
+      function shouldLoadNextBatch() {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return true;
+        return window.scrollY / maxScroll >= 0.75;
       }
 
       function updateStatus() {
@@ -367,6 +375,9 @@
                 "aristotle_result",
                 "aristotle_formal_proof_status",
               ]),
+            ),
+            prompter: normalizeString(
+              pickValue(entry, ["author", "prompter", "prompt_author"]),
             ),
           });
         }
@@ -712,6 +723,10 @@
           appendLinkGroup(proResponseCell, proLinks);
           row.appendChild(proResponseCell);
 
+          const prompterCell = document.createElement("td");
+          prompterCell.textContent = record.prompter ?? "";
+          row.appendChild(prompterCell);
+
           const aristotleCell = document.createElement("td");
           const aristotleStatus = record.aristotle_status ?? "";
           aristotleCell.textContent = aristotleStatus || "N/A";
@@ -826,6 +841,7 @@
               solution_manually_verified: solution?.solutionManuallyVerified ?? "",
               pro_response: solution?.proResponse ?? "",
               solution_share_url: solution?.solutionShareUrl ?? "",
+              prompter: solution?.prompter ?? "",
               aristotle_status: solution?.aristotleStatus ?? "",
               candidate_solution_text:
                 candidateNumber === number ? candidateText : "",
@@ -884,12 +900,12 @@
         }
       });
       window.addEventListener("scroll", () => {
-        const thresholdRows = 25;
-        const thresholdPixels = estimateRowHeight() * thresholdRows;
-        const nearBottom =
-          window.innerHeight + window.scrollY >=
-          document.body.offsetHeight - thresholdPixels;
-        if (nearBottom) {
+        if (shouldLoadNextBatch()) {
+          renderNextBatch();
+        }
+      });
+      window.addEventListener("resize", () => {
+        if (shouldLoadNextBatch()) {
           renderNextBatch();
         }
       });
