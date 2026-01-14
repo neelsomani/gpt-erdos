@@ -32,7 +32,11 @@
       table {
         width: 100%;
         border-collapse: collapse;
-        table-layout: fixed;
+        table-layout: auto;
+      }
+      .table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       thead {
         position: sticky;
@@ -64,6 +68,34 @@
       }
       .latex-cell {
         white-space: pre-line;
+      }
+      .problem-col {
+        min-width: 240px;
+      }
+      .additional-col {
+        min-width: 240px;
+      }
+      .mobile-only {
+        display: none;
+      }
+      .details-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .details-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .details-label {
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .details-value {
+        white-space: pre-wrap;
       }
       details summary {
         cursor: pointer;
@@ -113,6 +145,27 @@
       button {
         cursor: pointer;
       }
+      @media (max-width: 900px) {
+        body {
+          margin: 16px;
+        }
+        th,
+        td {
+          padding: 6px;
+          font-size: 13px;
+        }
+      }
+      @media (max-width: 720px) {
+        .hide-on-mobile {
+          display: none;
+        }
+        .additional-col {
+          display: none;
+        }
+        .mobile-only {
+          display: table-cell;
+        }
+      }
     </style>
   </head>
   <body>
@@ -156,23 +209,27 @@
       </div>
       <span class="status" id="status"></span>
     </div>
-    <table id="table" aria-live="polite">
-      <thead>
-        <tr>
-          <th style="width: 80px;">Number</th>
-          <th style="width: 100px;">State</th>
-          <th>Problem</th>
-          <th>Additional</th>
-          <th style="width: 70px;">Prior solution found</th>
-          <th style="width: 160px;">Deep Research</th>
-          <th style="width: 80px;">Solution manually verified</th>
-          <th style="width: 160px;">5.2 Pro</th>
-          <th style="width: 140px;">Prompter</th>
-          <th style="width: 140px;">Aristotle formal proof file</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-wrap">
+      <table id="table" aria-live="polite">
+        <thead>
+          <tr>
+            <th style="width: 120px;">Number</th>
+            <th class="problem-col">Problem</th>
+            <th class="additional-col">Additional</th>
+            <th class="hide-on-mobile" style="width: 70px;">Prior solution found</th>
+            <th class="hide-on-mobile" style="width: 160px;">Deep Research</th>
+            <th class="hide-on-mobile" style="width: 80px;">Solution manually verified</th>
+            <th class="hide-on-mobile" style="width: 160px;">5.2 Pro</th>
+            <th class="hide-on-mobile" style="width: 140px;">Prompter</th>
+            <th class="hide-on-mobile" style="width: 140px;">
+              Aristotle formal proof file
+            </th>
+            <th class="mobile-only" style="width: 90px;">Details</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
     <div class="modal" id="candidateModal" hidden>
       <div class="modal-content" role="dialog" aria-modal="true">
         <div class="modal-header">
@@ -180,6 +237,15 @@
           <button class="modal-close" type="button" id="candidateModalClose">✕</button>
         </div>
         <div class="modal-body" id="candidateModalBody"></div>
+      </div>
+    </div>
+    <div class="modal" id="detailsModal" hidden>
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <strong id="detailsModalTitle"></strong>
+          <button class="modal-close" type="button" id="detailsModalClose">✕</button>
+        </div>
+        <div class="modal-body" id="detailsModalBody"></div>
       </div>
     </div>
     <p class="small">
@@ -409,12 +475,15 @@
         return hasLink;
       }
 
-      function buildCandidateLink(number, text) {
+      function buildCandidateLink(number, text, onBeforeOpen) {
         if (!text || !number) return null;
         const link = document.createElement("button");
         link.type = "button";
         link.textContent = "View";
         link.addEventListener("click", () => {
+          if (typeof onBeforeOpen === "function") {
+            onBeforeOpen();
+          }
           openCandidateModal(text, number);
         });
         return link;
@@ -617,6 +686,10 @@
       const candidateModalTitle = document.getElementById("candidateModalTitle");
       const candidateModalBody = document.getElementById("candidateModalBody");
       const candidateModalClose = document.getElementById("candidateModalClose");
+      const detailsModal = document.getElementById("detailsModal");
+      const detailsModalTitle = document.getElementById("detailsModalTitle");
+      const detailsModalBody = document.getElementById("detailsModalBody");
+      const detailsModalClose = document.getElementById("detailsModalClose");
 
       function openCandidateModal(text, number) {
         candidateModalTitle.textContent = `Candidate solution for problem ${number}`;
@@ -638,6 +711,114 @@
         candidateModalBody.textContent = "";
       }
 
+      function buildDetailsItem(label, content) {
+        const item = document.createElement("div");
+        item.className = "details-item";
+        const labelEl = document.createElement("div");
+        labelEl.className = "details-label";
+        labelEl.textContent = label;
+        const valueEl = document.createElement("div");
+        valueEl.className = "details-value";
+        if (content instanceof Node) {
+          valueEl.appendChild(content);
+        } else {
+          valueEl.textContent = content ?? "";
+        }
+        item.appendChild(labelEl);
+        item.appendChild(valueEl);
+        return item;
+      }
+
+      function renderMathContent(text) {
+        const container = document.createElement("div");
+        container.className = "latex-cell";
+        if (!text) return container;
+        container.textContent = text;
+        return container;
+      }
+
+      function openDetailsModal(record) {
+        const numberText = record.number ?? "";
+        detailsModalTitle.textContent = numberText
+          ? `Problem ${numberText} details`
+          : "Problem details";
+        detailsModalBody.textContent = "";
+        const list = document.createElement("div");
+        list.className = "details-list";
+        list.appendChild(buildDetailsItem("State", record.state ?? ""));
+        list.appendChild(
+          buildDetailsItem("Problem", renderMathContent(record.latex ?? "")),
+        );
+        list.appendChild(
+          buildDetailsItem(
+            "Additional",
+            renderMathContent(record.additional_text ?? ""),
+          ),
+        );
+        list.appendChild(
+          buildDetailsItem(
+            "Prior solution found",
+            parseTriState(record.prior_solution_found),
+          ),
+        );
+        const researchLinks = document.createElement("div");
+        appendLinkGroup(researchLinks, [
+          { url: record.deep_research_pdf_url ?? "", label: "PDF Link" },
+          { url: record.deep_research_share_url ?? "", label: "ChatGPT Link" },
+        ]);
+        list.appendChild(
+          buildDetailsItem(
+            "Deep Research",
+            researchLinks.childNodes.length ? researchLinks : "",
+          ),
+        );
+        list.appendChild(
+          buildDetailsItem(
+            "Solution manually verified",
+            parseTriState(record.solution_manually_verified),
+          ),
+        );
+          const proLinks = document.createElement("div");
+          if (record.candidate_solution_text && numberText) {
+            const candidateButton = buildCandidateLink(
+              numberText,
+              record.candidate_solution_text,
+              closeDetailsModal,
+            );
+            if (candidateButton) {
+              proLinks.appendChild(candidateButton);
+              if (record.pro_response || record.solution_share_url) {
+                proLinks.appendChild(document.createTextNode(" · "));
+            }
+          }
+        }
+        appendLinkGroup(proLinks, [
+          { url: record.pro_response ?? "", label: "ChatGPT Link" },
+          { url: record.solution_share_url ?? "", label: "ChatGPT Link" },
+        ]);
+        list.appendChild(
+          buildDetailsItem("5.2 Pro", proLinks.childNodes.length ? proLinks : ""),
+        );
+        list.appendChild(buildDetailsItem("Prompter", record.prompter ?? ""));
+        list.appendChild(
+          buildDetailsItem(
+            "Aristotle formal proof file",
+            record.aristotle_status ?? "N/A",
+          ),
+        );
+        detailsModalBody.appendChild(list);
+        detailsModal.hidden = false;
+        if (window.MathJax && window.MathJax.typesetPromise) {
+          window.MathJax.typesetPromise([detailsModalBody]);
+        }
+      }
+
+      function closeDetailsModal() {
+        detailsModal.hidden = true;
+        detailsModalTitle.textContent = "";
+        detailsModalBody.textContent = "";
+      }
+
       function renderRows(records, append = false) {
         if (!append) {
           clearTable();
@@ -647,6 +828,7 @@
 
           const numberCell = document.createElement("td");
           const numberText = record.number ?? "";
+          const stateText = record.state ?? "";
           if (numberText) {
             const numberLink = document.createElement("a");
             numberLink.textContent = numberText;
@@ -654,21 +836,21 @@
             numberLink.target = "_blank";
             numberLink.rel = "noreferrer";
             numberCell.appendChild(numberLink);
+            if (stateText) {
+              numberCell.appendChild(document.createTextNode(`: ${stateText}`));
+            }
           } else {
-            numberCell.textContent = "";
+            numberCell.textContent = stateText ? `: ${stateText}` : "";
           }
           row.appendChild(numberCell);
 
-          const stateCell = document.createElement("td");
-          stateCell.textContent = record.state ?? "";
-          row.appendChild(stateCell);
-
           const problemCell = document.createElement("td");
-          problemCell.className = "latex-cell";
+          problemCell.className = "latex-cell problem-col";
           problemCell.textContent = record.latex ?? "";
           row.appendChild(problemCell);
 
           const additionalCell = document.createElement("td");
+          additionalCell.className = "additional-col";
           const additionalText = record.additional_text ?? "";
           if (additionalText) {
             const details = document.createElement("details");
@@ -686,10 +868,12 @@
           row.appendChild(additionalCell);
 
           const priorSolutionCell = document.createElement("td");
+          priorSolutionCell.className = "hide-on-mobile";
           priorSolutionCell.textContent = parseTriState(record.prior_solution_found);
           row.appendChild(priorSolutionCell);
 
           const deepResearchResponseCell = document.createElement("td");
+          deepResearchResponseCell.className = "hide-on-mobile";
           appendLinkGroup(deepResearchResponseCell, [
             { url: record.deep_research_pdf_url ?? "", label: "PDF Link" },
             { url: record.deep_research_share_url ?? "", label: "ChatGPT Link" },
@@ -697,12 +881,14 @@
           row.appendChild(deepResearchResponseCell);
 
           const manualVerifiedCell = document.createElement("td");
+          manualVerifiedCell.className = "hide-on-mobile";
           manualVerifiedCell.textContent = parseTriState(
             record.solution_manually_verified,
           );
           row.appendChild(manualVerifiedCell);
 
           const proResponseCell = document.createElement("td");
+          proResponseCell.className = "hide-on-mobile";
           const proLinks = [
             { url: record.pro_response ?? "", label: "ChatGPT Link" },
             { url: record.solution_share_url ?? "", label: "ChatGPT Link" },
@@ -724,13 +910,26 @@
           row.appendChild(proResponseCell);
 
           const prompterCell = document.createElement("td");
+          prompterCell.className = "hide-on-mobile";
           prompterCell.textContent = record.prompter ?? "";
           row.appendChild(prompterCell);
 
           const aristotleCell = document.createElement("td");
+          aristotleCell.className = "hide-on-mobile";
           const aristotleStatus = record.aristotle_status ?? "";
           aristotleCell.textContent = aristotleStatus || "N/A";
           row.appendChild(aristotleCell);
+
+          const detailsCell = document.createElement("td");
+          detailsCell.className = "mobile-only";
+          const detailsButton = document.createElement("button");
+          detailsButton.type = "button";
+          detailsButton.textContent = "Details";
+          detailsButton.addEventListener("click", () => {
+            openDetailsModal(record);
+          });
+          detailsCell.appendChild(detailsButton);
+          row.appendChild(detailsCell);
 
           tbody.appendChild(row);
         }
@@ -894,9 +1093,17 @@
       candidateModalClose.addEventListener("click", () => {
         closeCandidateModal();
       });
+      detailsModalClose.addEventListener("click", () => {
+        closeDetailsModal();
+      });
       candidateModal.addEventListener("click", (event) => {
         if (event.target === candidateModal) {
           closeCandidateModal();
+        }
+      });
+      detailsModal.addEventListener("click", (event) => {
+        if (event.target === detailsModal) {
+          closeDetailsModal();
         }
       });
       window.addEventListener("scroll", () => {
