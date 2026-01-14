@@ -15,10 +15,15 @@
       }
       .controls {
         display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 16px 0 24px;
+      }
+      .controls-row {
+        display: flex;
         flex-wrap: wrap;
         gap: 12px;
         align-items: center;
-        margin: 16px 0 24px;
       }
       .status {
         color: #555;
@@ -118,33 +123,37 @@
       </a>
     </p>
     <div class="controls">
-      <label class="nowrap">
-        Problems YAML:
-        <a
-          class="small"
-          href="https://github.com/teorth/erdosproblems/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Loaded from GitHub
-        </a>
-      </label>
-      <label class="nowrap">
-        Unsolved JSONL:
-        <input type="file" id="fileInput" accept=".jsonl" />
-      </label>
-      <label class="nowrap">
-        Solutions manifest:
-        <input type="file" id="manifestInput" accept=".json" />
-      </label>
-      <label class="nowrap">
-        Candidate solution:
-        <input type="file" id="candidateInput" accept=".md,.markdown" />
-      </label>
-      <label class="nowrap">
-        Candidate problem #:
-        <input type="text" id="candidateNumber" inputmode="numeric" size="6" />
-      </label>
+      <div class="controls-row">
+        <label class="nowrap">
+          Problems YAML:
+          <a
+            class="small"
+            href="https://github.com/teorth/erdosproblems/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Loaded from GitHub
+          </a>
+        </label>
+        <label class="nowrap">
+          Unsolved JSONL:
+          <input type="file" id="fileInput" accept=".jsonl" />
+        </label>
+      </div>
+      <div class="controls-row">
+        <label class="nowrap">
+          Solutions manifest:
+          <input type="file" id="manifestInput" accept=".json" />
+        </label>
+        <label class="nowrap">
+          Candidate solution:
+          <input type="file" id="candidateInput" accept=".md,.markdown" />
+        </label>
+        <label class="nowrap">
+          Candidate problem #:
+          <input type="text" id="candidateNumber" inputmode="numeric" size="6" />
+        </label>
+      </div>
       <span class="status" id="status"></span>
     </div>
     <table id="table" aria-live="polite">
@@ -401,7 +410,36 @@
       }
 
       function prepareMarkdownForMath(text) {
-        const escapedDelimiters = text
+        const noMathBlocks = [];
+        const noMathPattern = /\[\[nomath\]\]([\s\S]*?)\[\[\/nomath\]\]/gi;
+        const protectNoMathBlocks = (value) =>
+          value.replace(noMathPattern, (match, content) => {
+            const index = noMathBlocks.length;
+            noMathBlocks.push(content);
+            return `@@NOMATH_${index}@@`;
+          });
+        const restoreNoMathBlocks = (value) =>
+          value.replace(/@@NOMATH_(\d+)@@/g, (match, indexText) => {
+            const index = Number(indexText);
+            const content = noMathBlocks[index] ?? "";
+            const segments = content.split(/(\$\$[\s\S]*?\$\$|\$[^$]*\$)/g);
+            const rendered = segments
+              .map((segment) => {
+                if (!segment) return "";
+                if (segment.startsWith("$$") || segment.startsWith("$")) {
+                  return segment;
+                }
+                return segment
+                  .replace(/\\/g, "\\\\")
+                  .replace(/&/g, "&amp;")
+                  .replace(/</g, "&lt;")
+                  .replace(/>/g, "&gt;")
+                  .replace(/\n/g, "<br>");
+              })
+              .join("");
+            return `<span class="nomath">${rendered}</span>`;
+          });
+        const escapedDelimiters = protectNoMathBlocks(text)
           .replace(/(?<!\\)\\\[/g, "\\\\[")
           .replace(/(?<!\\)\\\]/g, "\\\\]")
           .replace(/(?<!\\)\\\(/g, "\\\\(")
@@ -427,6 +465,119 @@
         const lines = preparedLines.split("\n");
         let inDisplayMath = false;
         const escapeHash = (value) => value.replace(/(^|[^\\])#/g, "$1\\\\#");
+        const wrapParensInText = (segment) => {
+          let result = "";
+          let buffer = "";
+          let depth = 0;
+          let wrapEligible = true;
+          for (let i = 0; i < segment.length; i += 1) {
+            const char = segment[i];
+            if (char === "(" && segment[i - 1] !== "\\") {
+              if (depth === 0) {
+                buffer = "";
+                const before = segment.slice(0, i).trimEnd();
+                wrapEligible = !/(\b(?:e\.g|i\.e))\.,?$/i.test(before);
+              } else {
+                buffer += char;
+              }
+              depth += 1;
+              continue;
+            }
+            if (char === ")" && depth > 0 && segment[i - 1] !== "\\") {
+              depth -= 1;
+              if (depth === 0) {
+                const inner = buffer.trim();
+                const hasCommand = /\\[a-zA-Z]+/.test(inner);
+                const hasOperator = /[=<>^_]/.test(inner) || /\|/.test(inner);
+                const startsWithEg = /^(?:e\.g\.|i\.e\.)\b/i.test(inner);
+                if (wrapEligible && !startsWithEg && inner && (hasCommand || hasOperator)) {
+                  result += `\\\\(${escapeHash(buffer)}\\\\)`;
+                } else {
+                  result += `(${buffer})`;
+                }
+                buffer = "";
+              } else {
+                buffer += char;
+              }
+              continue;
+            }
+            if (depth > 0) {
+              buffer += char;
+            } else {
+              result += char;
+            }
+          }
+          if (depth > 0) {
+            result += `(${buffer}`;
+          }
+          return result;
+        };
+        const wrapMathParensLine = (line) => {
+          const segments = [];
+          let buffer = "";
+          let inCode = false;
+          let i = 0;
+          while (i < line.length) {
+            const char = line[i];
+            if (char === "`" && line[i - 1] !== "\\") {
+              if (buffer) {
+                segments.push({ type: "text", value: buffer });
+                buffer = "";
+              }
+              inCode = !inCode;
+              buffer += char;
+              i += 1;
+              continue;
+            }
+            if (!inCode && char === "$" && line[i - 1] !== "\\") {
+              if (buffer) {
+                segments.push({ type: "text", value: buffer });
+                buffer = "";
+              }
+              const isDouble = line[i + 1] === "$";
+              const delimiter = isDouble ? "$$" : "$";
+              let j = i + delimiter.length;
+              while (j < line.length) {
+                if (
+                  line[j] === "$" &&
+                  line[j - 1] !== "\\" &&
+                  (delimiter === "$" || line[j + 1] === "$")
+                ) {
+                  j += delimiter.length;
+                  break;
+                }
+                j += 1;
+              }
+              const mathSegment = line.slice(i, j);
+              if (mathSegment.length > delimiter.length) {
+                segments.push({ type: "math", value: mathSegment });
+              } else {
+                segments.push({ type: "text", value: mathSegment });
+              }
+              i = j;
+              continue;
+            }
+            buffer += char;
+            i += 1;
+          }
+          if (buffer) {
+            segments.push({ type: inCode ? "code" : "text", value: buffer });
+          }
+          return segments
+            .map((segment) => {
+              if (segment.type === "text") {
+                return wrapParensInText(segment.value);
+              }
+              if (segment.type === "math") {
+                const value = segment.value;
+                const delimiter = value.startsWith("$$") ? "$$" : "$";
+                const inner = value.slice(delimiter.length, -delimiter.length);
+                return `${delimiter}${escapeHash(inner)}${delimiter}`;
+              }
+              return segment.value;
+            })
+            .join("");
+        };
         const processed = lines.map((line) => {
           const trimmed = line.trim();
           if (trimmed === "\\\\[" || trimmed === "\\[") {
@@ -446,22 +597,9 @@
           if (inDisplayMath) {
             return escapeHash(line);
           }
-          return line.replace(/\(([^()\n]*)\)/g, (match, content, offset) => {
-            const prevChar = offset > 0 ? line[offset - 1] : "";
-            if (prevChar === "\\" || prevChar === "]") {
-              return match;
-            }
-            const inner = content.trim();
-            if (!inner) return match;
-            const hasCommand = /\\[a-zA-Z]+/.test(inner);
-            const hasOperator = /[=<>^_]/.test(inner) || /\|/.test(inner);
-            if (!hasCommand && !hasOperator) {
-              return match;
-            }
-            return `\\\\(${escapeHash(content)}\\\\)`;
-          });
+          return wrapMathParensLine(line);
         });
-        return processed.join("\n");
+        return restoreNoMathBlocks(processed.join("\n"));
       }
 
       const candidateModal = document.getElementById("candidateModal");
