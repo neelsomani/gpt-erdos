@@ -118,5 +118,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    },
+    {
+        "number": 23,
+        "solution_share_url": "https://chatgpt.com/share/69671ff3-b1fc-8003-9d2a-2c25fc43ff01",
+        "deep_research_share_url": "https://chatgpt.com/share/696723e4-4a54-8003-8c2b-7f5c9ce1860a",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1JL3NdFsMWSYypaYnEW1ZKakdl4zaNXoC/view?usp=sharing",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Zehan Li"
     }
 ]
