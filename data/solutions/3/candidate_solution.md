@@ -1,14 +1,14 @@
 This is **exactly** the (still open) **Erdős conjecture on arithmetic progressions** (often called the **Erdős–Turán conjecture**):
 
-> If (A\subseteq \mathbb N) and (\sum_{n\in A}\frac1n=\infty), must (A) contain arithmetic progressions of every finite length?
+> If (A\subseteq \mathbb N) and (\sum_{n\in A}\frac1n=\infty), must $A$ contain arithmetic progressions of every finite length?
 
 As of **January 2026**, the general question is **unknown**. ([MathOverflow][1])
 
 ## What is known
 
-### 1) If (A) has positive density, then yes
+### 1) If $A$ has positive density, then yes
 
-If (A) has positive upper (natural) density, then (A) contains arbitrarily long arithmetic progressions by **Szemerédi’s theorem**. ([Wikipedia][2])
+If $A$ has positive upper (natural) density, then $A$ contains arbitrarily long arithmetic progressions by **Szemerédi’s theorem**. ([Wikipedia][2])
 But (\sum_{n\in A}1/n=\infty) is **much weaker** than positive density, so Szemerédi does not apply directly.
 
 ### 2) The primes are a famous special case
@@ -30,13 +30,13 @@ From this one can deduce (by a standard dyadic decomposition argument) that **an
 \sum_{n\in A}\frac1n=\infty \quad\Longrightarrow\quad A\text{ contains (indeed infinitely many) 3-term APs.}
 ]
 
-This is also reflected in later discussions of “(k)-free” sets and their harmonic sums (where the (k=3) case is singled out as the one where finiteness is known). ([arXiv][5])
+This is also reflected in later discussions of “$k$-free” sets and their harmonic sums [[nomath]](where the $k=3$ case is singled out as the one where finiteness is known)[[/nomath]]. ([arXiv][5])
 
 ## What remains open
 
-For **4-term arithmetic progressions and longer**, the conjecture is still open: we do **not** know whether (\sum_{n\in A}1/n=\infty) forces (A) to contain arbitrarily long APs. ([MathOverflow][1])
+For **4-term arithmetic progressions and longer**, the conjecture is still open: we do **not** know whether (\sum_{n\in A}1/n=\infty) forces $A$ to contain arbitrarily long APs. ([MathOverflow][1])
 
-In fact, current work includes constructing (k)-AP-free sets with **very large (but still finite)** harmonic sums, which illustrates how subtle the problem is beyond (k=3). ([arXiv][5])
+In fact, current work includes constructing $k$-AP-free sets with **very large (but still finite)** harmonic sums, which illustrates how subtle the problem is beyond (k=3). ([arXiv][5])
 
 So the best accurate answer is:
 
