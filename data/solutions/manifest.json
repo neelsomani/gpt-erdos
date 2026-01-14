@@ -78,5 +78,25 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    }, 
+    {
+        "number": 11,
+        "solution_share_url": "https://chatgpt.com/share/6967081a-de80-800c-b508-ba9e6b39fbc8",
+        "deep_research_share_url": "https://chatgpt.com/share/69670801-828c-800c-8b41-029ca5df52dd",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/104b-Uujvlgo43r3iD9mscmKNtX_kR6Gw/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 12,
+        "solution_share_url": "https://chatgpt.com/share/696708c8-3b50-800c-817d-871fb980737d",
+        "deep_research_share_url": "https://chatgpt.com/share/696708db-af5c-800c-97c6-d146e71251a5",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1vL7j8J-C9QS90rjBDyzMgzcocjaJEu-l/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
     }
 ]
