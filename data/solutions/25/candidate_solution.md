@@ -18,7 +18,7 @@ is listed as **open**.
 * **Natural density can fail even in the multiples case.**
   Besicovitch gave examples where the *natural* density does not exist, which is part of why one asks for logarithmic density instead.
 
-* **A straightforward positive case:** if (\sum_i \frac1{n_i}<\infty), then the logarithmic density of (A) **does** exist (for any residues (a_i)).
+* **A straightforward positive case:** if (\sum_i \frac1{n_i}<\infty), then the logarithmic density of $A$ **does** exist [[nomath]](for any residues $a_i$)[[/nomath]].
   Sketch: each excluded progression (n\equiv a_i\ (\mathrm{mod}\ n_i)) has logarithmic density (1/n_i). The “tail” union (\bigcup_{i>K}{n\equiv a_i\ (\mathrm{mod}\ n_i)}) then has *upper* logarithmic density (\le \sum_{i>K}1/n_i), which can be made arbitrarily small if the sum converges. Since finite unions are eventually periodic (hence have a logarithmic density), one can sandwich the upper/lower logarithmic densities of the full union between the finite-stage density and an arbitrarily small error, forcing existence of the limit for the full set. (This argument is essentially “finite approximation + summable tail.”)
 
 ### Where the difficulty lies
