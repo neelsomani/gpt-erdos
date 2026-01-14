@@ -24,20 +24,20 @@ For a fixed $k$-set of vertices $S$, there are (\binom{k}{2}) edges inside $S$. 
 = 2^{1-\binom{k}{2}}.
 ]
 There are (\binom{n}{k}) choices of $S$, so by linearity of expectation,
-[
+
+$$
 \mathbb E[X] = \binom{n}{k}2^{1-\binom{k}{2}}.
-]
+$$
 
 Now bound (\binom{n}{k}\le \dfrac{n^k}{k!}) and use (n\le 2^{k/2}):
-[
-\mathbb E[X]
-\le
-\frac{n^k}{k!}2^{1-\binom{k}{2}}
-\le
-\frac{2^{k^2/2}}{k!}2^{1-\frac{k(k-1)}2}
-=
-\frac{2^{1+k/2}}{k!}.
-]
+
+$$
+\mathbb{E}[X]
+\le \frac{n^k}{k!} 2^{1 - \binom{k}{2}}
+\le \frac{2^{k^2/2}}{k!} 2^{1 - \frac{k(k-1)}{2}}
+= \frac{2^{1 + k/2}}{k!}.
+$$
+
 For (k=3), this is (\dfrac{2^{2.5}}{6}<1). And for larger $k$, $k!$ grows faster, so the value stays (<1). [[nomath]](You can make it formal by a one-line induction: if $k!>2^{1+k/2}$ then $(k+1)!=(k+1)k!>\sqrt2\cdot 2^{1+k/2}=2^{1+(k+1)/2}$.)[[/nomath]]
 
 So we have shown:
