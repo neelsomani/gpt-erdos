@@ -78,5 +78,45 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    }, 
+    {
+        "number": 11,
+        "solution_share_url": "https://chatgpt.com/share/6967081a-de80-800c-b508-ba9e6b39fbc8",
+        "deep_research_share_url": "https://chatgpt.com/share/69670801-828c-800c-8b41-029ca5df52dd",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/104b-Uujvlgo43r3iD9mscmKNtX_kR6Gw/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 12,
+        "solution_share_url": "https://chatgpt.com/share/696708c8-3b50-800c-817d-871fb980737d",
+        "deep_research_share_url": "https://chatgpt.com/share/696708db-af5c-800c-97c6-d146e71251a5",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1vL7j8J-C9QS90rjBDyzMgzcocjaJEu-l/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 14,
+        "solution_share_url": "https://chatgpt.com/share/696709bd-ccb8-800c-9c2e-9be79f57ccc3",
+        "deep_research_share_url": "https://chatgpt.com/share/696709ed-2810-800c-aee4-22367c5f658f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1j4o6OrJogNLtsjXU6W0f8W16LgACw3ux/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 15,
+        "solution_share_url": "https://chatgpt.com/share/69670a86-fa68-800c-8961-0597c4b4b7bd",
+        "deep_research_share_url": "https://chatgpt.com/share/69670a97-ddb4-800c-99ba-827f054e358d",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1cW1HrAEIqZF7Jrc6ic3DYn0jZVnKy35r/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
     }
 ]
