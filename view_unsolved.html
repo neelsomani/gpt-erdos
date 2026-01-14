@@ -424,23 +424,44 @@
             return line;
           })
           .join("\n");
-        return preparedLines.replace(
-          /\(([^()\n]*)\)/g,
-          (match, content, offset) => {
-            const prevChar = offset > 0 ? preparedLines[offset - 1] : "";
+        const lines = preparedLines.split("\n");
+        let inDisplayMath = false;
+        const escapeHash = (value) => value.replace(/(^|[^\\])#/g, "$1\\\\#");
+        const processed = lines.map((line) => {
+          const trimmed = line.trim();
+          if (trimmed === "\\\\[" || trimmed === "\\[") {
+            inDisplayMath = true;
+            return line;
+          }
+          if (trimmed === "\\\\]" || trimmed === "\\]") {
+            inDisplayMath = false;
+            return line;
+          }
+          if (
+            trimmed.startsWith("\\\\[") &&
+            trimmed.endsWith("\\\\]")
+          ) {
+            return escapeHash(line);
+          }
+          if (inDisplayMath) {
+            return escapeHash(line);
+          }
+          return line.replace(/\(([^()\n]*)\)/g, (match, content, offset) => {
+            const prevChar = offset > 0 ? line[offset - 1] : "";
             if (prevChar === "\\" || prevChar === "]") {
               return match;
             }
-            const trimmed = content.trim();
-            if (!trimmed) return match;
-            const hasCommand = /\\[a-zA-Z]+/.test(trimmed);
-            const hasOperator = /[=<>^_]/.test(trimmed) || /\|/.test(trimmed);
+            const inner = content.trim();
+            if (!inner) return match;
+            const hasCommand = /\\[a-zA-Z]+/.test(inner);
+            const hasOperator = /[=<>^_]/.test(inner) || /\|/.test(inner);
             if (!hasCommand && !hasOperator) {
               return match;
             }
-            return `\\\\(${content}\\\\)`;
-          },
-        );
+            return `\\\\(${escapeHash(content)}\\\\)`;
+          });
+        });
+        return processed.join("\n");
       }
 
       const candidateModal = document.getElementById("candidateModal");
