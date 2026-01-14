@@ -224,6 +224,7 @@
       let jsonlStatusText = "";
       let manifestStatusText = "";
       let candidateStatusText = "";
+      let loadingRow = null;
 
       function setStatus(message) {
         statusEl.textContent = message;
@@ -232,6 +233,35 @@
       function clearTable() {
         tbody.innerHTML = "";
         renderedCount = 0;
+        loadingRow = null;
+      }
+
+      function ensureLoadingRow() {
+        if (!loadingRow) {
+          loadingRow = document.createElement("tr");
+          loadingRow.id = "loadingRow";
+          const cell = document.createElement("td");
+          cell.colSpan = 9;
+          cell.className = "small";
+          cell.textContent = "Loading more…";
+          loadingRow.appendChild(cell);
+          tbody.appendChild(loadingRow);
+        }
+      }
+
+      function updateLoadingRow() {
+        if (!loadingRow) return;
+        if (renderedCount >= mergedRecords.length) {
+          loadingRow.remove();
+          loadingRow = null;
+        }
+      }
+
+      function shouldLoadNextBatch() {
+        const doc = document.documentElement;
+        const maxScroll = doc.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return true;
+        return window.scrollY / maxScroll >= 0.75;
       }
 
       function shouldLoadNextBatch() {
@@ -744,8 +774,10 @@
           renderedCount,
           renderedCount + batchSize,
         );
+        ensureLoadingRow();
         renderRows(nextBatch, true);
         renderedCount += nextBatch.length;
+        updateLoadingRow();
         if (window.MathJax && window.MathJax.typesetPromise) {
           await window.MathJax.typesetPromise();
         }
@@ -850,6 +882,7 @@
 
           mergedRecords = merged;
           renderRows([]);
+          ensureLoadingRow();
           const jsonlStatus = jsonlFile
             ? `Loaded ${jsonlRecords.length} of ${jsonlTotal} JSONL rows.`
             : "No JSONL file loaded.";
