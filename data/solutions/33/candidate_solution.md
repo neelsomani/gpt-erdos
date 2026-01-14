@@ -2,7 +2,7 @@ Let
 [
 A(N):=\bigl|A\cap{1,\dots,N}\bigr|.
 ]
-Your hypothesis says that (A) is an **additive complement of the squares**: for all sufficiently large (m) there exist (n\ge 0) and (a\in A) with (m=n^2+a). ([Erdős Problems][1])
+Your hypothesis says that $A$ is an **additive complement of the squares**: for all sufficiently large $m$ there exist (n\ge 0) and (a\in A) with (m=n^2+a). ([Erdős Problems][1])
 
 ## The (\liminf) question
 
@@ -16,9 +16,9 @@ So the answer to
 [
 \liminf_{N\to\infty}\frac{A(N)}{\sqrt N}>1?
 ]
-is **yes** (indeed (\ge 4/\pi>1)). ([Erdős Problems][1])
+is **yes** [[nomath]](indeed $\ge 4/\pi>1$)[[/nomath]]. ([Erdős Problems][1])
 
-(For context: Moser had already shown (\liminf>1.06).) ([Erdős Problems][1])
+[[nomath]](For context: Moser had already shown $\liminf>1.06$.) ([Erdős Problems][1])[[/nomath]]
 
 ## The “smallest possible (\limsup)” question
 
@@ -26,11 +26,11 @@ Let
 [
 L_S:=\inf_A\ \limsup_{N\to\infty}\frac{A(N)}{\sqrt N},
 ]
-where the infimum is over all such complements (A). This is **still open** as an exact value; only bounds are known. ([Erdős Problems][1])
+where the infimum is over all such complements $A$. This is **still open** as an exact value; only bounds are known. ([Erdős Problems][1])
 
-### Best current lower bound (strictly bigger than (4/\pi))
+### Best current lower bound [[nomath]](strictly bigger than $4/\pi$)[[/nomath]]
 
-A December 2025 preprint of Ding–Zhang proves an explicit absolute constant (c_0\approx 5.463\times10^{-5}) and deduces in particular that every additive complement (W) satisfies
+A December 2025 preprint of Ding–Zhang proves an explicit absolute constant (c_0\approx 5.463\times10^{-5}) and deduces in particular that every additive complement $W$ satisfies
 [
 \limsup_{N\to\infty}\frac{W(N)}{\sqrt N}\ \ge\ \frac{4}{\pi}\bigl(1+c_0\bigr).
 ]
@@ -40,7 +40,7 @@ Numerically,
 [
 \frac{4}{\pi}(1+c_0)\approx 1.2733091\ldots
 ]
-(using (c_0\approx 5.463\times 10^{-5}) as stated). ([arXiv][2])
+[[nomath]](using $c_0\approx 5.463\times 10^{-5}$ as stated)[[/nomath]]. ([arXiv][2])
 
 So in particular (L_S>4/\pi) is now known. ([arXiv][2])
 
@@ -66,7 +66,7 @@ A useful heuristic is that the number of pairs ((a,n)) with (a\in A) and (a+n^2\
 [
 \sum_{n^2\le N} A(N-n^2).
 ]
-If (A(x)) behaved like (c\sqrt{x}), this sum looks like
+If $A(x)$ behaved like (c\sqrt{x}), this sum looks like
 [
 c\sum_{n<\sqrt N}\sqrt{N-n^2}\ \approx\ c\int_0^{\sqrt N}\sqrt{N-t^2},dt
 \ =\ c\cdot\frac{\pi}{4}N,

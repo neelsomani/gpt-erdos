@@ -2,11 +2,11 @@ Let
 [
 M_x(A,B):=#{(a,b)\in A\times B:\ a-b=x}.
 ]
-For a fixed (N), define the “worst best overlap”
+For a fixed $N$, define the “worst best overlap”
 [
 M(N)\ :=\ \min_{A\sqcup B=[2N],,|A|=|B|=N}\ \max_{x\in\mathbb Z} M_x(A,B).
 ]
-Then your statement (“for every partition there exists some (x) with (M_x(A,B)\ge cN)”) is exactly the assertion
+Then your statement [[nomath]](“for every partition there exists some $x$ with $M_x(A,B)\ge cN$”)[[/nomath]] is exactly the assertion
 [
 M(N)\ \ge\ cN\quad\text{for all sufficiently large }N.
 ]
@@ -34,12 +34,12 @@ The strongest published bounds I can verify from the literature and recent updat
 
 So, in the language of your question:
 
-* Any (c\le 0.379005) is **guaranteed** (for all sufficiently large (N)).
-* No (c>0.380924) can be guaranteed (there are partitions with (\max_x M_x(A,B)\le (0.380924+o(1))N)). ([Erdős Problems][2])
+* Any (c\le 0.379005) is **guaranteed** (for all sufficiently large $N$).
+* No (c>0.380924) can be guaranteed [[nomath]](there are partitions with $\max_x M_x(A,B)\le (0.380924+o(1))N$)[[/nomath]]. ([Erdős Problems][2])
 
 ### Some quick baseline bounds (to orient the scale)
 
-These are not optimal anymore, but they explain why (c) is a constant (>0):
+These are not optimal anymore, but they explain why $c$ is a constant (>0):
 
 * **Trivial lower bound (c\ge \tfrac14)**:
   (\sum_x M_x(A,B)=|A||B|=N^2), and there are (4N-1) possible differences (x\in[-(2N-1),2N-1]), so
@@ -49,9 +49,9 @@ These are not optimal anymore, but they explain why (c) is a constant (>0):
   This is the classic averaging argument already noted in modern sources. 
 
 * **Simple construction giving (c\le \tfrac12)**:
-  Take (A) to be a “middle interval” of length (N), e.g. (A=[N/2,3N/2]\cap\mathbb Z) (for even (N)); then one can check (\max_x M_x(A,B)\le N/2), giving (M(N)\le N/2). 
+  Take $A$ to be a “middle interval” of length $N$, e.g. $A=[N/2,3N/2]\cap\mathbb Z$ (for even $N$); then one can check (\max_x M_x(A,B)\le N/2), giving (M(N)\le N/2). 
 
-Between these, decades of work pushed the bounds to the tight window ([0.379005,,0.380924]). ([Wikipedia][1])
+Between these, decades of work pushed the bounds to the tight window $[0.379005,,0.380924]$. ([Wikipedia][1])
 
 ---
 
