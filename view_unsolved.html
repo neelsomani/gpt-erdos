@@ -342,13 +342,6 @@
         return window.scrollY / maxScroll >= 0.75;
       }
 
-      function shouldLoadNextBatch() {
-        const doc = document.documentElement;
-        const maxScroll = doc.scrollHeight - window.innerHeight;
-        if (maxScroll <= 0) return true;
-        return window.scrollY / maxScroll >= 0.75;
-      }
-
       function updateStatus() {
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
         const loadingStatus = "";

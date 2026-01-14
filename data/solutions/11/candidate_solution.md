@@ -2,7 +2,7 @@ This is **not known** in full generality. It’s an **Erdős conjecture** (often
 [
 n = s + 2^k
 ]
-with (s) **squarefree**. 
+with $$s$$ **squarefree**. 
 
 What *is* known is strong computational evidence:
 
