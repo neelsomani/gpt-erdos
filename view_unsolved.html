@@ -222,6 +222,10 @@
           <input class="branch-input" id="branchInput" type="text" value="main" />
           <button class="branch-button" type="submit">Submit</button>
         </form>
+        <label class="nowrap">
+          <input type="checkbox" id="manifestFilter" />
+          Show only missing from manifest
+        </label>
       </div>
       <div class="controls-row">
         <label class="nowrap">
@@ -354,7 +358,9 @@
       const tbody = document.querySelector("#table tbody");
       const branchForm = document.getElementById("branchForm");
       const branchInput = document.getElementById("branchInput");
+      const manifestFilter = document.getElementById("manifestFilter");
       const batchSize = 150;
+      let allRecords = [];
       let mergedRecords = [];
       let renderedCount = 0;
       let isRendering = false;
@@ -439,7 +445,16 @@
       }
 
       function resetRenderState() {
+        allRecords = [];
         mergedRecords = [];
+        renderedCount = 0;
+        isRendering = false;
+        hasRenderedOnce = false;
+        isScrollTriggered = false;
+        clearTable();
+      }
+
+      function resetRenderStatePreservingRecords() {
         renderedCount = 0;
         isRendering = false;
         hasRenderedOnce = false;
@@ -456,9 +471,12 @@
 
       function updateStatus() {
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
+        const filterStatus = manifestFilter?.checked
+          ? "Showing only problems missing from manifest."
+          : "";
         const loadingStatus = "";
         setStatus(
-          `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+          `${baseStatus} ${filterStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
         if (toastStatusEl) {
           toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
@@ -601,6 +619,11 @@
           });
         }
         return map;
+      }
+
+      function applyManifestFilter(records) {
+        if (!manifestFilter?.checked) return records;
+        return records.filter((record) => !record.in_manifest);
       }
 
       function appendLink(cell, url, label) {
@@ -1237,6 +1260,7 @@
             merged.push({
               number,
               state,
+              in_manifest: solutionsMap.has(number),
               latex: match?.latex ?? "",
               additional_text: match?.additional_text ?? "",
               prior_solution_found: solution?.priorSolutionFound ?? "",
@@ -1254,7 +1278,8 @@
             });
           }
 
-          mergedRecords = merged;
+          allRecords = merged;
+          mergedRecords = applyManifestFilter(allRecords);
           renderRows([]);
           const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
@@ -1309,6 +1334,18 @@
         }
         render();
       });
+      if (manifestFilter) {
+        manifestFilter.addEventListener("change", () => {
+          if (isLoading || allRecords.length === 0) {
+            return;
+          }
+          mergedRecords = applyManifestFilter(allRecords);
+          resetRenderStatePreservingRecords();
+          renderRows([]);
+          updateStatus();
+          renderNextBatch();
+        });
+      }
       if (branchForm) {
         branchForm.addEventListener("submit", (event) => {
           event.preventDefault();
