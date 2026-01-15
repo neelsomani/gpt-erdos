@@ -104,6 +104,11 @@
       .problem-col {
         min-width: 240px;
       }
+      .copy-latex-button {
+        margin-top: 6px;
+        padding: 4px 8px;
+        font-size: 12px;
+      }
       .additional-col {
         min-width: 240px;
       }
@@ -361,11 +366,41 @@
       let manifestStatusText = "";
       let candidateStatusText = "";
       const candidateCache = new Map();
+      let toastTimeoutId = null;
 
       function setStatus(message) {
         if (statusEl) {
           statusEl.textContent = message;
         }
+      }
+
+      function flashToast(message) {
+        if (!toastStatusEl) return;
+        toastStatusEl.textContent = message;
+        toastStatusEl.classList.add("is-visible");
+        if (toastTimeoutId) {
+          clearTimeout(toastTimeoutId);
+        }
+        toastTimeoutId = setTimeout(() => {
+          updateStatus();
+        }, 1600);
+      }
+
+      async function copyTextToClipboard(text) {
+        if (!text) return false;
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+        const textarea = document.createElement("textarea");
+        textarea.value = text;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        const success = document.execCommand("copy");
+        document.body.removeChild(textarea);
+        return success;
       }
 
       function buildGithubHeaders() {
@@ -1001,8 +1036,26 @@
           row.appendChild(numberCell);
 
           const problemCell = document.createElement("td");
-          problemCell.className = "latex-cell problem-col";
-          problemCell.textContent = record.latex ?? "";
+          problemCell.className = "problem-col";
+          const problemLatex = record.latex ?? "";
+          const problemLatexContent = document.createElement("div");
+          problemLatexContent.className = "latex-cell";
+          problemLatexContent.textContent = problemLatex;
+          const copyButton = document.createElement("button");
+          copyButton.type = "button";
+          copyButton.className = "copy-latex-button";
+          copyButton.textContent = "Copy LaTeX";
+          copyButton.addEventListener("click", async () => {
+            try {
+              const success = await copyTextToClipboard(problemLatex);
+              flashToast(success ? "Copied LaTeX." : "Copy failed.");
+            } catch (error) {
+              console.error(error);
+              flashToast("Copy failed.");
+            }
+          });
+          problemCell.appendChild(problemLatexContent);
+          problemCell.appendChild(copyButton);
           row.appendChild(problemCell);
 
           const additionalCell = document.createElement("td");
