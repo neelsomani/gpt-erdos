@@ -1,6 +1,6 @@
 No one knows.
 
-This is the **Erdős unit distance problem**. Let (U(n)) be the largest possible number of pairs ({p,q}) at distance (1) among (n) points in the plane.
+This is the **Erdős unit distance problem**. Let $U(n)$ be the largest possible number of pairs $\\{p,q\\}$ at distance $1$ among $n$ points in the plane.
 
 What we know today is:
 
@@ -10,7 +10,7 @@ What we know today is:
   ]
   So you really *can* get “a little more than linear” many unit-distance pairs. 
 
-* **Best general upper bound:** for every set of (n) points,
+* **Best general upper bound:** for every set of $n$ points,
   [
   U(n);=;O(n^{4/3}),
   ]
