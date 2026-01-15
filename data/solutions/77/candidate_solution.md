@@ -8,7 +8,7 @@ A classic probabilistic argument of Erdős (later improved by Spencer) gives an 
 [
 R(k,k);\ge; (1+o(1))\cdot \text{(poly in }k)\cdot 2^{k/2}.
 ]
-So after taking the (k)-th root, the polynomial factor disappears, and we get
+So after taking the $k$-th root, the polynomial factor disappears, and we get
 [
 \liminf_{k\to\infty} R(k,k)^{1/k};\ge; 2^{1/2}=\sqrt2.
 ]
