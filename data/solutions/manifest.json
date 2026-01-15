@@ -38,7 +38,7 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
-    },   
+    },
     {
         "number": 5,
         "solution_share_url": "https://chatgpt.com/share/6966fc80-1e38-800c-8edb-1e8b4c42d3f1",
@@ -78,7 +78,7 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
-    }, 
+    },
     {
         "number": 11,
         "solution_share_url": "https://chatgpt.com/share/6967081a-de80-800c-b508-ba9e6b39fbc8",
@@ -118,7 +118,7 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
-    },    
+    },
     {
         "number": 17,
         "solution_share_url": "https://chatgpt.com/share/69672938-ce94-800c-9301-397a12289ee2",
@@ -438,7 +438,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
+    },
+    {
+        "number": 119,
+        "solution_share_url": "https://chatgpt.com/share/69695a0d-9cc8-8003-b213-e3e172c24d19",
+        "deep_research_share_url": "https://chatgpt.com/share/69695a52-54a4-8003-9f00-059552f594af",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/19n4ou6d-JG6bY1AodbaCeYRN5-IvFMRJ/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
     }
-
-
 ]
