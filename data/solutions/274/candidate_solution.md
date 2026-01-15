@@ -13,9 +13,9 @@ Let
 
 Then the three cosets
 
-* (1+H={1,3,5,7,9,11}) (size (6)),
-* (0+K={0,4,8}) (size (3)),
-* (2+K={2,6,10}) (size (3)),
+* (1+H=\\{1,3,5,7,9,11\\}) (size $6$),
+* (0+K=\\{0,4,8\\}) (size $3$),
+* (2+K=\\{2,6,10\\}) (size $3$),
 
 are pairwise disjoint and their union is all of (\mathbb{Z}_{12}). So this is an exact covering by cosets of different sizes.
 
@@ -25,11 +25,11 @@ are pairwise disjoint and their union is all of (\mathbb{Z}_{12}). So this is an
   [
   G = H \sqcup \bigsqcup_{g\in G\setminus H} {g}.
   ]
-  Here $H$ is a coset of $H$, and each singleton ${g}$ is a coset of the trivial subgroup ${e}$. This gives cosets of sizes (|H|) and $1$.
+  Here $H$ is a coset of $H$, and each singleton $\\{g\\}$ is a coset of the trivial subgroup $\\{e\\}$. This gives cosets of sizes (|H|) and $1$.
 
 * The only time you **cannot** do it is when $G$ has **no** proper nontrivial subgroups. That happens exactly when (|G|) is prime (and also the trivial group of size $1$).
 
-  * If (|G|=p) is prime, the only subgroups are ${e}$ and $G$.
+  * If (|G|=p) is prime, the only subgroups are $\\{e\\}$ and $G$.
   * So every coset is either a singleton (size $1$) or the whole group (size $p$).
   * If you use more than one coset in a partition, you cannot include the whole group as one piece, so all pieces must be singletons, hence all the same size.
 
