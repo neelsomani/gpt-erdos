@@ -1,6 +1,6 @@
 Let
 [
-f(c)=\lim_{x\to\infty}\frac1x|\{n\le x:\ \varphi(n)<cn\}|\qquad(c\in[0,1]),
+f(c)=\lim_{x\to\infty}\frac1x|\\{n\le x:\ \varphi(n)<cn\\}|\qquad(c\in[0,1]),
 ]
 so $f$ is the limiting distribution function of (\varphi(n)/n) [[nomath]](the difference between “$<$” and “$\le$” is irrelevant at continuity points, and in fact $f$ is known to be continuous)[[/nomath]].
 
