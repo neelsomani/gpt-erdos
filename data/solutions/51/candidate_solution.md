@@ -2,7 +2,7 @@ This is **open**.
 
 If you write
 [
-g(a)\ :=\ \min{n:\ \varphi(n)=a}\qquad(a\ \text{a totient}),
+g(a)\ :=\ \min\\{n:\ \varphi(n)=a\\}\qquad(a\ \text{a totient}),
 ]
 then your question is asking whether there are infinitely many totients (a) with
 [
