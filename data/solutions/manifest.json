@@ -235,7 +235,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/6968197a-c114-8003-a92c-9d88fc2d47e7",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1duQ5muU5e21htyrh7fLig_Nu3pci2k_Y/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -245,9 +245,29 @@
         "deep_research_share_url": "https://chatgpt.com/share/6968224a-98c8-8003-bfb1-924248037b7f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/15sOsddy3kCvTAji7DA_oPc6vVsGPerXp/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
+    },
+    {
+        "number": 273,
+        "solution_share_url": "https://chatgpt.com/share/69683426-0514-8012-ae68-e25c8b3f597f",
+        "deep_research_share_url": "https://chatgpt.com/share/69683394-c788-8012-8cb5-9463d6e63249",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1yBmwJF9lRWWX6MfsynTZMLqzXqngFak0/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neel Somani"
+    },
+    {
+        "number": 389,
+        "solution_share_url": "https://chatgpt.com/share/69683567-db64-8012-b529-1e3de28294cc",
+        "deep_research_share_url": "https://chatgpt.com/share/696833c5-f460-8012-8319-acb2f7ddff31",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1jiJaU58HwXk8OA9TeTNVkSNGCaoi5mDz/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neel Somani"
     },
     {
         "number": 450,
