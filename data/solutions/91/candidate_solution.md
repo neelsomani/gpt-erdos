@@ -1,7 +1,7 @@
 Let
 
 [
-D(A):=\bigl|{,|x-y|;:;x,y\in A,\ x\neq y,}\bigr|
+D(A):=\bigl|\\{|x-y|:x,y\in A,\ x\neq y\\}\bigr|
 ]
 
 be the number of **distinct** distances determined by $A$, and let
@@ -64,7 +64,7 @@ So there are infinitely many (and hence arbitrarily large) $n$ with
 f(n)=f(n+1).
 ]
 
-Fix such a large (n) from now on.
+Fix such a large $n$ from now on.
 
 ---
 
@@ -84,10 +84,10 @@ D(S)\ \ge\ \frac{h-1}{3}.
 
 For (p\in S), let (r_p) be the number of distinct distances from $p$ to the other points:
 [
-r_p := \bigl|{|p-x|: x\in S\setminus{p}}\bigr|.
+r_p := \bigl|\\{|p-x|: x\in S\setminus{p}\\}\bigr|.
 ]
 
-Look at the number (T_p) of isosceles triangles with apex $p$, i.e. triples ((p,x,y)) with (x\neq y) and (|p-x|=|p-y|).
+Look at the number (T_p) of isosceles triangles with apex $p$, i.e. triples $(p,x,y)$ with (x\neq y) and (|p-x|=|p-y|).
 
 If the distances from $p$ occur with multiplicities (m_1,\dots,m_{r_p}) (so (\sum m_i=h-1)), then
 [
@@ -191,7 +191,7 @@ D(A_p)=f(n),
 ]
 meaning **every** (A_p) is itself a minimiser for $n$.
 
-So we now have (m) different minimisers (A_p) of size $n$, one for each interior point $p$.
+So we now have $m$ different minimisers (A_p) of size $n$, one for each interior point $p$.
 
 Also: removing an interior point does not change the convex hull, so every (A_p) has the same convex hull vertices set $H$.
 
