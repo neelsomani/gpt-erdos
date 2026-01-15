@@ -480,6 +480,16 @@
         "author": "Francis Kangethe"
     },
     {
+        "number": 101,
+        "solution_share_url": "https://chatgpt.com/share/6968ff84-4520-8003-8300-821b20d94cae",
+        "deep_research_share_url": "https://chatgpt.com/share/6968ffdb-3e4c-8003-8e4c-9ce988606bab",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1HZtS1nqkzuvOIxI3N78wMKQfGyViP7zR/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
+    },
+    {
         "number": 99,
         "solution_share_url": "https://chatgpt.com/share/6968fccd-5988-8003-b3eb-b969ff2a0930",
         "deep_research_share_url": "https://chatgpt.com/share/6968fceb-d8a0-8003-817d-cdcfba727b0b",
