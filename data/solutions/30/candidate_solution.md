@@ -24,7 +24,7 @@ due to Carter–Hunter–O’Bryant. ([arXiv][3])
 
 ### Best known lower bounds
 
-Singer’s construction (for prime powers (q)) produces Sidon sets of size (q+1) in (\mathbb Z_{q^2+q+1}), which (viewed as integers) gives large Sidon sets near the (\sqrt N) barrier. ([Springer Link][4])
+Singer’s construction (for prime powers $q$) produces Sidon sets of size $q+1$ in (\mathbb Z_{q^2+q+1}), which (viewed as integers) gives large Sidon sets near the (\sqrt N) barrier. ([Springer Link][4])
 In particular one gets (h(N)\ge (1-o(1))\sqrt N), so (h(N)\sim \sqrt N). ([Erdős Problems][1])
 
 ### Where your (N^\varepsilon) error term fits
@@ -43,7 +43,7 @@ So at present, the best unconditional understanding is:
 [
 \sqrt N,(1-o(1)) \le h(N)\le \sqrt N + 0.98183,N^{1/4}+O(1),
 ]
-and improving the exponent (1/4) (let alone to (N^\varepsilon) for every (\varepsilon)) remains an outstanding problem. ([Erdős Problems][1])
+and improving the exponent $1/4$ [[nomath]](let alone to $N^\varepsilon$ for every $\varepsilon$)[[/nomath]] remains an outstanding problem. ([Erdős Problems][1])
 
 [1]: https://www.erdosproblems.com/30 "
   

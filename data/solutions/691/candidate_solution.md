@@ -12,7 +12,7 @@ Now define the **sequential densities**
 [
 d_k := d(M_{A_k}).
 ]
-Then ((d_k)) is nondecreasing in (k) (adding more divisors can only add more multiples), so the limit (\lim_{k\to\infty} d_k) exists in $[0,1]$.
+Then ((d_k)) is nondecreasing in $k$ (adding more divisors can only add more multiples), so the limit (\lim_{k\to\infty} d_k) exists in $[0,1]$.
 
 A theorem of Davenport–Erdős says that for sets of multiples, this sequential limit equals the lower natural density (and also equals the logarithmic density) of (M_A). ([Wikipedia][1]) In particular, (M_A) has density $1$ exactly when this sequential limit is $1$.
 
