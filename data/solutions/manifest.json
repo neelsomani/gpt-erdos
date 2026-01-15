@@ -200,6 +200,16 @@
         "author": "Neel Somani"
     },
     {
+        "number": 39,
+        "solution_share_url": "https://chatgpt.com/share/69680136-07c0-800e-a64d-f9d420c50755",
+        "deep_research_share_url": "https://chatgpt.com/share/696801a8-2f84-800e-96f4-6905b19d06f8",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1xH-3xPmsr5sl9O5JlgLo5Yrfk6Uy9wNh/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Muhammad Qasim Ali"
+    },
+    {
         "number": 7,
         "solution_share_url": "https://chatgpt.com/share/69672dce-397c-800c-a8d4-c549b75d8b68",
         "deep_research_share_url": "https://chatgpt.com/share/69672dea-aeac-800c-8c22-5b0bc9d0849b",
@@ -211,8 +221,8 @@
     },
     {
         "number": 78,
-        "solution_share_url": "https://chatgpt.com/share/6967fc70-4f4c-8003-bd6f-4fa2964ff1ef",
-        "deep_research_share_url": "https://chatgpt.com/share/6967fc4b-1a34-8003-8a55-c8723f690a96",
+        "solution_share_url": "https://chatgpt.com/share/6967fc4b-1a34-8003-8a55-c8723f690a96",
+        "deep_research_share_url": "https://chatgpt.com/share/6967fc70-4f4c-8003-bd6f-4fa2964ff1ef",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1tewqcD-YoCVZ4AaxBu2N7EKovuHW0ZU1/view?usp=sharing",
         "prior_solution": false,
         "solution_manually_verified": false,
@@ -228,5 +238,25 @@
         "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
+    },
+    {
+        "number": 450,
+        "solution_share_url": "https://chatgpt.com/share/69682d72-2514-8003-8dbf-996fff2cb18c",
+        "deep_research_share_url": "https://chatgpt.com/share/69682aa5-81ec-8003-9ccf-1463d88e81c4",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1ogVstPTTaSl-nkUdy-5-g2x2DS-b5fQs/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
+    },
+    {
+        "number": 81,
+        "solution_share_url": "https://chatgpt.com/share/69682cbc-0b28-8009-8e5c-a9a30fc5df24",
+        "deep_research_share_url": "https://chatgpt.com/share/69682c99-8560-8009-83f7-b38cd34e8295",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1y3GnvhQYea9Fy09bkrqQ70ywtFsQfUV8/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
     }
 ]
