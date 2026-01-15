@@ -12,7 +12,7 @@ But the **best general theorem** we have for *every* set of (n) planar points is
 ]
 distinct distances for any (n)-point set in (\mathbb{R}^2). ([Annals of Mathematics][2])
 
-So at the moment we only know (for the worst case over all (n)-point sets)
+So at the moment we only know (for the worst case over all $n$-point sets)
 [
 c,\frac{n}{\log n}\ \le\ g(n)\ \le\ C,\frac{n}{\sqrt{\log n}},
 ]
