@@ -438,6 +438,16 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
+    },
+    {
+        "number": 82,
+        "solution_share_url": "https://chatgpt.com/share/6968d48b-5968-8003-bb12-01ed0a982704",
+        "deep_research_share_url": "https://chatgpt.com/share/6968d49b-67f8-8003-bec4-c5e4ed41c2e8",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1RGX9zT5e-lFjlF_3U6EhPZozsU0VR-1m/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
     }
 
 
