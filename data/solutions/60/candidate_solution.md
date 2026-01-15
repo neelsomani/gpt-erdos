@@ -2,7 +2,7 @@ Not known in full generality.
 
 A standard way to phrase your question is to define
 $$
-h(n) := \min\bigl{\bigl|{H \subseteq G : H \cong C_4}\bigr|\big| |V(G)| = n,\ e(G) =\mathrm{ex}(n,C_4)+1\bigr}.
+h(n) := \min\{ |\{ H \subseteq G : H \cong C_4 \}| \mid |V(G)| = n,\ e(G) = \mathrm{ex}(n,C_4)+1 \}.
 $$
 since (#C_4) is monotone in the edge set, so the worst case for “(> \mathrm{ex}(n,C_4))” is exactly (\mathrm{ex}(n,C_4)+1).
 
