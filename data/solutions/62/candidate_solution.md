@@ -1,6 +1,6 @@
 This is **open** (in ZFC), and it’s a well-known Erdős–Hajnal problem.
 
-More precisely, Erdős asked whether **every two** graphs (G_1,G_2) with (\chi(G_1)=\chi(G_2)=\aleph_1) must contain a **common** subgraph (i.e., a graph (H) that embeds as a subgraph into each of (G_1) and (G_2)) with
+More precisely, Erdős asked whether **every two** graphs (G_1,G_2) with (\chi(G_1)=\chi(G_2)=\aleph_1) must contain a **common** subgraph [[nomath]](i.e., a graph $H$ that embeds as a subgraph into each of $G_1$ and $G_2$)[[/nomath]] with
 
 * (\chi(H)=4), or even
 * (\chi(H)=\aleph_0).
@@ -11,7 +11,7 @@ As of the problem lists/surveys, this remains unresolved. ([Erdős Problems][1])
 
 ### A common 3-chromatic subgraph always exists
 
-Yes for (\chi=3): Erdős–Hajnal–Shelah proved (and Thomassen independently) that **every graph of uncountable chromatic number** contains **all sufficiently long odd cycles**. Consequently, if (\chi(G_1)=\chi(G_2)=\aleph_1), then there is some odd (k) large enough so that **both** contain (C_k), giving a common 3-chromatic subgraph. 
+Yes for (\chi=3): Erdős–Hajnal–Shelah proved (and Thomassen independently) that **every graph of uncountable chromatic number** contains **all sufficiently long odd cycles**. Consequently, if (\chi(G_1)=\chi(G_2)=\aleph_1), then there is some odd $k$ large enough so that **both** contain (C_k), giving a common 3-chromatic subgraph. 
 
 ### Every uncountably chromatic graph contains all finite bipartite graphs
 
