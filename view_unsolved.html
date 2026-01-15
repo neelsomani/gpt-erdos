@@ -170,11 +170,24 @@
         align-items: center;
         padding: 12px 16px;
         border-bottom: 1px solid #eee;
+        gap: 12px;
+      }
+      .modal-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
       .modal-body {
         padding: 16px;
         overflow: auto;
         white-space: pre-wrap;
+      }
+      .modal-body pre {
+        margin: 0;
+        font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.4;
       }
       .modal-close {
         border: none;
@@ -222,6 +235,10 @@
           <input class="branch-input" id="branchInput" type="text" value="main" />
           <button class="branch-button" type="submit">Submit</button>
         </form>
+        <label class="nowrap">
+          <input type="checkbox" id="manifestFilter" />
+          Show only missing from manifest
+        </label>
       </div>
       <div class="controls-row">
         <label class="nowrap">
@@ -282,7 +299,7 @@
             <th class="additional-col">Additional</th>
             <th class="hide-on-mobile" style="width: 70px;">Prior solution found</th>
             <th class="hide-on-mobile" style="width: 160px;">Deep Research</th>
-            <th class="hide-on-mobile" style="width: 80px;">Solution manually verified</th>
+            <th class="hide-on-mobile" style="width: 80px;">Reviewer agrees with proof</th>
             <th class="hide-on-mobile" style="width: 160px;">5.2 Pro</th>
             <th class="hide-on-mobile" style="width: 140px;">Prompter</th>
             <th class="hide-on-mobile" style="width: 140px;">
@@ -298,7 +315,10 @@
       <div class="modal-content" role="dialog" aria-modal="true">
         <div class="modal-header">
           <strong id="candidateModalTitle"></strong>
-          <button class="modal-close" type="button" id="candidateModalClose">✕</button>
+          <div class="modal-header-actions">
+            <button type="button" id="candidateModalCopy" hidden>Copy</button>
+            <button class="modal-close" type="button" id="candidateModalClose">✕</button>
+          </div>
         </div>
         <div class="modal-body" id="candidateModalBody"></div>
       </div>
@@ -354,7 +374,9 @@
       const tbody = document.querySelector("#table tbody");
       const branchForm = document.getElementById("branchForm");
       const branchInput = document.getElementById("branchInput");
+      const manifestFilter = document.getElementById("manifestFilter");
       const batchSize = 150;
+      let allRecords = [];
       let mergedRecords = [];
       let renderedCount = 0;
       let isRendering = false;
@@ -439,7 +461,16 @@
       }
 
       function resetRenderState() {
+        allRecords = [];
         mergedRecords = [];
+        renderedCount = 0;
+        isRendering = false;
+        hasRenderedOnce = false;
+        isScrollTriggered = false;
+        clearTable();
+      }
+
+      function resetRenderStatePreservingRecords() {
         renderedCount = 0;
         isRendering = false;
         hasRenderedOnce = false;
@@ -456,9 +487,12 @@
 
       function updateStatus() {
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
+        const filterStatus = manifestFilter?.checked
+          ? "Showing only problems missing from manifest."
+          : "";
         const loadingStatus = "";
         setStatus(
-          `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+          `${baseStatus} ${filterStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
         if (toastStatusEl) {
           toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
@@ -527,6 +561,18 @@
         return "N/A";
       }
 
+      function normalizeBoolean(value) {
+        if (value === null || value === undefined || value === "") return false;
+        if (typeof value === "boolean") return value;
+        if (typeof value === "number") return value !== 0;
+        const normalized = String(value).trim().toLowerCase();
+        return (
+          normalized === "true" ||
+          normalized === "yes" ||
+          normalized === "1"
+        );
+      }
+
       function buildSolutionsMap(entries) {
         const map = new Map();
         for (const entry of entries) {
@@ -540,6 +586,13 @@
             ]),
           );
           if (!number) continue;
+          const solutionFormallyVerified = normalizeBoolean(
+            pickValue(entry, [
+              "solution_formally_verified",
+              "formal_verification",
+              "aristotle_formal_proof",
+            ]),
+          );
           map.set(number, {
             priorSolutionFound: normalizeString(
               pickValue(entry, [
@@ -598,9 +651,17 @@
               pickValue(entry, ["author", "prompter", "prompt_author"]),
             ),
             candidateSolutionUrl: `${solutionsBasePath}/${number}/candidate_solution.md`,
+            aristotleProofUrl: solutionFormallyVerified
+              ? `${solutionsBasePath}/${number}/candidate_solution.lean`
+              : "",
           });
         }
         return map;
+      }
+
+      function applyManifestFilter(records) {
+        if (!manifestFilter?.checked) return records;
+        return records.filter((record) => !record.in_manifest);
       }
 
       function appendLink(cell, url, label) {
@@ -637,7 +698,30 @@
           if (typeof onBeforeOpen === "function") {
             onBeforeOpen();
           }
-          await openCandidateModalFromUrl(number, url);
+          await openCandidateModalFromUrl(
+            number,
+            url,
+            `Candidate solution for problem ${number}`,
+          );
+        });
+        return link;
+      }
+
+      function buildAristotleLink(number, url, onBeforeOpen) {
+        if (!url || !number) return null;
+        const link = document.createElement("button");
+        link.type = "button";
+        link.textContent = "View";
+        link.addEventListener("click", async () => {
+          if (typeof onBeforeOpen === "function") {
+            onBeforeOpen();
+          }
+          await openFileModalFromUrl(
+            number,
+            url,
+            `Aristotle formal proof for problem ${number}`,
+            "Aristotle formal proof",
+          );
         });
         return link;
       }
@@ -839,6 +923,7 @@
       const candidateModalTitle = document.getElementById("candidateModalTitle");
       const candidateModalBody = document.getElementById("candidateModalBody");
       const candidateModalClose = document.getElementById("candidateModalClose");
+      const candidateModalCopy = document.getElementById("candidateModalCopy");
       const candidateModalContent = candidateModal?.querySelector(".modal-content");
       const detailsModal = document.getElementById("detailsModal");
       const detailsModalTitle = document.getElementById("detailsModalTitle");
@@ -857,9 +942,18 @@
         }
       }
 
-      function openCandidateModal(text, number) {
-        candidateModalTitle.textContent = `Candidate solution for problem ${number}`;
-        if (window.marked) {
+      function openCandidateModal(text, title, options = {}) {
+        candidateModalTitle.textContent = title;
+        candidateModalBody.textContent = "";
+        const { renderAsCode = false } = options;
+        if (candidateModalCopy) {
+          candidateModalCopy.hidden = !renderAsCode;
+        }
+        if (renderAsCode) {
+          const pre = document.createElement("pre");
+          pre.textContent = text;
+          candidateModalBody.appendChild(pre);
+        } else if (window.marked) {
           const prepared = prepareMarkdownForMath(text);
           candidateModalBody.innerHTML = window.marked.parse(prepared);
         } else {
@@ -867,25 +961,25 @@
         }
         resetModalScroll(candidateModalBody, candidateModalContent);
         candidateModal.hidden = false;
-        if (window.MathJax && window.MathJax.typesetPromise) {
+        if (!renderAsCode && window.MathJax && window.MathJax.typesetPromise) {
           window.MathJax.typesetPromise([candidateModalBody]).then(() => {
             resetModalScroll(candidateModalBody, candidateModalContent);
           });
         }
       }
 
-      async function openCandidateModalFromUrl(number, url) {
+      async function openCandidateModalFromUrl(number, url, title) {
         if (!number || !url) return;
         const cached = candidateCache.get(number);
         if (cached) {
-          openCandidateModal(cached, number);
+          openCandidateModal(cached, title);
           return;
         }
         setStatus(`Loading candidate solution for problem ${number}...`);
         try {
           const text = await fetchGithubText(url);
           candidateCache.set(number, text);
-          openCandidateModal(text, number);
+          openCandidateModal(text, title);
           setStatus(`Loaded candidate solution for problem ${number}.`);
         } catch (error) {
           console.error(error);
@@ -893,10 +987,62 @@
         }
       }
 
+      function shouldRenderAsCode(url) {
+        if (!url) return false;
+        return url.toLowerCase().endsWith(".lean");
+      }
+
+      async function openFileModalFromUrl(number, url, title, statusLabel) {
+        if (!number || !url) return;
+        const cacheKey = `${number}:${url}`;
+        const cached = candidateCache.get(cacheKey);
+        const renderAsCode = shouldRenderAsCode(url);
+        if (cached) {
+          openCandidateModal(cached, title, { renderAsCode });
+          return;
+        }
+        setStatus(`Loading ${statusLabel} for problem ${number}...`);
+        try {
+          const text = await fetchGithubText(url);
+          candidateCache.set(cacheKey, text);
+          openCandidateModal(text, title, { renderAsCode });
+          setStatus(`Loaded ${statusLabel} for problem ${number}.`);
+        } catch (error) {
+          console.error(error);
+          setStatus(`Failed to load ${statusLabel} for problem ${number}.`);
+        }
+      }
+
       function closeCandidateModal() {
         candidateModal.hidden = true;
         candidateModalTitle.textContent = "";
         candidateModalBody.textContent = "";
+        if (candidateModalCopy) {
+          candidateModalCopy.hidden = true;
+        }
+      }
+
+      async function copyCandidateModalText() {
+        const text = candidateModalBody?.innerText || "";
+        if (!text) return;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+          }
+          setStatus("Copied modal content.");
+        } catch (error) {
+          console.error(error);
+          setStatus("Failed to copy modal content.");
+        }
       }
 
       function buildDetailsItem(label, content) {
@@ -963,7 +1109,7 @@
         );
         list.appendChild(
           buildDetailsItem(
-            "Solution manually verified",
+            "Reviewer agrees with proof",
             parseTriState(record.solution_manually_verified),
           ),
         );
@@ -992,7 +1138,29 @@
         list.appendChild(
           buildDetailsItem(
             "Aristotle formal proof file",
-            record.aristotle_status ?? "N/A",
+            (() => {
+              const container = document.createElement("div");
+              const proofUrl = record.aristotle_proof_url ?? "";
+              const status = record.aristotle_status ?? "";
+              if (proofUrl) {
+                const viewButton = buildAristotleLink(
+                  numberText,
+                  proofUrl,
+                  closeDetailsModal,
+                );
+                if (viewButton) {
+                  container.appendChild(viewButton);
+                }
+                if (status) {
+                  if (container.childNodes.length) {
+                    container.appendChild(document.createTextNode(" · "));
+                  }
+                  container.appendChild(document.createTextNode(status));
+                }
+                return container;
+              }
+              return status || "N/A";
+            })(),
           ),
         );
         detailsModalBody.appendChild(list);
@@ -1125,8 +1293,16 @@
 
           const aristotleCell = document.createElement("td");
           aristotleCell.className = "hide-on-mobile";
-          const aristotleStatus = record.aristotle_status ?? "";
-          aristotleCell.textContent = aristotleStatus || "N/A";
+          const aristotleProofUrl = record.aristotle_proof_url ?? "";
+          if (aristotleProofUrl) {
+            const viewButton = buildAristotleLink(numberText, aristotleProofUrl);
+            if (viewButton) {
+              aristotleCell.appendChild(viewButton);
+            }
+          } else {
+            const aristotleStatus = record.aristotle_status ?? "";
+            aristotleCell.textContent = aristotleStatus || "N/A";
+          }
           row.appendChild(aristotleCell);
 
           const detailsCell = document.createElement("td");
@@ -1237,6 +1413,7 @@
             merged.push({
               number,
               state,
+              in_manifest: solutionsMap.has(number),
               latex: match?.latex ?? "",
               additional_text: match?.additional_text ?? "",
               prior_solution_found: solution?.priorSolutionFound ?? "",
@@ -1248,13 +1425,15 @@
               solution_share_url: solution?.solutionShareUrl ?? "",
               prompter: solution?.prompter ?? "",
               aristotle_status: solution?.aristotleStatus ?? "",
+              aristotle_proof_url: solution?.aristotleProofUrl ?? "",
               candidate_solution_url: solutionNumbers.has(number)
                 ? solution?.candidateSolutionUrl ?? ""
                 : "",
             });
           }
 
-          mergedRecords = merged;
+          allRecords = merged;
+          mergedRecords = applyManifestFilter(allRecords);
           renderRows([]);
           const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
@@ -1279,6 +1458,9 @@
 
       candidateModalClose.addEventListener("click", () => {
         closeCandidateModal();
+      });
+      candidateModalCopy.addEventListener("click", () => {
+        copyCandidateModalText();
       });
       detailsModalClose.addEventListener("click", () => {
         closeDetailsModal();
@@ -1309,6 +1491,18 @@
         }
         render();
       });
+      if (manifestFilter) {
+        manifestFilter.addEventListener("change", () => {
+          if (isLoading || allRecords.length === 0) {
+            return;
+          }
+          mergedRecords = applyManifestFilter(allRecords);
+          resetRenderStatePreservingRecords();
+          renderRows([]);
+          updateStatus();
+          renderNextBatch();
+        });
+      }
       if (branchForm) {
         branchForm.addEventListener("submit", (event) => {
           event.preventDefault();
