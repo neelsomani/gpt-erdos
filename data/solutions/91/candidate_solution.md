@@ -7,7 +7,7 @@ D(A):=\bigl|\\{|x-y|:x,y\in A,\ x\neq y\\}\bigr|
 be the number of **distinct** distances determined by $A$, and let
 
 [
-f(n):=\min{D(A): A\subset\mathbb R^2,\ |A|=n}.
+f(n):=\min\\{D(A): A\subset\mathbb R^2,\ |A|=n\\}.
 ]
 
 So the sets in the question are exactly the $A$ with (|A|=n) and (D(A)=f(n)).
@@ -31,8 +31,8 @@ Take (m=\lceil\sqrt n\rceil) and take $n$ points from the grid ({1,\dots,m}^2).
 Every squared distance in this grid is of the form $a^2+b^2$ with (|a|,|b|\le m-1), so
 
 [
-D(A)\le #{a^2+b^2:\ |a|,|b|\le m-1}
-\le #{k\le 2(m-1)^2:\ k=a^2+b^2 \text{ for some }a,b\in\mathbb Z}.
+D(A)\le #\\{a^2+b^2:\ |a|,|b|\le m-1\\}
+\le #\\{k\le 2(m-1)^2:\ k=a^2+b^2 \text{ for some }a,b\in\mathbb Z\\}.
 ]
 
 A classical theorem of Landau–Ramanujan says the count of integers (\le N) representable as a sum of two squares is (\ll N/\sqrt{\log N}). Plugging (N\asymp m^2\asymp n) gives
