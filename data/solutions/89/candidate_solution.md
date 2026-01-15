@@ -6,11 +6,11 @@ This is basically the remaining gap in the **Erdős distinct distances problem**
 ]
 distinct distances, so you cannot hope for a general lower bound bigger than this (up to constants). ([MIT OpenCourseWare][1])
 
-But the **best general theorem** we have for *every* set of (n) planar points is still weaker: Guth and Katz (2015) proved
+But the **best general theorem** we have for *every* set of $n$ planar points is still weaker: Guth and Katz (2015) proved
 [
 \Omega!\left(\frac{n}{\log n}\right)
 ]
-distinct distances for any (n)-point set in (\mathbb{R}^2). ([Annals of Mathematics][2])
+distinct distances for any $n$-point set in (\mathbb{R}^2). ([Annals of Mathematics][2])
 
 So at the moment we only know (for the worst case over all $n$-point sets)
 [
