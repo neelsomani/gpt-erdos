@@ -1,6 +1,6 @@
 This is **not known in general**.
 
-It is exactly the **Erdős–Gyárfás conjecture** (posed in 1995): every *finite* graph with minimum degree at least 3 should contain a simple cycle whose length is a power of 2 (so, in your phrasing, some (2^k) with (k\ge 2)). ([Wikipedia][1])
+It is exactly the **Erdős–Gyárfás conjecture** (posed in 1995): every *finite* graph with minimum degree at least 3 should contain a simple cycle whose length is a power of 2 [[nomath]](so, in your phrasing, some $2^k$ with $k\ge 2$)[[/nomath]]. ([Wikipedia][1])
 
 What *is* known:
 
@@ -10,9 +10,9 @@ What *is* known:
 And the conjecture **has been proved for several special classes**, for example:
 
 * **3-connected cubic planar graphs** satisfy the conjecture. ([Combinatorics][2])
-* Graphs with **no induced path on 10 vertices** ((P_{10})-free graphs) satisfy it—in fact they must contain a **4-cycle or an 8-cycle**. ([ScienceDirect][3])
+* Graphs with **no induced path on 10 vertices** [[nomath]]($P_{10}$-free graphs)[[/nomath]] satisfy it—in fact they must contain a **4-cycle or an 8-cycle**. ([ScienceDirect][3])
 * More recently, it has been pushed further (with computer aid) to **(P_{13})-free graphs**. 
-* If the graph has **diameter 2** (still with minimum degree (\ge 3)), then it contains a **4-cycle or 8-cycle**. ([arXiv][4])
+* If the graph has **diameter 2** [[nomath]](still with minimum degree $\ge 3$)[[/nomath]], then it contains a **4-cycle or 8-cycle**. ([arXiv][4])
 * If the **average degree/minimum degree is sufficiently large** (above some absolute constant), then the conjecture holds (indeed, much stronger “many even lengths” results hold). ([Erdős Problems][5])
 
 So the current state is: **the statement is a famous open problem**, verified in many important special cases and for small graphs by computation, but **still unproved (and un-disproved) for general finite graphs of minimum degree 3**. ([Wikipedia][1])
