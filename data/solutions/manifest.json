@@ -398,7 +398,18 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    },
+    {
+        "number": 65,
+        "solution_share_url": "https://chatgpt.com/share/69687626-6394-800c-b09a-ccb171b89ffa",
+        "deep_research_share_url": "https://chatgpt.com/share/69687643-f5f0-800c-80d7-34b1261f2f9a",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1L2HYSN-rjBNzGQeuGPbl2ro4299lt_M2/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
     }
+
 
 
 ]
