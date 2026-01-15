@@ -170,11 +170,24 @@
         align-items: center;
         padding: 12px 16px;
         border-bottom: 1px solid #eee;
+        gap: 12px;
+      }
+      .modal-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
       }
       .modal-body {
         padding: 16px;
         overflow: auto;
         white-space: pre-wrap;
+      }
+      .modal-body pre {
+        margin: 0;
+        font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+          "Courier New", monospace;
+        font-size: 13px;
+        line-height: 1.4;
       }
       .modal-close {
         border: none;
@@ -302,7 +315,10 @@
       <div class="modal-content" role="dialog" aria-modal="true">
         <div class="modal-header">
           <strong id="candidateModalTitle"></strong>
-          <button class="modal-close" type="button" id="candidateModalClose">✕</button>
+          <div class="modal-header-actions">
+            <button type="button" id="candidateModalCopy" hidden>Copy</button>
+            <button class="modal-close" type="button" id="candidateModalClose">✕</button>
+          </div>
         </div>
         <div class="modal-body" id="candidateModalBody"></div>
       </div>
@@ -907,6 +923,7 @@
       const candidateModalTitle = document.getElementById("candidateModalTitle");
       const candidateModalBody = document.getElementById("candidateModalBody");
       const candidateModalClose = document.getElementById("candidateModalClose");
+      const candidateModalCopy = document.getElementById("candidateModalCopy");
       const candidateModalContent = candidateModal?.querySelector(".modal-content");
       const detailsModal = document.getElementById("detailsModal");
       const detailsModalTitle = document.getElementById("detailsModalTitle");
@@ -925,9 +942,18 @@
         }
       }
 
-      function openCandidateModal(text, title) {
+      function openCandidateModal(text, title, options = {}) {
         candidateModalTitle.textContent = title;
-        if (window.marked) {
+        candidateModalBody.textContent = "";
+        const { renderAsCode = false } = options;
+        if (candidateModalCopy) {
+          candidateModalCopy.hidden = !renderAsCode;
+        }
+        if (renderAsCode) {
+          const pre = document.createElement("pre");
+          pre.textContent = text;
+          candidateModalBody.appendChild(pre);
+        } else if (window.marked) {
           const prepared = prepareMarkdownForMath(text);
           candidateModalBody.innerHTML = window.marked.parse(prepared);
         } else {
@@ -935,7 +961,7 @@
         }
         resetModalScroll(candidateModalBody, candidateModalContent);
         candidateModal.hidden = false;
-        if (window.MathJax && window.MathJax.typesetPromise) {
+        if (!renderAsCode && window.MathJax && window.MathJax.typesetPromise) {
           window.MathJax.typesetPromise([candidateModalBody]).then(() => {
             resetModalScroll(candidateModalBody, candidateModalContent);
           });
@@ -961,19 +987,25 @@
         }
       }
 
+      function shouldRenderAsCode(url) {
+        if (!url) return false;
+        return url.toLowerCase().endsWith(".lean");
+      }
+
       async function openFileModalFromUrl(number, url, title, statusLabel) {
         if (!number || !url) return;
         const cacheKey = `${number}:${url}`;
         const cached = candidateCache.get(cacheKey);
+        const renderAsCode = shouldRenderAsCode(url);
         if (cached) {
-          openCandidateModal(cached, title);
+          openCandidateModal(cached, title, { renderAsCode });
           return;
         }
         setStatus(`Loading ${statusLabel} for problem ${number}...`);
         try {
           const text = await fetchGithubText(url);
           candidateCache.set(cacheKey, text);
-          openCandidateModal(text, title);
+          openCandidateModal(text, title, { renderAsCode });
           setStatus(`Loaded ${statusLabel} for problem ${number}.`);
         } catch (error) {
           console.error(error);
@@ -985,6 +1017,32 @@
         candidateModal.hidden = true;
         candidateModalTitle.textContent = "";
         candidateModalBody.textContent = "";
+        if (candidateModalCopy) {
+          candidateModalCopy.hidden = true;
+        }
+      }
+
+      async function copyCandidateModalText() {
+        const text = candidateModalBody?.innerText || "";
+        if (!text) return;
+        try {
+          if (navigator.clipboard?.writeText) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.style.position = "fixed";
+            textarea.style.opacity = "0";
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+          }
+          setStatus("Copied modal content.");
+        } catch (error) {
+          console.error(error);
+          setStatus("Failed to copy modal content.");
+        }
       }
 
       function buildDetailsItem(label, content) {
@@ -1400,6 +1458,9 @@
 
       candidateModalClose.addEventListener("click", () => {
         closeCandidateModal();
+      });
+      candidateModalCopy.addEventListener("click", () => {
+        copyCandidateModalText();
       });
       detailsModalClose.addEventListener("click", () => {
         closeDetailsModal();
