@@ -268,5 +268,15 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Andrew Xue"
+    },
+    {
+        "number": 274,
+        "solution_share_url": "https://chatgpt.com/share/696835c4-9dc4-8003-a2c8-cb43cc1c3aa4",
+        "deep_research_share_url": "https://chatgpt.com/share/69683573-be64-8003-b42d-ffd4f1a60b1f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1WoRiP-8aIrazH9Jcq3JpqUu56B121ATY/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
     }
 ]
