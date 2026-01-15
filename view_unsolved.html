@@ -286,7 +286,7 @@
             <th class="additional-col">Additional</th>
             <th class="hide-on-mobile" style="width: 70px;">Prior solution found</th>
             <th class="hide-on-mobile" style="width: 160px;">Deep Research</th>
-            <th class="hide-on-mobile" style="width: 80px;">Solution manually verified</th>
+            <th class="hide-on-mobile" style="width: 80px;">Reviewer agrees with proof</th>
             <th class="hide-on-mobile" style="width: 160px;">5.2 Pro</th>
             <th class="hide-on-mobile" style="width: 140px;">Prompter</th>
             <th class="hide-on-mobile" style="width: 140px;">
@@ -545,6 +545,18 @@
         return "N/A";
       }
 
+      function normalizeBoolean(value) {
+        if (value === null || value === undefined || value === "") return false;
+        if (typeof value === "boolean") return value;
+        if (typeof value === "number") return value !== 0;
+        const normalized = String(value).trim().toLowerCase();
+        return (
+          normalized === "true" ||
+          normalized === "yes" ||
+          normalized === "1"
+        );
+      }
+
       function buildSolutionsMap(entries) {
         const map = new Map();
         for (const entry of entries) {
@@ -558,6 +570,13 @@
             ]),
           );
           if (!number) continue;
+          const solutionFormallyVerified = normalizeBoolean(
+            pickValue(entry, [
+              "solution_formally_verified",
+              "formal_verification",
+              "aristotle_formal_proof",
+            ]),
+          );
           map.set(number, {
             priorSolutionFound: normalizeString(
               pickValue(entry, [
@@ -616,6 +635,9 @@
               pickValue(entry, ["author", "prompter", "prompt_author"]),
             ),
             candidateSolutionUrl: `${solutionsBasePath}/${number}/candidate_solution.md`,
+            aristotleProofUrl: solutionFormallyVerified
+              ? `${solutionsBasePath}/${number}/candidate_solution.lean`
+              : "",
           });
         }
         return map;
@@ -660,7 +682,30 @@
           if (typeof onBeforeOpen === "function") {
             onBeforeOpen();
           }
-          await openCandidateModalFromUrl(number, url);
+          await openCandidateModalFromUrl(
+            number,
+            url,
+            `Candidate solution for problem ${number}`,
+          );
+        });
+        return link;
+      }
+
+      function buildAristotleLink(number, url, onBeforeOpen) {
+        if (!url || !number) return null;
+        const link = document.createElement("button");
+        link.type = "button";
+        link.textContent = "View";
+        link.addEventListener("click", async () => {
+          if (typeof onBeforeOpen === "function") {
+            onBeforeOpen();
+          }
+          await openFileModalFromUrl(
+            number,
+            url,
+            `Aristotle formal proof for problem ${number}`,
+            "Aristotle formal proof",
+          );
         });
         return link;
       }
@@ -880,8 +925,8 @@
         }
       }
 
-      function openCandidateModal(text, number) {
-        candidateModalTitle.textContent = `Candidate solution for problem ${number}`;
+      function openCandidateModal(text, title) {
+        candidateModalTitle.textContent = title;
         if (window.marked) {
           const prepared = prepareMarkdownForMath(text);
           candidateModalBody.innerHTML = window.marked.parse(prepared);
@@ -897,22 +942,42 @@
         }
       }
 
-      async function openCandidateModalFromUrl(number, url) {
+      async function openCandidateModalFromUrl(number, url, title) {
         if (!number || !url) return;
         const cached = candidateCache.get(number);
         if (cached) {
-          openCandidateModal(cached, number);
+          openCandidateModal(cached, title);
           return;
         }
         setStatus(`Loading candidate solution for problem ${number}...`);
         try {
           const text = await fetchGithubText(url);
           candidateCache.set(number, text);
-          openCandidateModal(text, number);
+          openCandidateModal(text, title);
           setStatus(`Loaded candidate solution for problem ${number}.`);
         } catch (error) {
           console.error(error);
           setStatus(`Failed to load candidate solution for problem ${number}.`);
+        }
+      }
+
+      async function openFileModalFromUrl(number, url, title, statusLabel) {
+        if (!number || !url) return;
+        const cacheKey = `${number}:${url}`;
+        const cached = candidateCache.get(cacheKey);
+        if (cached) {
+          openCandidateModal(cached, title);
+          return;
+        }
+        setStatus(`Loading ${statusLabel} for problem ${number}...`);
+        try {
+          const text = await fetchGithubText(url);
+          candidateCache.set(cacheKey, text);
+          openCandidateModal(text, title);
+          setStatus(`Loaded ${statusLabel} for problem ${number}.`);
+        } catch (error) {
+          console.error(error);
+          setStatus(`Failed to load ${statusLabel} for problem ${number}.`);
         }
       }
 
@@ -986,7 +1051,7 @@
         );
         list.appendChild(
           buildDetailsItem(
-            "Solution manually verified",
+            "Reviewer agrees with proof",
             parseTriState(record.solution_manually_verified),
           ),
         );
@@ -1015,7 +1080,29 @@
         list.appendChild(
           buildDetailsItem(
             "Aristotle formal proof file",
-            record.aristotle_status ?? "N/A",
+            (() => {
+              const container = document.createElement("div");
+              const proofUrl = record.aristotle_proof_url ?? "";
+              const status = record.aristotle_status ?? "";
+              if (proofUrl) {
+                const viewButton = buildAristotleLink(
+                  numberText,
+                  proofUrl,
+                  closeDetailsModal,
+                );
+                if (viewButton) {
+                  container.appendChild(viewButton);
+                }
+                if (status) {
+                  if (container.childNodes.length) {
+                    container.appendChild(document.createTextNode(" · "));
+                  }
+                  container.appendChild(document.createTextNode(status));
+                }
+                return container;
+              }
+              return status || "N/A";
+            })(),
           ),
         );
         detailsModalBody.appendChild(list);
@@ -1148,8 +1235,16 @@
 
           const aristotleCell = document.createElement("td");
           aristotleCell.className = "hide-on-mobile";
-          const aristotleStatus = record.aristotle_status ?? "";
-          aristotleCell.textContent = aristotleStatus || "N/A";
+          const aristotleProofUrl = record.aristotle_proof_url ?? "";
+          if (aristotleProofUrl) {
+            const viewButton = buildAristotleLink(numberText, aristotleProofUrl);
+            if (viewButton) {
+              aristotleCell.appendChild(viewButton);
+            }
+          } else {
+            const aristotleStatus = record.aristotle_status ?? "";
+            aristotleCell.textContent = aristotleStatus || "N/A";
+          }
           row.appendChild(aristotleCell);
 
           const detailsCell = document.createElement("td");
@@ -1272,6 +1367,7 @@
               solution_share_url: solution?.solutionShareUrl ?? "",
               prompter: solution?.prompter ?? "",
               aristotle_status: solution?.aristotleStatus ?? "",
+              aristotle_proof_url: solution?.aristotleProofUrl ?? "",
               candidate_solution_url: solutionNumbers.has(number)
                 ? solution?.candidateSolutionUrl ?? ""
                 : "",
