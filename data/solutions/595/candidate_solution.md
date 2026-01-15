@@ -3,15 +3,15 @@ No one knows in ZFC.
 Let me rewrite your question in a standard way.
 Saying that
 
-* (G) is the union of countably many triangle‑free graphs
+* $G$ is the union of countably many triangle‑free graphs
 
 means you can write (E(G)=\bigcup_{n\in\omega}E_n) where each ((V(G),E_n)) has no triangle. This is the same as saying:
 
-* you can color the edges of (G) with countably many colors so that **no triangle is monochromatic** (each color class is triangle‑free).
+* you can color the edges of $G$ with countably many colors so that **no triangle is monochromatic** (each color class is triangle‑free).
 
 So your question is exactly:
 
-> Is there a (K_4)-free graph (G) such that **every** edge‑coloring (c:E(G)\to\omega) contains a monochromatic triangle?
+> Is there a (K_4)-free graph $G$ such that **every** edge‑coloring (c:E(G)\to\omega) contains a monochromatic triangle?
 
 This is an old problem of Erdős. Shelah lists it as Question 8.11 and says the answer is **consistently yes**, but that **it is not clear whether ZFC proves it**. ([arXiv][1])
 
