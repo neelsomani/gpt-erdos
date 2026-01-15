@@ -1,6 +1,6 @@
 What you wrote is a famous **open** problem.
 
-If we write (F(n)) for the largest number such that **every** (n)-vertex graph contains an **induced regular** subgraph on at least (F(n)) vertices, then the claim
+If we write $F(n)$ for the largest number such that **every** (n)-vertex graph contains an **induced regular** subgraph on at least $F(n)$ vertices, then the claim
 
 [
 \frac{F(n)}{\log n}\to\infty
@@ -16,25 +16,25 @@ What I *can* do is show you the best unconditional lower bound (the “Ramsey bo
 
 ## What is known: the Ramsey lower bound (F(n)\ge c\log n)
 
-Let (R(k,k)) be the Ramsey number: the smallest (N) such that every graph on (N) vertices contains either a clique of size (k) or an independent set of size (k).
+Let $R(k,k)$ be the Ramsey number: the smallest $N$ such that every graph on $N$ vertices contains either a clique of size $k$ or an independent set of size $k$.
 
 A standard bound is
 [
 R(k,k)\le 4^k.
 ]
-(One can prove this by the usual recursion (R(k,k)\le R(k-1,k)+R(k,k-1)) and induction.)
+[[nomath]](One can prove this by the usual recursion $R(k,k)\le R(k-1,k)+R(k,k-1)$ and induction.)[[/nomath]]
 
-Now fix (n), and choose (k) so that (4^k\le n<4^{k+1}). Equivalently,
+Now fix $n$, and choose $k$ so that (4^k\le n<4^{k+1}). Equivalently,
 [
 k=\left\lfloor \log_4 n\right\rfloor = \left\lfloor \frac{1}{2}\log_2 n\right\rfloor.
 ]
 
-Then every graph on (n) vertices contains (by Ramsey) either
+Then every graph on $n$ vertices contains (by Ramsey) either
 
-* a **clique** on (k) vertices, which is ((k-1))-regular, or
-* an **independent set** on (k) vertices, which is (0)-regular.
+* a **clique** on $k$ vertices, which is $(k-1)$-regular, or
+* an **independent set** on $k$ vertices, which is $0$-regular.
 
-In both cases we get an **induced regular** subgraph on (k) vertices.
+In both cases we get an **induced regular** subgraph on $k$ vertices.
 
 So
 [
@@ -62,13 +62,13 @@ It is also listed as an open Erdős problem as of late 2025. ([Erdős Problems][
 
 ---
 
-## Best known upper bound (so (F(n)) is not too big)
+## Best known upper bound (so $F(n)$ is not too big)
 
 Alon–Krivelevich–Sudakov proved an upper bound of the form
 [
 F(n)\le C, n^{1/2}(\log n)^{1/4}
 ]
-for an absolute constant (C). 
+for an absolute constant $C$. 
 
 So the truth is somewhere between (c\log n) and about (n^{1/2},\mathrm{polylog}(n)), and the main gap is on the lower bound side.
 
