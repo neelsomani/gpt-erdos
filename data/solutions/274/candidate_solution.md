@@ -1,10 +1,10 @@
 Yes.
 
-A coset (gH) always has the same size as the subgroup (H). So “different sizes” just means you are using cosets of different subgroups (with different orders).
+A coset $gH$ always has the same size as the subgroup $H$. So “different sizes” just means you are using cosets of different subgroups (with different orders).
 
 ### A concrete example (no singletons)
 
-Take (G=\mathbb{Z}_{12}) (integers mod (12), under addition).
+Take (G=\mathbb{Z}_{12}) (integers mod $12$, under addition).
 
 Let
 
@@ -21,16 +21,16 @@ are pairwise disjoint and their union is all of (\mathbb{Z}_{12}). So this is an
 
 ### In general: when is it possible?
 
-* If (G) has a **proper nontrivial** subgroup (H) (so ( {e}\neq H\neq G)), then you can always do it in a very simple way:
+* If $G$ has a **proper nontrivial** subgroup $H$ [[nomath]](so $ {e}\neq H\neq G$)[[/nomath]], then you can always do it in a very simple way:
   [
-  G ;=; H ;\sqcup; \bigsqcup_{g\in G\setminus H} {g}.
+  G = H \sqcup \bigsqcup_{g\in G\setminus H} {g}.
   ]
-  Here (H) is a coset of (H), and each singleton ({g}) is a coset of the trivial subgroup ({e}). This gives cosets of sizes (|H|) and (1).
+  Here $H$ is a coset of $H$, and each singleton ${g}$ is a coset of the trivial subgroup ${e}$. This gives cosets of sizes (|H|) and $1$.
 
-* The only time you **cannot** do it is when (G) has **no** proper nontrivial subgroups. That happens exactly when (|G|) is prime (and also the trivial group of size (1)).
+* The only time you **cannot** do it is when $G$ has **no** proper nontrivial subgroups. That happens exactly when (|G|) is prime (and also the trivial group of size $1$).
 
-  * If (|G|=p) is prime, the only subgroups are ({e}) and (G).
-  * So every coset is either a singleton (size (1)) or the whole group (size (p)).
+  * If (|G|=p) is prime, the only subgroups are ${e}$ and $G$.
+  * So every coset is either a singleton (size $1$) or the whole group (size $p$).
   * If you use more than one coset in a partition, you cannot include the whole group as one piece, so all pieces must be singletons, hence all the same size.
 
 So: **yes** for almost all groups, and **no** only for groups of prime order (and the trivial group).
