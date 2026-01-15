@@ -74,7 +74,7 @@ We need one more simple geometric fact.
 
 ### Lemma
 
-If (S\subset\mathbb R^2) has $|S|=h$ and is in **convex position** (every point is a vertex of (\mathrm{conv}(S))), then
+If (S\subset\mathbb R^2) has $|S|=h$ and is in **convex position** [[nomath]](every point is a vertex of $\mathrm{conv}(S)$)[[/nomath]], then
 
 [
 D(S)\ \ge\ \frac{h-1}{3}.
@@ -89,7 +89,7 @@ r_p := \bigl|\\{|p-x|: x\in S\setminus{p}\\}\bigr|.
 
 Look at the number (T_p) of isosceles triangles with apex $p$, i.e. triples $(p,x,y)$ with (x\neq y) and (|p-x|=|p-y|).
 
-If the distances from $p$ occur with multiplicities (m_1,\dots,m_{r_p}) (so (\sum m_i=h-1)), then
+If the distances from $p$ occur with multiplicities (m_1,\dots,m_{r_p}) [[nomath]](so $\sum m_i=h-1$)[[/nomath]], then
 [
 T_p=\sum_{i=1}^{r_p}\binom{m_i}{2}
 =\frac{\sum m_i^2-(h-1)}{2}.
