@@ -428,6 +428,16 @@
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
+    },
+    {
+        "number": 42,
+        "solution_share_url": "https://chatgpt.com/share/6968a6fe-7ce8-8003-92a9-78f3fff84832",
+        "deep_research_share_url": "https://chatgpt.com/share/6968a711-d5d0-8003-b6d2-2b4edb1a0bb7",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1due2Lv8DGLOfZ7z8Tv_f9IVBsJ-KdAaA/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
     }
 
 
