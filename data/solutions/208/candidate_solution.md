@@ -28,7 +28,7 @@ Unconditionally, the best theorems are much weaker:
   ]
   ([people.math.sc.edu][2])
 
-* Pandey (2024) improved the exponent (1/5): he proves that there exists (\eta>0) such that intervals of length (X^{1/5-\eta}) always contain squarefrees for large (X), and in fact obtains an asymptotic formula for the count of squarefrees in such intervals. This implies an unconditional gap bound
+* Pandey (2024) improved the exponent $1/5$: he proves that there exists (\eta>0) such that intervals of length (X^{1/5-\eta}) always contain squarefrees for large $X$, and in fact obtains an asymptotic formula for the count of squarefrees in such intervals. This implies an unconditional gap bound
   [
   s_{n+1}-s_n \ll s_n^{1/5-\eta}
   ]
@@ -66,7 +66,7 @@ Erdős later commented that perhaps (s_{n+1}-s_n\ll \log s_n), but he was “ver
 
 ## A small numerical/data point
 
-Kumchev–McCormick–McNew–Park–Scherr–Ziehr (2024) discuss explicit versions of the Filaseta–Trifonov bound and note that computational work up to (10^{18}) finds maximum gaps that are tiny compared with current theoretical upper bounds (e.g. a longest gap of length 18 up to (10^{18})). ([TigerWeb][3])
+Kumchev–McCormick–McNew–Park–Scherr–Ziehr (2024) discuss explicit versions of the Filaseta–Trifonov bound and note that computational work up to (10^{18}) finds maximum gaps that are tiny compared with current theoretical upper bounds [[nomath]](e.g. a longest gap of length 18 up to $10^{18}$)[[/nomath]]. ([TigerWeb][3])
 
 ---
 

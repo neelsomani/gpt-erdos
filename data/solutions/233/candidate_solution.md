@@ -50,7 +50,7 @@ The Erdős Problems database explicitly lists your statement as **OPEN**, and no
   ]
   These are recorded on the Erdős Problem #233 page. ([Erdős Problems][1])
 
-Also, in terms of primes up to (x), Selberg (assuming RH) is cited as showing
+Also, in terms of primes up to $x$, Selberg (assuming RH) is cited as showing
 [
 \sum_{p_n\le x} d_n^2 \ll x(\log x)^3,
 ]
@@ -65,7 +65,7 @@ Unconditionally, the strongest bound I can point to from the sources above is du
 ]
 ([arXiv][2])
 
-Translating this into an (N)-statement using (p_N\asymp N\log N), you get a rigorous (but much weaker than Erdős’s conjecture) estimate like
+Translating this into an $N$-statement using (p_N\asymp N\log N), you get a rigorous (but much weaker than Erdős’s conjecture) estimate like
 [
 \sum_{n\le N} d_n^2 \ \ll_\varepsilon\ (N\log N)^{5/4+\varepsilon}.
 ]
@@ -75,7 +75,7 @@ This is far from (N(\log N)^2), but it is the kind of unconditional “(L^2)” 
 
 ## 4) What proving (S(N)\ll N(\log N)^2) would mean
 
-The conjectured bound is equivalent to saying the **root mean square** prime gap among the first (N) gaps is (O(\log N)), i.e. the same scale as the *average* prime gap. That’s a very strong regularity statement about primes in short intervals, and it’s why Erdős posed it as a problem—progress here tends to require genuinely new ideas. ([Erdős Problems][1])
+The conjectured bound is equivalent to saying the **root mean square** prime gap among the first $N$ gaps is (O(\log N)), i.e. the same scale as the *average* prime gap. That’s a very strong regularity statement about primes in short intervals, and it’s why Erdős posed it as a problem—progress here tends to require genuinely new ideas. ([Erdős Problems][1])
 
 ---
 

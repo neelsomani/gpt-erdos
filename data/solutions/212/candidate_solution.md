@@ -8,7 +8,7 @@ This is exactly the **Erdős–Ulam problem**:
 
 * **You can make infinite (even dense-in-a-curve) rational-distance sets**, just not known dense in the *whole plane*.
   For example, there are sets **dense on a circle** for which *all* pairwise chord lengths are rational. One standard construction on the **unit circle** takes angles (\theta) with (\tan(\theta/4)\in\mathbb{Q}); then (\sin(\theta/2),\cos(\theta/2)\in\mathbb{Q}), and the distance between two such points becomes a rational expression in those rationals. ([Wikipedia][2])
-  (Similarly, lines trivially support dense rational-distance sets by identifying the line with (\mathbb{R}) and taking (\mathbb{Q}).)
+  [[nomath]](Similarly, lines trivially support dense rational-distance sets by identifying the line with $\mathbb{R}$ and taking $\mathbb{Q}$.)[[/nomath]]
 
 * A major unconditional structural theorem: **if a rational-distance set has infinitely many points on an irreducible algebraic curve, that curve must be a line or a circle** (otherwise only finitely many such points can lie on the curve). This is due to **Solymosi–de Zeeuw**. ([Wikipedia][2])
 
