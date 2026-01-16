@@ -196,6 +196,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1GKsyq8GW5dLldwDeu8Z4tLD2XLn49K5t/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Typo in problem statement. It is supposed to be smallest m.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -356,6 +358,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/19-aY-3tLZ-GAJdQllhF09vYiHXCPRutX/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Result is already known. Presumably open because they want tighter bounds.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },
@@ -596,6 +600,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1tewqcD-YoCVZ4AaxBu2N7EKovuHW0ZU1/view?usp=sharing",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Not constructive for the purposes of this question. If exponential time were acceptable, you could literally search the entire set that Erdos's probabilistic argument refers to.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": true,
         "author": "Francis Kangethe"
     },
@@ -676,6 +682,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1WoRiP-8aIrazH9Jcq3JpqUu56B121ATY/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The solution to the open problem requires distinct indices.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -1066,6 +1074,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1ztSMSoUUSDJnElLlqKKfowmN8IabetaS/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The problem statement intends for all sufficiently large n, rather than just infinitely many large n.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },

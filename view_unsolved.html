@@ -669,6 +669,22 @@
                 "pro_solution_verified",
               ]),
             ),
+            solutionManualReviewReason: normalizeString(
+              pickValue(entry, [
+                "solution_manual_review_reason",
+                "solution_manually_verified_reason",
+                "manual_review_reason",
+                "review_reason",
+              ]),
+            ),
+            solutionManualReviewer: normalizeString(
+              pickValue(entry, [
+                "solution_manual_reviewer",
+                "solution_manually_verified_by",
+                "manual_reviewer",
+                "reviewer",
+              ]),
+            ),
             proResponse: normalizeString(
               pickValue(entry, [
                 "pro_response",
@@ -1214,6 +1230,19 @@
             parseTriState(record.solution_manually_verified),
           ),
         );
+        if (record.solution_manual_reviewer) {
+          list.appendChild(
+            buildDetailsItem("Manual reviewer", record.solution_manual_reviewer),
+          );
+        }
+        if (record.solution_manual_review_reason) {
+          list.appendChild(
+            buildDetailsItem(
+              "Manual review reason",
+              record.solution_manual_review_reason,
+            ),
+          );
+        }
         const proLinks = document.createElement("div");
         if (record.candidate_solution_url && numberText) {
           const candidateButton = buildCandidateLink(
@@ -1358,12 +1387,23 @@
           ]);
           row.appendChild(deepResearchResponseCell);
 
-          const manualVerifiedCell = document.createElement("td");
-          manualVerifiedCell.className = "hide-on-mobile";
-          manualVerifiedCell.textContent = parseTriState(
-            record.solution_manually_verified,
-          );
-          row.appendChild(manualVerifiedCell);
+        const manualVerifiedCell = document.createElement("td");
+        manualVerifiedCell.className = "hide-on-mobile";
+        manualVerifiedCell.textContent = parseTriState(
+          record.solution_manually_verified,
+        );
+        const reviewReason = (record.solution_manual_review_reason ?? "").trim();
+        if (reviewReason) {
+          manualVerifiedCell.appendChild(document.createElement("br"));
+          const reasonButton = document.createElement("button");
+          reasonButton.type = "button";
+          reasonButton.textContent = "View";
+          reasonButton.addEventListener("click", () => {
+            openDetailsModal(record);
+          });
+          manualVerifiedCell.appendChild(reasonButton);
+        }
+        row.appendChild(manualVerifiedCell);
 
           const proResponseCell = document.createElement("td");
           proResponseCell.className = "hide-on-mobile";
@@ -1522,6 +1562,9 @@
               deep_research_pdf_url: solution?.deepResearchPdfUrl ?? "",
               deep_research_share_url: solution?.deepResearchShareUrl ?? "",
               solution_manually_verified: solution?.solutionManuallyVerified ?? "",
+              solution_manual_review_reason:
+                solution?.solutionManualReviewReason ?? "",
+              solution_manual_reviewer: solution?.solutionManualReviewer ?? "",
               pro_response: solution?.proResponse ?? "",
               solution_share_url: solution?.solutionShareUrl ?? "",
               prompter: solution?.prompter ?? "",
