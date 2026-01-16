@@ -634,7 +634,7 @@
         "solution_share_url": "https://chatgpt.com/share/6968f9e3-75f8-8003-960c-cc9667f6f661",
         "deep_research_share_url": "https://chatgpt.com/share/6968f9fe-25f0-8003-96f4-290b7f8b587e",
         "deep_research_pdf_url": "https://drive.google.com/file/d/141dWKoE3e6ebzXovV12VvWPwdKmhOhXj/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
