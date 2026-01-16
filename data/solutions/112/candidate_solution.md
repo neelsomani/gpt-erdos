@@ -2,7 +2,7 @@ This is a real Ramsey-type problem of Erdős–Rado, and it is **not known in ge
 [
 k(n,m)=r(I_n,L_m),
 ]
-the least (k) so that every **oriented** graph on (k) vertices has either an independent set of size (n) or a **transitive tournament** (acyclic tournament) of size (m). The full exact formula for all (n,m) is open.
+the least $k$ so that every **oriented** graph on $k$ vertices has either an independent set of size $n$ or a **transitive tournament** (acyclic tournament) of size $m$. The full exact formula for all $n,m$ is open.
 
 ## Easy exact cases
 
@@ -10,23 +10,23 @@ the least (k) so that every **oriented** graph on (k) vertices has either an ind
   [
   k(n,2)=n.
   ]
-* **(n=2)**: then you are asking for the least size forcing a transitive subtournament of order (m) in a tournament. The standard bound is (2^{m-1}) (and it is tight in the tournament setting).
+* **(n=2)**: then you are asking for the least size forcing a transitive subtournament of order $m$ in a tournament. The standard bound is (2^{m-1}) (and it is tight in the tournament setting).
 
 ## General bounds in terms of ordinary Ramsey numbers
 
-Let (R(a,b)) be the usual (undirected) Ramsey number.
+Let $R(a,b)$ be the usual (undirected) Ramsey number.
 
 A basic comparison is
 [
 R(n,m)\ \le\ k(n,m)\ \le\ R!\bigl(n,2^{m-1}\bigr).
 ]
-This is stated in the recent work of Ihringer–Rajendraprasad–Weinert (they write it as (r(m,n)\le r(I_m,L_n)\le r(m,2^{n-1}))).
+This is stated in the recent work of Ihringer–Rajendraprasad–Weinert [[nomath]](they write it as $r(m,n)\le r(I_m,L_n)\le r(m,2^{n-1})$)[[/nomath]].
 
-So, even if you cannot “determine” (k(n,m)) exactly, you can always trap it between known Ramsey-type quantities.
+So, even if you cannot “determine” $k(n,m)$ exactly, you can always trap it between known Ramsey-type quantities.
 
-## Polynomial upper bounds (fixed (m), large (n))
+## Polynomial upper bounds (fixed $m$, large $n$)
 
-Erdős–Rado proved an explicit bound of the form “constant depending on (m)” times (n^{m-1}); one concrete version written on the Erdős Problems page is
+Erdős–Rado proved an explicit bound of the form “constant depending on $m$” times (n^{m-1}); one concrete version written on the Erdős Problems page is
 [
 k(n,m)\ \le\ \frac{2^{m-1}(n-1)^m+n-2}{2n-3},
 ]
@@ -61,8 +61,8 @@ so it is like the usual triangle Ramsey number up to constants.
 
 ## Bottom line
 
-There is **no known closed-form formula** for (k(n,m)) for general (n,m); this is an **open** Erdős–Rado problem. What we do have are:
+There is **no known closed-form formula** for $k(n,m)$ for general $n,m$; this is an **open** Erdős–Rado problem. What we do have are:
 
-* exact values in some small cases (especially (m=3)),
+* exact values in some small cases [[nomath]](especially $m=3$)[[/nomath]],
 * general Ramsey-type bounds (R(n,m)\le k(n,m)\le R(n,2^{m-1})),
-* and general upper bounds of order roughly (n^{m-1}/(\log n)^{m-2}) times an exponential-in-(m) factor.
+* and general upper bounds of order roughly (n^{m-1}/(\log n)^{m-2}) times an exponential-in-$m$ factor.
