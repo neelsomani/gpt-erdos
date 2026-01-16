@@ -1,5 +1,85 @@
 [
     {
+        "number": 130,
+        "solution_share_url": "https://chatgpt.com/share/6969658c-1564-8003-9910-dca225b6379e",
+        "deep_research_share_url": "https://chatgpt.com/share/69696511-186c-8003-9c66-3a32b14655f8",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1qEumWq2nhD0ByINmmcUvWsNUU4V2TbWs/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
+    },
+    {
+        "number": 131,
+        "solution_share_url": "https://chatgpt.com/share/696965cd-4b00-8003-a775-1cb1fc66ef31",
+        "deep_research_share_url": "https://chatgpt.com/share/696965eb-e338-8003-861b-5f02ff73f911",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1gQMY8aSgWGedeDPTlJYxx0UJIrID5hjZ/view?usp=drive_link",
+        "prior_solution": true,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
+    },
+    {
+        "number": 132,
+        "solution_share_url": "https://chatgpt.com/share/69696799-9af0-8003-a276-59daa850d15f",
+        "deep_research_share_url": "https://chatgpt.com/share/696966ee-05dc-8003-aaa5-22f1d738e80f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1YDH-MMNOrjWREUuq7Gzk11EDNhaPruHG/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Francis Kangethe"
+    },
+    {
+        "number": 143,
+        "solution_share_url": "https://chatgpt.com/share/6969ac71-0f3c-800e-b854-be3c2b41c8c8",
+        "deep_research_share_url": "https://chatgpt.com/share/6969b313-a354-800e-9033-8403a1211a95",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1hCdPME80wAxXuDucdNgIXVatUKRPN7UR/view?usp=drive_link",
+        "prior_solution": true,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Gabriella Susanteo"
+    },
+    {
+        "number": 156,
+        "solution_share_url": "https://chatgpt.com/share/6969bcff-82dc-800e-b168-ff68d9091845",
+        "deep_research_share_url": "https://chatgpt.com/share/6969bcbc-88a4-800e-86fb-704ae9e87a31",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/19Oub0xBByAt4B42hpVJj2lTdzC26QSC8/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Gabriella Susanteo"
+    },
+    {
+        "number": 190,
+        "solution_share_url": "https://chatgpt.com/share/6969f2cc-c2ec-800e-89d4-97762ce105eb",
+        "deep_research_share_url": "https://chatgpt.com/share/6969f312-470c-800e-a56b-48ce8d76f9b4 (",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1dNvzMQGnrInS7DTMGdb7vqSboRuWJL-x/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Gabriella Susanteo"
+    },
+    {
+        "number": 193,
+        "solution_share_url": "https://chatgpt.com/share/6969f98c-8774-800e-bbaf-ac1de4d64784",
+        "deep_research_share_url": "https://chatgpt.com/share/6969f80a-44b4-800e-a902-0826bd4c0d7b",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1Q3bTwNKPXKk3LUM8begPibM-2wj2fNAV/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Gabriella Susanteo"
+    },
+    {
+        "number": 195,
+        "solution_share_url": "https://chatgpt.com/share/6969faaa-0290-800e-be1d-da4d5b64c2db",
+        "deep_research_share_url": "https://chatgpt.com/share/6969f9c2-132c-800e-b516-a665849e20de",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1nU8I4X1-9fKpYSZPLiJRJ52pANm-MWwU/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Gabriella Susanteo"
+    },
+    {
         "number": 120,
         "solution_share_url": "https://chatgpt.com/share/69695ea2-96b8-8003-8791-ed669decc589",
         "deep_research_share_url": "https://chatgpt.com/share/69695dfd-6f38-8003-b1c7-915ff5fd8f73",
@@ -114,7 +194,7 @@
         "solution_share_url": "https://chatgpt.com/share/6969d97b-7fe4-800e-851e-570d17d49447",
         "deep_research_share_url": "https://chatgpt.com/share/6969d9e0-6b94-800e-b404-a7621f1f2206",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1GKsyq8GW5dLldwDeu8Z4tLD2XLn49K5t/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
