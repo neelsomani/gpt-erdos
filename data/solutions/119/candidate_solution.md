@@ -8,23 +8,23 @@ This was proved by Gerold Wagner (1980). In fact, he proved a quantitative versi
 [
 M_n>(\log n)^c
 ]
-for infinitely many (n). ([Erdős Problems][1])
+for infinitely many $n$. ([Erdős Problems][1])
 
 So in particular, (M_n) cannot stay bounded. ([Erdős Problems][1])
 
-### 2) Is it true that there exists (c>0) such that for infinitely many (n), (M_n>n^c)?
+### 2) Is it true that there exists (c>0) such that for infinitely many $n$, (M_n>n^c)?
 
 Yes.
 
-József Beck (1991) proved a stronger statement: there exists an absolute (c>0) such that for every (N),
+József Beck (1991) proved a stronger statement: there exists an absolute (c>0) such that for every $N$,
 [
 \max_{n\le N} M_n > N^c.
 ]
-This implies your statement: for each large (N) pick (n\le N) with (M_n>N^c); then automatically (M_n>N^c\ge n^c), and such (n) must occur infinitely often. ([Erdős Problems][1])
+This implies your statement: for each large $N$ pick (n\le N) with (M_n>N^c); then automatically (M_n>N^c\ge n^c), and such $n$ must occur infinitely often. ([Erdős Problems][1])
 
-It is also known that (M_n) can be made relatively small in general: Erdős gave an example sequence with (M_n\le n+1) for all (n), and Linden (1977) improved this to a construction with (M_n\ll n^{1-c_0}) for some (c_0>0). ([Erdős Problems][1])
+It is also known that $M_n$ can be made relatively small in general: Erdős gave an example sequence with (M_n\le n+1) for all $n$, and Linden (1977) improved this to a construction with (M_n\ll n^{1-c_0}) for some (c_0>0). ([Erdős Problems][1])
 
-### 3) Is it true that there exists (c>0) such that for all large (n),
+### 3) Is it true that there exists (c>0) such that for all large $n$,
 
 [
 \sum_{k\le n} M_k > n^{1+c},?
