@@ -61,6 +61,37 @@
         opacity: 1;
         transform: translateY(0);
       }
+      .review-toast {
+        right: 16px;
+        bottom: 60px;
+        background: rgba(17, 17, 17, 0.9);
+        color: #fff;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        z-index: 20;
+        display: none;
+        max-width: 320px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        position: fixed;
+      }
+      .review-toast.is-visible {
+        display: block;
+      }
+      .review-toast-body {
+        margin-right: 20px;
+        white-space: pre-line;
+      }
+      .review-toast-close {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        border: none;
+        background: none;
+        color: #fff;
+        font-size: 14px;
+        cursor: pointer;
+      }
       table {
         width: 100%;
         border-collapse: collapse;
@@ -374,6 +405,12 @@
       </div>
     </div>
     <div class="toast-status" id="toastStatus" aria-live="polite"></div>
+    <div class="review-toast" id="reviewToast" aria-live="polite">
+      <button class="review-toast-close" type="button" id="reviewToastClose">
+        ✕
+      </button>
+      <div class="review-toast-body" id="reviewToastBody"></div>
+    </div>
     <p class="small">
       The content on this website is dedicated to the public domain under CC0 1.0
       Universal. No rights reserved.
@@ -412,6 +449,9 @@
       const solutionsBasePath = "data/solutions";
       const statusEl = document.getElementById("status");
       const toastStatusEl = document.getElementById("toastStatus");
+      const reviewToast = document.getElementById("reviewToast");
+      const reviewToastBody = document.getElementById("reviewToastBody");
+      const reviewToastClose = document.getElementById("reviewToastClose");
       const tbody = document.querySelector("#table tbody");
       const branchForm = document.getElementById("branchForm");
       const branchInput = document.getElementById("branchInput");
@@ -451,6 +491,19 @@
         toastTimeoutId = setTimeout(() => {
           updateStatus();
         }, 1600);
+      }
+
+      function showReviewToast(message) {
+        if (!reviewToast || !reviewToastBody) return;
+        if (!message) return;
+        reviewToastBody.textContent = message;
+        reviewToast.classList.add("is-visible");
+      }
+
+      function closeReviewToast() {
+        if (!reviewToast || !reviewToastBody) return;
+        reviewToast.classList.remove("is-visible");
+        reviewToastBody.textContent = "";
       }
 
       async function copyTextToClipboard(text) {
@@ -1393,13 +1446,17 @@
           record.solution_manually_verified,
         );
         const reviewReason = (record.solution_manual_review_reason ?? "").trim();
+        const reviewReviewer = (record.solution_manual_reviewer ?? "").trim();
         if (reviewReason) {
           manualVerifiedCell.appendChild(document.createElement("br"));
           const reasonButton = document.createElement("button");
           reasonButton.type = "button";
           reasonButton.textContent = "View";
           reasonButton.addEventListener("click", () => {
-            openDetailsModal(record);
+            const label = reviewReviewer
+              ? `Reviewer: ${reviewReviewer}\n${reviewReason}`
+              : reviewReason;
+            showReviewToast(label);
           });
           manualVerifiedCell.appendChild(reasonButton);
         }
@@ -1606,6 +1663,11 @@
       candidateModalCopy.addEventListener("click", () => {
         copyCandidateModalText();
       });
+      if (reviewToastClose) {
+        reviewToastClose.addEventListener("click", () => {
+          closeReviewToast();
+        });
+      }
       detailsModalClose.addEventListener("click", () => {
         closeDetailsModal();
       });
