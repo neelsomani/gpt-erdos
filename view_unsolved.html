@@ -85,6 +85,13 @@
       th {
         text-align: left;
       }
+      th select,
+      th input {
+        margin-top: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 12px;
+      }
       tbody tr:nth-child(even) {
         background: #fafafa;
       }
@@ -297,13 +304,47 @@
             <th style="width: 120px;">Number</th>
             <th class="problem-col">Problem</th>
             <th class="additional-col">Additional</th>
-            <th class="hide-on-mobile" style="width: 70px;">Prior solution found</th>
+            <th class="hide-on-mobile" style="width: 70px;">
+              <div>Prior solution found</div>
+              <select id="filterPriorSolution" aria-label="Filter prior solution found">
+                <option value="">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </th>
             <th class="hide-on-mobile" style="width: 160px;">Deep Research</th>
-            <th class="hide-on-mobile" style="width: 80px;">Reviewer agrees with proof</th>
+            <th class="hide-on-mobile" style="width: 80px;">
+              <div>Reviewer agrees with proof</div>
+              <select
+                id="filterManualReview"
+                aria-label="Filter reviewer agrees with proof"
+              >
+                <option value="">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+                <option value="na">N/A</option>
+              </select>
+            </th>
             <th class="hide-on-mobile" style="width: 160px;">5.2 Pro</th>
-            <th class="hide-on-mobile" style="width: 140px;">Prompter</th>
+            <th class="hide-on-mobile" style="width: 140px;">
+              <div>Prompter</div>
+              <input
+                id="filterPrompter"
+                type="text"
+                placeholder="Name"
+                aria-label="Filter prompter"
+              />
+            </th>
             <th class="hide-on-mobile" style="width: 140px;">
               Aristotle formal proof file
+              <select
+                id="filterAristotle"
+                aria-label="Filter Aristotle formal proof file"
+              >
+                <option value="">All</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
             </th>
             <th class="mobile-only" style="width: 90px;">Details</th>
           </tr>
@@ -375,6 +416,10 @@
       const branchForm = document.getElementById("branchForm");
       const branchInput = document.getElementById("branchInput");
       const manifestFilter = document.getElementById("manifestFilter");
+      const filterPriorSolution = document.getElementById("filterPriorSolution");
+      const filterManualReview = document.getElementById("filterManualReview");
+      const filterPrompter = document.getElementById("filterPrompter");
+      const filterAristotle = document.getElementById("filterAristotle");
       const batchSize = 150;
       let allRecords = [];
       let mergedRecords = [];
@@ -659,9 +704,65 @@
         return map;
       }
 
-      function applyManifestFilter(records) {
-        if (!manifestFilter?.checked) return records;
-        return records.filter((record) => !record.in_manifest);
+      function matchesTriStateFilter(value, filterValue) {
+        if (!filterValue) return true;
+        const normalized = parseTriState(value);
+        if (filterValue === "yes") return normalized === "✓";
+        if (filterValue === "no") return normalized === "✗";
+        if (filterValue === "na") return normalized === "N/A";
+        return true;
+      }
+
+      function matchesPrompterFilter(value, filterValue) {
+        if (!filterValue) return true;
+        const query = filterValue.trim().toLowerCase();
+        if (!query) return true;
+        return normalizeString(value).toLowerCase().includes(query);
+      }
+
+      function matchesAristotleFilter(proofUrl, filterValue) {
+        if (!filterValue) return true;
+        const hasProof = Boolean(proofUrl);
+        if (filterValue === "yes") return hasProof;
+        if (filterValue === "no") return !hasProof;
+        return true;
+      }
+
+      function applyFilters(records) {
+        let filtered = records;
+        if (manifestFilter?.checked) {
+          filtered = filtered.filter((record) => !record.in_manifest);
+        }
+        if (filterPriorSolution?.value) {
+          filtered = filtered.filter((record) =>
+            matchesTriStateFilter(
+              record.prior_solution_found,
+              filterPriorSolution.value,
+            ),
+          );
+        }
+        if (filterManualReview?.value) {
+          filtered = filtered.filter((record) =>
+            matchesTriStateFilter(
+              record.solution_manually_verified,
+              filterManualReview.value,
+            ),
+          );
+        }
+        if (filterPrompter?.value) {
+          filtered = filtered.filter((record) =>
+            matchesPrompterFilter(record.prompter, filterPrompter.value),
+          );
+        }
+        if (filterAristotle?.value) {
+          filtered = filtered.filter((record) =>
+            matchesAristotleFilter(
+              record.aristotle_proof_url,
+              filterAristotle.value,
+            ),
+          );
+        }
+        return filtered;
       }
 
       function appendLink(cell, url, label) {
@@ -1433,7 +1534,7 @@
           }
 
           allRecords = merged;
-          mergedRecords = applyManifestFilter(allRecords);
+          mergedRecords = applyFilters(allRecords);
           renderRows([]);
           const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
@@ -1491,16 +1592,40 @@
         }
         render();
       });
+      function applyFiltersAndRender() {
+        if (isLoading || allRecords.length === 0) {
+          return;
+        }
+        mergedRecords = applyFilters(allRecords);
+        resetRenderStatePreservingRecords();
+        renderRows([]);
+        updateStatus();
+        renderNextBatch();
+      }
+
       if (manifestFilter) {
         manifestFilter.addEventListener("change", () => {
-          if (isLoading || allRecords.length === 0) {
-            return;
-          }
-          mergedRecords = applyManifestFilter(allRecords);
-          resetRenderStatePreservingRecords();
-          renderRows([]);
-          updateStatus();
-          renderNextBatch();
+          applyFiltersAndRender();
+        });
+      }
+      if (filterPriorSolution) {
+        filterPriorSolution.addEventListener("change", () => {
+          applyFiltersAndRender();
+        });
+      }
+      if (filterManualReview) {
+        filterManualReview.addEventListener("change", () => {
+          applyFiltersAndRender();
+        });
+      }
+      if (filterPrompter) {
+        filterPrompter.addEventListener("input", () => {
+          applyFiltersAndRender();
+        });
+      }
+      if (filterAristotle) {
+        filterAristotle.addEventListener("change", () => {
+          applyFiltersAndRender();
         });
       }
       if (branchForm) {
