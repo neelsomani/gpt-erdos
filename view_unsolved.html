@@ -25,19 +25,6 @@
         gap: 12px;
         align-items: center;
       }
-      .branch-form {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-        margin: 0;
-      }
-      .branch-input {
-        padding: 4px 6px;
-      }
-      .branch-button {
-        padding: 4px 10px;
-      }
       .status {
         color: #555;
         font-size: 14px;
@@ -268,11 +255,6 @@
     </p>
     <div class="controls">
       <div class="controls-row">
-        <form class="branch-form" id="branchForm">
-          <label class="nowrap" for="branchInput">Branch:</label>
-          <input class="branch-input" id="branchInput" type="text" value="main" />
-          <button class="branch-button" type="submit">Submit</button>
-        </form>
         <label class="nowrap">
           <input type="checkbox" id="manifestFilter" />
           Show only missing from manifest
@@ -444,7 +426,7 @@
       const githubToken = "REDACTED";
       const githubOwner = "neelsomani";
       const githubRepo = "gpt-erdos";
-      let githubRef = "main";
+      const githubRef = "main";
       const manifestPath = "data/solutions/manifest.json";
       const solutionsBasePath = "data/solutions";
       const statusEl = document.getElementById("status");
@@ -453,8 +435,6 @@
       const reviewToastBody = document.getElementById("reviewToastBody");
       const reviewToastClose = document.getElementById("reviewToastClose");
       const tbody = document.querySelector("#table tbody");
-      const branchForm = document.getElementById("branchForm");
-      const branchInput = document.getElementById("branchInput");
       const manifestFilter = document.getElementById("manifestFilter");
       const filterPriorSolution = document.getElementById("filterPriorSolution");
       const filterManualReview = document.getElementById("filterManualReview");
@@ -1755,9 +1735,6 @@
         }
       });
       window.addEventListener("DOMContentLoaded", () => {
-        if (branchInput) {
-          branchInput.value = githubRef;
-        }
         render();
       });
       function applyFiltersAndRender() {
@@ -1794,20 +1771,6 @@
       if (filterAristotle) {
         filterAristotle.addEventListener("change", () => {
           applyFiltersAndRender();
-        });
-      }
-      if (branchForm) {
-        branchForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const nextRef = branchInput?.value?.trim() || "main";
-          if (nextRef === githubRef) return;
-          githubRef = nextRef;
-          candidateCache.clear();
-          manifestStatusText = "";
-          candidateStatusText = "";
-          resetRenderState();
-          setStatus(`Switching to branch ${githubRef}...`);
-          render();
         });
       }
     </script>

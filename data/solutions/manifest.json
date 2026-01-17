@@ -165,7 +165,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696b20b7-bc78-8009-8321-0e979b8d2aee",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1aguie-HzJVTu8FBLPrHVeUpBmsINmver/view?usp=drive_link",
         "prior_solution": true,
-        "solution_manually_verified": false,
+        "solution_manually_verified": true,
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },
@@ -403,7 +403,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696b175d-e7d8-800c-8a89-dd05b3c8dcad",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1jUKDMOEkuPXt5KJgolyFN9l3KXy0TmCr/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": true,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
     },
