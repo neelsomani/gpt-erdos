@@ -292,6 +292,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1fxrqNG9p32pfScXqm4tUtwc-5_1I-um3/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "For each G, Lamken-Wilson gives existence for all n >= n_0(G). But since G changes with n, you can't conclude \"for all sufficiently large n\" without some additional bound. Maybe the proof can be repaired?",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
