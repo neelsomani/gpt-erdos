@@ -914,17 +914,20 @@
               .map((segment) => {
                 if (!segment) return "";
                 if (segment.startsWith("$$") || segment.startsWith("$")) {
+                  // Keep math segments unwrapped so MathJax can process them
                   return segment;
                 }
-                return segment
+                // Only wrap non-math text in nomath span
+                const escaped = segment
                   .replace(/\\/g, "\\\\")
                   .replace(/&/g, "&amp;")
                   .replace(/</g, "&lt;")
                   .replace(/>/g, "&gt;")
                   .replace(/\n/g, "<br>");
+                return `<span class="nomath">${escaped}</span>`;
               })
               .join("");
-            return `<span class="nomath">${rendered}</span>`;
+            return rendered;
           });
         const escapedDelimiters = protectNoMathBlocks(text)
           .replace(/(?<!\\)\\\[/g, "\\\\[")
@@ -1124,8 +1127,68 @@
           pre.textContent = text;
           candidateModalBody.appendChild(pre);
         } else if (window.marked) {
-          const prepared = prepareMarkdownForMath(text);
-          candidateModalBody.innerHTML = window.marked.parse(prepared);
+          // First, protect [[nomath]] blocks so math inside them isn't caught by our protection
+          const nomathBlocks = [];
+          const protectedNomath = text.replace(/\[\[nomath\]\]([\s\S]*?)\[\[\/nomath\]\]/gi, (match, content) => {
+            const index = nomathBlocks.length;
+            nomathBlocks.push(content);
+            return `@@NOMATHBLOCK_${index}@@`;
+          });
+
+          // Now protect math expressions from markdown processing
+          const mathExpressions = [];
+          const protectedText = protectedNomath
+            // Protect display math first ($$...$$)
+            .replace(/\$\$[\s\S]*?\$\$/g, (match) => {
+              const index = mathExpressions.length;
+              mathExpressions.push(match);
+              return `@@MATH_${index}@@`;
+            })
+            // Protect display math with \[ \] delimiters (including multiline)
+            .replace(/\\\[[\s\S]*?\\\]/g, (match) => {
+              const index = mathExpressions.length;
+              mathExpressions.push(match);
+              return `@@MATH_${index}@@`;
+            })
+            // Protect display math with [ ] on separate lines
+            .replace(/^\s*\[\s*\n([\s\S]*?)\n\s*\]\s*$/gm, (match, content) => {
+              const index = mathExpressions.length;
+              mathExpressions.push(`\\[${content}\\]`);
+              return `@@MATH_${index}@@`;
+            })
+            // Then protect inline math ($...$)
+            .replace(/\$[^$\n]+?\$/g, (match) => {
+              const index = mathExpressions.length;
+              mathExpressions.push(match);
+              return `@@MATH_${index}@@`;
+            })
+            // Protect inline math with \( \) delimiters
+            .replace(/\\\([^)]+?\\\)/g, (match) => {
+              const index = mathExpressions.length;
+              mathExpressions.push(match);
+              return `@@MATH_${index}@@`;
+            });
+
+          // Restore nomath blocks (with [[nomath]] markers so prepareMarkdownForMath can handle them)
+          const withNomathRestored = protectedText.replace(/@@NOMATHBLOCK_(\d+)@@/g, (match, indexText) => {
+            const index = Number(indexText);
+            const content = nomathBlocks[index] ?? "";
+            return `[[nomath]]${content}[[/nomath]]`;
+          });
+
+          // Now prepare for math (this will handle the nomath blocks properly)
+          const prepared = prepareMarkdownForMath(withNomathRestored);
+
+          // Parse markdown with protected math
+          const htmlWithPlaceholders = window.marked.parse(prepared);
+
+          // Restore math expressions
+          const finalHtml = htmlWithPlaceholders.replace(/@@MATH_(\d+)@@/g, (match, indexText) => {
+            const index = Number(indexText);
+            return mathExpressions[index] ?? match;
+          });
+
+          candidateModalBody.innerHTML = finalHtml;
         } else {
           candidateModalBody.textContent = text;
         }

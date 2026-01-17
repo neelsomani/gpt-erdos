@@ -1,25 +1,25 @@
 It helps to rephrase what you are asking in “discrepancy” language.
 
-For fixed (k) and (N), let (\mathcal{A}*{k,N}) be the family of all (k)-term arithmetic progressions in ({1,\dots,N}).
+For fixed $k$ and $N$, let (\mathcal{A}*{k,N}) be the family of all $k$-term arithmetic progressions in ({1,\dots,N}).
 For a colouring (f:{1,\dots,N}\to{-1,1}) write
 [
 S(P)=\sum*{n\in P} f(n).
 ]
-Then (N(k,\ell)) is the smallest (N) such that **every** (f) has **some** (P\in\mathcal{A}_{k,N}) with (|S(P)|\ge \ell).
+Then (N(k,\ell)) is the smallest $N$ such that **every** $f$ has **some** (P\in\mathcal{A}_{k,N}) with (|S(P)|\ge \ell).
 
 ## General upper bound (the only general one people really have)
 
-If you can force a **monochromatic** (k)-term progression, you automatically force (|S(P)|=k), hence (|S(P)|\ge \ell) for every (\ell\le k). So
+If you can force a **monochromatic** $k$-term progression, you automatically force (|S(P)|=k), hence (|S(P)|\ge \ell) for every (\ell\le k). So
 [
 N(k,\ell)\ \le\ W(k,2)\qquad (1\le \ell\le k),
 ]
 where (W(k,2)) is the 2-colour van der Waerden number. ([Erdős Problems][1])
 
-The best published *general* upper bounds for (W(k,2)) are still enormous (tower-type). One explicit bound quoted in the literature is
+The best published *general* upper bounds for $W(k,2)$ are still enormous (tower-type). One explicit bound quoted in the literature is
 [
-W(k,2)\ \le\ 2^{2^{2^{2^{2^{,k+9}}}}}
+W(k,2)\ \le\ 2^{2^{2^{2^{2^{k+9}}}}}
 ]
-(a tower of five 2’s with top exponent (k+9)), coming from Gowers’ quantitative bounds. ([NSF PARN][2])
+[[nomath]](a tower of five 2’s with top exponent $k+9$)[[/nomath]], coming from Gowers’ quantitative bounds. ([NSF PARN][2])
 
 So, unconditionally, you always have the (very weak) bound
 [
@@ -29,7 +29,7 @@ N(k,\ell)\ \le\ 2^{2^{2^{2^{2^{,k+9}}}}}.
 
 ## The one case we understand well: (\ell=1) (Spencer)
 
-Spencer proved an exact formula for (N(k,1)). If
+Spencer proved an exact formula for $N(k,1)$. If
 [
 k=2^t m \quad\text{with (m) odd},
 ]
@@ -46,7 +46,7 @@ A few quick consequences:
 
 This is essentially the only “clean” sharp result known for these (N(k,\ell)). ([Erdős Problems][1])
 
-## What this gives for (N(k,2))
+## What this gives for $N(k,2)$
 
 A key parity point: if $k$ is even then $S(P)$ is always even [[nomath]](sum of an even number of $\pm 1$’s)[[/nomath]], so “(|S(P)|\ge 1)” is the same as “(|S(P)|\ge 2)”.
 
@@ -56,7 +56,7 @@ N(k,2)=N(k,1)=2^t(k-1)+1\ \le\ k^2.
 ]
 ([Erdős Problems][1])
 
-For **odd** (k), (|S(P)|\ge 2) really means (|S(P)|\ge 3), and this is where things get hard: Erdős and Graham explicitly said that “no decent bound” is known even for $N(k,2)$. ([Erdős Problems][1])
+For **odd** $k$, (|S(P)|\ge 2) really means (|S(P)|\ge 3), and this is where things get hard: Erdős and Graham explicitly said that “no decent bound” is known even for $N(k,2)$. ([Erdős Problems][1])
 
 So:
 
