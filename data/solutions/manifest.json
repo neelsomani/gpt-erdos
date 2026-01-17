@@ -632,6 +632,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/13Mj1kNrE4IZpwuodrCBqp1BYfpixfGNz/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Multiple issues, but most importantly, the answer assumes that equality of densities forces a 1D compact abelian factor and interval structure.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1054,6 +1056,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1NhFRV4_tQ1bosghIfoyI-MZGqBdrCj9L/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The problem asks for a pointwise asymptotic for every integer n, not almost all.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
