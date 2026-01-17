@@ -196,6 +196,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1vtH_TRFF4Dxl0XWwSjKdS24a_G6MyxkB/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Close, but the argument falsely assumes that if no successor step makes a previously fixed set monochromatic, then it will never become monochromatic later.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -264,8 +266,10 @@
         "solution_share_url": "https://chatgpt.com/share/696aeccf-c378-8011-98d9-51669260bb90",
         "deep_research_share_url": "https://chatgpt.com/share/696aed17-b3c0-8011-97e2-34ac1252c768",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1-6qW_UokcJ8wATdoMWFyUGlBEw9IoiX8/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": null,
+        "solution_manual_review_reason": "Note: Deep Research hallucinated an existing answer to this question when it remains unsolved.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
@@ -326,6 +330,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1rlXZb7qP2F6uLMYZ87si2oFPzdm4Azw-/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "I don't have the expertise to assess the correctness of the referenced Arxiv preprint.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
