@@ -2,7 +2,7 @@ Assume throughout that **natural density** exists:
 [
 d(A)=\lim_{N\to\infty}\frac{|A\cap[1,N]|}{N}.
 ]
-Write (A\sim A') if (d(A\triangle A')=0) (they differ on a density–(0) set). Note that (d(A+t)=d(A)) for each fixed $t$, and finite changes don’t affect density.
+Write (A\sim A') if (d(A\triangle A')=0) [[nomath]](they differ on a density–$0$ set)[[/nomath]]. Note that (d(A+t)=d(A)) for each fixed $t$, and finite changes don’t affect density.
 
 Let (\alpha=d(A)>0), (\beta=d(B)>0).
 A necessary condition for

@@ -46,6 +46,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1lTMSmm6xbd0hE01uCIsKIM2Nn2hV_MK8/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The problem asks for an asymptotic formula, not just an O(N) bound.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -608,6 +610,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/15DZf_rFqvXKRw8TITwBn_0TuCKRtsPhZ/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The problem asks for one step further: what conditions are sufficient for D(A) to have positive density.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
