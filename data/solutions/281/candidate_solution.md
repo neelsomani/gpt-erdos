@@ -8,7 +8,7 @@ It’s convenient to package the residue choices into a compact parameter space 
 
 Let (\widehat{\mathbb Z}) be the profinite completion of (\mathbb Z), with its Haar probability measure (\mu).
 
-For a modulus (n) and a residue (a\pmod n), the set
+For a modulus $n$ and a residue (a\pmod n), the set
 [
 a+n\widehat{\mathbb Z}={x\in\widehat{\mathbb Z}: x\equiv a\pmod n}
 ]
@@ -108,7 +108,7 @@ We have shown (d_k(a)\downarrow 0) pointwise on (X), and the limit function $0$ 
 
 Unwinding the definitions, this is exactly your desired conclusion:
 
-> For every (\varepsilon>0) there exists (k) such that for **every** choice of congruence classes (a_i\pmod{n_i}), the density of integers avoiding the first (k) congruences is (<\varepsilon).
+> For every (\varepsilon>0) there exists $k$ such that for **every** choice of congruence classes (a_i\pmod{n_i}), the density of integers avoiding the first $k$ congruences is (<\varepsilon).
 
 ---
 

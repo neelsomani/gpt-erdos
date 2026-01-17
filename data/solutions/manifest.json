@@ -402,8 +402,10 @@
         "solution_share_url": "https://chatgpt.com/share/696b1675-eda0-800c-80f9-612b39635436",
         "deep_research_share_url": "https://chatgpt.com/share/696b175d-e7d8-800c-8a89-dd05b3c8dcad",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1jUKDMOEkuPXt5KJgolyFN9l3KXy0TmCr/view?usp=drive_link",
-        "prior_solution": false,
+        "prior_solution": true,
         "solution_manually_verified": true,
+        "solution_manual_review_reason": "Note: 5.2 Pro found the prior solution, not Deep Research.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
     },
