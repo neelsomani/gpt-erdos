@@ -8,13 +8,13 @@ with (d\neq 0) [[nomath]](so here $d\ge 1$)[[/nomath]].
 
 ## What “asymptotic formula” we can actually prove
 
-The only general asymptotic statement we know for (r_k(N)) (for fixed $k$) is
+The only general asymptotic statement we know for (r_k(N)) [[nomath]](for fixed $k$)[[/nomath]] is
 
 [
 \boxed{\ \frac{r_k(N)}{N}\to 0\quad\text{as }N\to\infty\ } \qquad\text{(equivalently, }r_k(N)=o(N)\text{).}
 ]
 
-This is exactly the content of Szemerédi’s theorem in the “finite” form. No sharper asymptotic like (r_k(N)\sim cN) (with a nonzero constant $c$) is true; and in fact the precise order of magnitude of (r_k(N)) is not known for any (k\ge 3) [[nomath]](even $k=3$)[[/nomath]].
+This is exactly the content of Szemerédi’s theorem in the “finite” form. No sharper asymptotic like (r_k(N)\sim cN) [[nomath]](with a nonzero constant $c$)[[/nomath]] is true; and in fact the precise order of magnitude of (r_k(N)) is not known for any (k\ge 3) [[nomath]](even $k=3$)[[/nomath]].
 
 So the right asymptotic “formula” is (r_k(N)=o(N)).
 
