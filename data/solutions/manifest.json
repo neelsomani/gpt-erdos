@@ -1,5 +1,445 @@
 [
     {
+        "number": 413,
+        "solution_share_url": "https://chatgpt.com/share/696b000b-0598-800c-9f99-f562b77c53c7",
+        "deep_research_share_url": "https://chatgpt.com/share/696b0024-2cd4-800c-b01a-92937c6a710f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1m0kDw8bI28UMbypFiV0NMhS-UsUqKk45/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 414,
+        "solution_share_url": "https://chatgpt.com/share/696affdc-b28c-800c-b2ff-45f9fe4eb20a",
+        "deep_research_share_url": "https://chatgpt.com/share/696affe9-c730-800c-8506-209b2a168633",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1KN102dsfXNjVfokcfheOgrpvIaCRdgsM/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 415,
+        "solution_share_url": "https://chatgpt.com/share/696aff84-6ca8-800c-a3ab-c6b07d3cc5dc",
+        "deep_research_share_url": "https://chatgpt.com/share/696aff99-722c-800c-82af-06460f8543ac",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1aNswJ6jfZ7JB5yrraiPi7XgVW7GtETHf/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 416,
+        "solution_share_url": "https://chatgpt.com/share/696aff46-eb14-800c-9b73-523e5b13951d",
+        "deep_research_share_url": "https://chatgpt.com/share/696aff52-f8a8-800c-a58d-ff8884d7aee0",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1lWniybn-3G7mUiox2Cmd5Zkx_Ttjzd0T/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 417,
+        "solution_share_url": "https://chatgpt.com/share/696afac5-83f4-800c-9ef1-33e849a594d5",
+        "deep_research_share_url": "https://chatgpt.com/share/696aface-bfc0-800c-8040-c75be451cac1",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1xUtTxGCP3enFfTcRT-25pIC6y8M3-yO6/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 420,
+        "solution_share_url": "https://chatgpt.com/share/696afb8a-5e8c-800c-8c2d-ef5f1a81566b",
+        "deep_research_share_url": "https://chatgpt.com/share/696afbad-0570-800c-840a-4f1bcd6807ed",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1xhNG0WmSjeHSAuFKFWXJn56SUjwtm9qm/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 421,
+        "solution_share_url": "https://chatgpt.com/share/696afc4a-e91c-800c-85fb-0d4f830cc6a5",
+        "deep_research_share_url": "https://chatgpt.com/share/696afc6b-683c-800c-97ab-a150669d7758",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1RcB0MsXx7-Ho3lxBGUcIT-SHPgfNWpZc/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 422,
+        "solution_share_url": "https://chatgpt.com/share/696afc27-5b74-800c-9cc4-94d3226ccc51",
+        "deep_research_share_url": "https://chatgpt.com/share/696afbf5-f590-800c-b5fb-89c615b94589",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1zIGMbNkuGWFT3cv5n-RSj31qQ6x4EN5Q/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 423,
+        "solution_share_url": "https://chatgpt.com/share/696afb11-f9a8-800c-8f98-9ee88c9234f8",
+        "deep_research_share_url": "https://chatgpt.com/share/696afb39-8b10-800c-9738-713b037e2c37",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1FXd5Eaj33GuOv-Mr_ZKjC3Y_5mo535Q8/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 576,
+        "solution_share_url": "https://chatgpt.com/share/696b1300-b19c-8009-8113-670e0baa82f6",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1329-7e44-8009-bafd-e74749082a7f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/13GRd4KVtfHyoXcFxtxoI1GEtQoxI6ojR/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 579,
+        "solution_share_url": "https://chatgpt.com/share/696b139a-a3ac-8009-8806-86572692d044",
+        "deep_research_share_url": "https://chatgpt.com/share/696b13b1-b5bc-8009-87f4-179f9ccfa043",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1t85XaRLpY1uAi09WiRuRAoh_AD1g3XNy/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 583,
+        "solution_share_url": "https://chatgpt.com/share/696b140d-b948-8009-9b98-e4a8853d10ee",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1439-28f8-8009-871e-a7de815f3158",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1V_AAc7Dl2aK-7ZjAlpCawhiWneSz2hgu/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 584,
+        "solution_share_url": "https://chatgpt.com/share/696b1ec5-1098-8009-908f-ec7476f4c95b",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1ee2-93cc-8009-9a48-b2744e154932",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/11YAeV7KbZmyIdSTqMHA-wtj5X1SqmITh/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 585,
+        "solution_share_url": "https://chatgpt.com/share/696b1f29-e9e0-8009-ab55-09df973b69e4",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1f56-2300-8009-bc53-2fe58f713c01",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1j3H6uSK4s4CUAWcOO30Bq5Io0kN2wSC6/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 588,
+        "solution_share_url": "https://chatgpt.com/share/696b1fa0-8484-8009-b865-b8f69a37b5f6",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1fc5-86a0-8009-8f8c-9ad58b6fdcbe",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1U0vj0g2wlybzMpUJAccNzO-O9iHx3O6V/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 589,
+        "solution_share_url": "https://chatgpt.com/share/696b200d-7148-8009-a7b3-8767b501b100",
+        "deep_research_share_url": "https://chatgpt.com/share/696b2034-244c-8009-b5fb-a5a1b608f9ce",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1DjroYcM8b98SO_LKPQ7UWOz7pi3Z6nmB/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 591,
+        "solution_share_url": "https://chatgpt.com/share/696b2083-593c-8009-973e-e586bd74fd92",
+        "deep_research_share_url": "https://chatgpt.com/share/696b20b7-bc78-8009-8321-0e979b8d2aee",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1aguie-HzJVTu8FBLPrHVeUpBmsINmver/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Andrew Xue"
+    },
+    {
+        "number": 600,
+        "solution_share_url": "https://chatgpt.com/share/696b19b8-03dc-800b-9dc9-5e9d546b6b0f",
+        "deep_research_share_url": "https://chatgpt.com/share/696b19c5-187c-800b-a241-ffcae3f73a1a",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1hhpvaWZ-hbQB0tUSovPUl6nEtMhyNP02/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 601,
+        "solution_share_url": "https://chatgpt.com/share/696b1765-4710-800b-a00c-45c648dff114",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1770-2938-800b-85a4-0e292ba4b3b4",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1HKhzUJgcnFHr-8ut-xeC0jVxqE-KGsCM/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 602,
+        "solution_share_url": "https://chatgpt.com/share/696b1e59-fc04-800b-b696-6ec5cfe03a8b",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1e66-12fc-800b-960a-3e54bd9a5e26",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1vtH_TRFF4Dxl0XWwSjKdS24a_G6MyxkB/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 603,
+        "solution_share_url": "https://chatgpt.com/share/696b2603-3dd8-800b-a514-92c8ff85842c",
+        "deep_research_share_url": "https://chatgpt.com/share/696b25f4-f964-800b-89d0-400d8c9be9dc",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1HAMm2IARJ_iXosMD-MaikD2tAQk5KIJe/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 604,
+        "solution_share_url": "https://chatgpt.com/share/696b17cd-8110-800b-8537-78368bec9842",
+        "deep_research_share_url": "https://chatgpt.com/share/696b17d7-0ed8-800b-91ca-35924a0ec157",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1EQWIG4oi76BVNS1P1WbcwT419PnhmLLF/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 609,
+        "solution_share_url": "https://chatgpt.com/share/696b194c-1f50-800b-b4b6-6f80a121b3b4",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1958-ca98-800b-8a5a-194262ef35e5",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1EwkIx-N2l_t9xKu_Dh3DcOgloH1x-6Mj/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 610,
+        "solution_share_url": "https://chatgpt.com/share/696b1aa9-6e74-800b-92d4-a1569b263d3e",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1ab6-38d0-800b-a449-5319b158f9fc",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1QsUltASkklg0F99BXofYpJsXofkqEOF0/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 611,
+        "solution_share_url": "https://chatgpt.com/share/696b1b48-eecc-800b-b420-7b8ef4ce0208",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1b52-c484-800b-9aa0-a10c6c1da047",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1dB4puQI6nr8Avv2cZeBxRbdM96xpesME/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 612,
+        "solution_share_url": "https://chatgpt.com/share/696b1cc2-c950-800b-b7f3-b9440212518d",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1ccf-7e90-800b-bfa4-3eadd23d3971",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1TcHUgjusW1hwmwH5tOLNscCoEqvB6YFC/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Charlie Karoubi"
+    },
+    {
+        "number": 727,
+        "solution_share_url": "https://chatgpt.com/share/696aeccf-c378-8011-98d9-51669260bb90",
+        "deep_research_share_url": "https://chatgpt.com/share/696aed17-b3c0-8011-97e2-34ac1252c768",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1-6qW_UokcJ8wATdoMWFyUGlBEw9IoiX8/view?usp=drive_link",
+        "prior_solution": true,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 731,
+        "solution_share_url": "https://chatgpt.com/share/696aee49-41dc-8011-b4d2-9788807adc88",
+        "deep_research_share_url": "https://chatgpt.com/share/696aee66-7b18-8011-9356-e27cb67da40a",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1Xo0Cnj8u1FvO2KswcL8kgxOA5uvn91YR/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 734,
+        "solution_share_url": "https://chatgpt.com/share/696afc73-9574-8011-a801-5780215375a6",
+        "deep_research_share_url": "https://chatgpt.com/share/696afc9d-0d8c-8011-9a0f-886417c00926",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1fxrqNG9p32pfScXqm4tUtwc-5_1I-um3/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 738,
+        "solution_share_url": "https://chatgpt.com/share/696aff2f-2404-8011-891e-56e097ea22d9",
+        "deep_research_share_url": "https://chatgpt.com/share/696aff53-a1b0-8011-8dc8-a50422e85d6b",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1Dl-Z9EkAWGa4hMbdP3up2IcuVBTMIv2x/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 740,
+        "solution_share_url": "https://chatgpt.com/share/696affe9-f7fc-8011-aafd-1149768b2f77",
+        "deep_research_share_url": "https://chatgpt.com/share/696b0009-18f8-8011-acb8-0ee8791d798f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1pcvljkAajrRQwTbE5k1_Wp57fIKXd0Ue/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 741,
+        "solution_share_url": "https://chatgpt.com/share/696b0086-d814-8011-8763-dcde5d187e5f",
+        "deep_research_share_url": "https://chatgpt.com/share/696b0093-a300-8011-84ec-654504daa232",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1wO9JsXqAx4aAektJfVkM2c-knsn_OSWW/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 743,
+        "solution_share_url": "https://chatgpt.com/share/696b01ba-b660-8011-8433-c7722cc08789",
+        "deep_research_share_url": "https://chatgpt.com/share/696b01ca-9e3c-8011-a2a9-2879d0b35290",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1rlXZb7qP2F6uLMYZ87si2oFPzdm4Azw-/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 749,
+        "solution_share_url": "https://chatgpt.com/share/696b010b-cd00-8011-813f-56f977f57f8e",
+        "deep_research_share_url": "https://chatgpt.com/share/696b0117-2a0c-8011-a733-a25ca6bd8d62",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1kk2Dp-5gOa3PR3iGlg2nbVVWh5C-TODS/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Johnny Yu"
+    },
+    {
+        "number": 1113,
+        "solution_share_url": "https://chatgpt.com/share/696b18f3-fd10-800c-bfa2-c24635836ccd",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1907-7868-800c-a1c5-04441a194919",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1pGEwEtng4oxGA2mnQceAdNPyA9pBpkQn/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1117,
+        "solution_share_url": "https://chatgpt.com/share/696b18a8-6104-800c-ba91-32e21f96eb3b",
+        "deep_research_share_url": "https://chatgpt.com/share/696b18b7-2890-800c-a5b8-7c6ddbde90ea",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1e7wiUqNsr1w4IrhsbFCCvDyTRbvutCCg/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1120,
+        "solution_share_url": "https://chatgpt.com/share/696b185e-5d10-800c-b97b-a7b7d3d01da0",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1878-5608-800c-9079-9c3cb612be2c",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1CB-AeDGISXJMt7_qBpHGJhukBwGDgTDj/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1122,
+        "solution_share_url": "https://chatgpt.com/share/696b17f6-d1c4-800c-a3ae-d74f7ced89cc",
+        "deep_research_share_url": "https://chatgpt.com/share/696b182b-e558-800c-a001-4b50bbc806a8",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1vIwzlGyxd05XgfxuG3KUFdaPig0vTqCg/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1129,
+        "solution_share_url": "https://chatgpt.com/share/696b17aa-31ec-800c-ae3d-8b846070bb35",
+        "deep_research_share_url": "https://chatgpt.com/share/696b17c0-6670-800c-a161-bc7cfdda055f",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1NJj3NnF7mxhPUfBsFHOeFCwYjqr0cl8a/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1130,
+        "solution_share_url": "https://chatgpt.com/share/696b1675-eda0-800c-80f9-612b39635436",
+        "deep_research_share_url": "https://chatgpt.com/share/696b175d-e7d8-800c-8a89-dd05b3c8dcad",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1jUKDMOEkuPXt5KJgolyFN9l3KXy0TmCr/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": false,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1131,
+        "solution_share_url": "https://chatgpt.com/share/696b1620-8614-800c-abd1-acc7c0c8d3af",
+        "deep_research_share_url": "https://chatgpt.com/share/696b162c-9d10-800c-9b6b-385c96a10917",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1pmc2roOmAOPmEwwb1CMGJwFKnJ_mr87N/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1132,
+        "solution_share_url": "https://chatgpt.com/share/696b158a-cf58-800c-8d7b-11dc2e7e89ef",
+        "deep_research_share_url": "https://chatgpt.com/share/696b15a0-290c-800c-9331-5caff9a9ef6e",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1yQ8tE7ivNe9WKWGRymIUxgf9hPTGmhtu/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1133,
+        "solution_share_url": "https://chatgpt.com/share/696b14f7-d618-800c-a8b3-bbcb81da13a1",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1509-f2d4-800c-a47f-a6eb9a7605db",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1HZJ5hcTOlhI4Nsad02entRjnMvEk_9HF/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
+        "number": 1135,
+        "solution_share_url": "https://chatgpt.com/share/696b154c-a724-800c-a621-8c6db6c92cf8",
+        "deep_research_share_url": "https://chatgpt.com/share/696b1566-9b80-800c-8382-e1e0ed84b361",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1DXKAoae7RFx3EN3UmBSUDZKD-3icQVX7/view?usp=drive_link",
+        "prior_solution": false,
+        "solution_manually_verified": null,
+        "solution_formally_verified": null,
+        "author": "Neil Tripathi"
+    },
+    {
         "number": 85,
         "solution_share_url": "https://chatgpt.com/share/696aa3af-808c-800b-a922-1d3b64a7a632",
         "deep_research_share_url": "https://chatgpt.com/share/696aa3c5-0508-800b-9a1a-4c6cdec8cb9c",
