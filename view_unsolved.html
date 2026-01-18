@@ -441,12 +441,6 @@
         </div>
         <div class="filter-modal-body">
           <div class="filter-group">
-            <label>
-              <input type="checkbox" id="manifestFilterMobile" />
-              Show only missing from manifest
-            </label>
-          </div>
-          <div class="filter-group">
             <label for="filterPriorSolutionMobile">Prior solution found</label>
             <select id="filterPriorSolutionMobile">
               <option value="">All</option>
@@ -1178,7 +1172,6 @@
       const filterModal = document.getElementById("filterModal");
       const filterModalClose = document.getElementById("filterModalClose");
       const mobileFilterButton = document.getElementById("mobileFilterButton");
-      const manifestFilterMobile = document.getElementById("manifestFilterMobile");
       const filterPriorSolutionMobile = document.getElementById("filterPriorSolutionMobile");
       const filterManualReviewMobile = document.getElementById("filterManualReviewMobile");
       const filterPrompterMobile = document.getElementById("filterPrompterMobile");
@@ -1505,9 +1498,6 @@
       }
 
       function syncFiltersToMobile() {
-        if (manifestFilterMobile) {
-          manifestFilterMobile.checked = manifestFilter?.checked ?? false;
-        }
         if (filterPriorSolutionMobile) {
           filterPriorSolutionMobile.value = filterPriorSolution?.value ?? "";
         }
@@ -1523,9 +1513,6 @@
       }
 
       function syncFiltersFromMobile() {
-        if (manifestFilter && manifestFilterMobile) {
-          manifestFilter.checked = manifestFilterMobile.checked;
-        }
         if (filterPriorSolution && filterPriorSolutionMobile) {
           filterPriorSolution.value = filterPriorSolutionMobile.value;
         }
@@ -1641,7 +1628,7 @@
           manualVerifiedCell.appendChild(document.createElement("br"));
           const reasonButton = document.createElement("button");
           reasonButton.type = "button";
-          reasonButton.textContent = "Reviewer Feedback";
+          reasonButton.textContent = "Feedback";
           reasonButton.addEventListener("click", () => {
             const label = reviewReviewer
               ? `Reviewer: ${reviewReviewer}\n${reviewReason}`
@@ -1791,14 +1778,10 @@
             ]),
           );
 
-          const allowedStates = new Set(["open", "falsifiable", "verifiable"]);
           const merged = [];
           for (const record of jsonlRecords) {
             const number = String(record.number ?? "");
             const state = problemsMap.get(number) ?? "";
-            if (!allowedStates.has(state)) {
-              continue;
-            }
             const solution = solutionsMap.get(number);
             merged.push({
               number,
@@ -1936,12 +1919,6 @@
       }
       if (filterAristotle) {
         filterAristotle.addEventListener("change", () => {
-          applyFiltersAndRender();
-        });
-      }
-      if (manifestFilterMobile) {
-        manifestFilterMobile.addEventListener("change", () => {
-          syncFiltersFromMobile();
           applyFiltersAndRender();
         });
       }
