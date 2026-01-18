@@ -4,6 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>GPT-Erdos</title>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4HQ3JG00RN"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-4HQ3JG00RN');
+    </script>
     <style>
       body {
         font-family: system-ui, -apple-system, sans-serif;
@@ -140,8 +149,34 @@
       .mobile-only {
         display: none;
       }
+      .mobile-filter-button {
+        display: none;
+      }
       .footer-status {
         margin-top: 16px;
+      }
+      .filter-modal-body {
+        padding: 16px;
+        overflow: auto;
+      }
+      .filter-group {
+        margin-bottom: 16px;
+      }
+      .filter-group label {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 600;
+        font-size: 14px;
+      }
+      .filter-group select,
+      .filter-group input[type="text"] {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px;
+        font-size: 14px;
+      }
+      .filter-group input[type="checkbox"] {
+        margin-right: 8px;
       }
       .details-list {
         display: flex;
@@ -243,6 +278,15 @@
         .mobile-only {
           display: table-cell;
         }
+        .mobile-filter-button {
+          display: inline-block;
+          padding: 8px 16px;
+          background: #333;
+          color: #fff;
+          border: none;
+          border-radius: 4px;
+          font-size: 14px;
+        }
       }
     </style>
   </head>
@@ -259,6 +303,9 @@
           <input type="checkbox" id="manifestFilter" />
           Show only missing from manifest
         </label>
+        <button type="button" class="mobile-filter-button" id="mobileFilterButton">
+          Filters
+        </button>
       </div>
       <div class="controls-row">
         <label class="nowrap">
@@ -384,6 +431,51 @@
           <button class="modal-close" type="button" id="detailsModalClose">✕</button>
         </div>
         <div class="modal-body" id="detailsModalBody"></div>
+      </div>
+    </div>
+    <div class="modal" id="filterModal" hidden>
+      <div class="modal-content" role="dialog" aria-modal="true">
+        <div class="modal-header">
+          <strong>Filters</strong>
+          <button class="modal-close" type="button" id="filterModalClose">✕</button>
+        </div>
+        <div class="filter-modal-body">
+          <div class="filter-group">
+            <label>
+              <input type="checkbox" id="manifestFilterMobile" />
+              Show only missing from manifest
+            </label>
+          </div>
+          <div class="filter-group">
+            <label for="filterPriorSolutionMobile">Prior solution found</label>
+            <select id="filterPriorSolutionMobile">
+              <option value="">All</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filterManualReviewMobile">Reviewer agrees with proof</label>
+            <select id="filterManualReviewMobile">
+              <option value="">All</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+              <option value="na">N/A</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="filterPrompterMobile">Prompter</label>
+            <input id="filterPrompterMobile" type="text" placeholder="Name" />
+          </div>
+          <div class="filter-group">
+            <label for="filterAristotleMobile">Aristotle formal proof file</label>
+            <select id="filterAristotleMobile">
+              <option value="">All</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
     <div class="toast-status" id="toastStatus" aria-live="polite"></div>
@@ -1083,6 +1175,14 @@
       const detailsModalBody = document.getElementById("detailsModalBody");
       const detailsModalClose = document.getElementById("detailsModalClose");
       const detailsModalContent = detailsModal?.querySelector(".modal-content");
+      const filterModal = document.getElementById("filterModal");
+      const filterModalClose = document.getElementById("filterModalClose");
+      const mobileFilterButton = document.getElementById("mobileFilterButton");
+      const manifestFilterMobile = document.getElementById("manifestFilterMobile");
+      const filterPriorSolutionMobile = document.getElementById("filterPriorSolutionMobile");
+      const filterManualReviewMobile = document.getElementById("filterManualReviewMobile");
+      const filterPrompterMobile = document.getElementById("filterPrompterMobile");
+      const filterAristotleMobile = document.getElementById("filterAristotleMobile");
 
       function resetModalScroll(bodyEl, contentEl) {
         if (bodyEl) {
@@ -1404,6 +1504,53 @@
         detailsModalBody.textContent = "";
       }
 
+      function syncFiltersToMobile() {
+        if (manifestFilterMobile) {
+          manifestFilterMobile.checked = manifestFilter?.checked ?? false;
+        }
+        if (filterPriorSolutionMobile) {
+          filterPriorSolutionMobile.value = filterPriorSolution?.value ?? "";
+        }
+        if (filterManualReviewMobile) {
+          filterManualReviewMobile.value = filterManualReview?.value ?? "";
+        }
+        if (filterPrompterMobile) {
+          filterPrompterMobile.value = filterPrompter?.value ?? "";
+        }
+        if (filterAristotleMobile) {
+          filterAristotleMobile.value = filterAristotle?.value ?? "";
+        }
+      }
+
+      function syncFiltersFromMobile() {
+        if (manifestFilter && manifestFilterMobile) {
+          manifestFilter.checked = manifestFilterMobile.checked;
+        }
+        if (filterPriorSolution && filterPriorSolutionMobile) {
+          filterPriorSolution.value = filterPriorSolutionMobile.value;
+        }
+        if (filterManualReview && filterManualReviewMobile) {
+          filterManualReview.value = filterManualReviewMobile.value;
+        }
+        if (filterPrompter && filterPrompterMobile) {
+          filterPrompter.value = filterPrompterMobile.value;
+        }
+        if (filterAristotle && filterAristotleMobile) {
+          filterAristotle.value = filterAristotleMobile.value;
+        }
+      }
+
+      function openFilterModal() {
+        syncFiltersToMobile();
+        filterModal.hidden = false;
+      }
+
+      function closeFilterModal() {
+        filterModal.hidden = true;
+        syncFiltersFromMobile();
+        applyFiltersAndRender();
+      }
+
       function renderRows(records, append = false) {
         if (!append) {
           clearTable();
@@ -1494,7 +1641,7 @@
           manualVerifiedCell.appendChild(document.createElement("br"));
           const reasonButton = document.createElement("button");
           reasonButton.type = "button";
-          reasonButton.textContent = "View";
+          reasonButton.textContent = "Reviewer Feedback";
           reasonButton.addEventListener("click", () => {
             const label = reviewReviewer
               ? `Reviewer: ${reviewReviewer}\n${reviewReason}`
@@ -1637,26 +1784,28 @@
           manifestEntries = parseManifestEntries(manifestData);
           const solutionsMap = buildSolutionsMap(manifestEntries);
 
-          const unsolvedMap = new Map(
-            jsonlRecords.map((record) => [String(record.number), record]),
+          const problemsMap = new Map(
+            problems.map((problem) => [
+              String(problem.number ?? ""),
+              problem.status?.state ?? "",
+            ]),
           );
 
           const allowedStates = new Set(["open", "falsifiable", "verifiable"]);
           const merged = [];
-          for (const problem of problems) {
-            const number = String(problem.number ?? "");
-            const state = problem.status?.state ?? "";
+          for (const record of jsonlRecords) {
+            const number = String(record.number ?? "");
+            const state = problemsMap.get(number) ?? "";
             if (!allowedStates.has(state)) {
               continue;
             }
-            const match = unsolvedMap.get(number);
             const solution = solutionsMap.get(number);
             merged.push({
               number,
               state,
               in_manifest: solutionsMap.has(number),
-              latex: match?.latex ?? "",
-              additional_text: match?.additional_text ?? "",
+              latex: record.latex ?? "",
+              additional_text: record.additional_text ?? "",
               prior_solution_found: solution?.priorSolutionFound ?? "",
               deep_research_response: solution?.deepResearchResponse ?? "",
               deep_research_pdf_url: solution?.deepResearchPdfUrl ?? "",
@@ -1714,6 +1863,16 @@
       detailsModalClose.addEventListener("click", () => {
         closeDetailsModal();
       });
+      if (mobileFilterButton) {
+        mobileFilterButton.addEventListener("click", () => {
+          openFilterModal();
+        });
+      }
+      if (filterModalClose) {
+        filterModalClose.addEventListener("click", () => {
+          closeFilterModal();
+        });
+      }
       candidateModal.addEventListener("click", (event) => {
         if (event.target === candidateModal) {
           closeCandidateModal();
@@ -1724,6 +1883,13 @@
           closeDetailsModal();
         }
       });
+      if (filterModal) {
+        filterModal.addEventListener("click", (event) => {
+          if (event.target === filterModal) {
+            closeFilterModal();
+          }
+        });
+      }
       window.addEventListener("scroll", () => {
         if (shouldLoadNextBatch()) {
           renderNextBatch({ triggeredByScroll: true });
@@ -1770,6 +1936,36 @@
       }
       if (filterAristotle) {
         filterAristotle.addEventListener("change", () => {
+          applyFiltersAndRender();
+        });
+      }
+      if (manifestFilterMobile) {
+        manifestFilterMobile.addEventListener("change", () => {
+          syncFiltersFromMobile();
+          applyFiltersAndRender();
+        });
+      }
+      if (filterPriorSolutionMobile) {
+        filterPriorSolutionMobile.addEventListener("change", () => {
+          syncFiltersFromMobile();
+          applyFiltersAndRender();
+        });
+      }
+      if (filterManualReviewMobile) {
+        filterManualReviewMobile.addEventListener("change", () => {
+          syncFiltersFromMobile();
+          applyFiltersAndRender();
+        });
+      }
+      if (filterPrompterMobile) {
+        filterPrompterMobile.addEventListener("input", () => {
+          syncFiltersFromMobile();
+          applyFiltersAndRender();
+        });
+      }
+      if (filterAristotleMobile) {
+        filterAristotleMobile.addEventListener("change", () => {
+          syncFiltersFromMobile();
           applyFiltersAndRender();
         });
       }

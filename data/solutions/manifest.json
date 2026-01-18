@@ -1,5 +1,15 @@
 [
     {
+        "number": 397,
+        "solution_share_url": "https://chatgpt.com/share/69630fa9-02d4-8012-8ef2-84c443c04922",
+        "deep_research_share_url": "https://chatgpt.com/share/69632932-7308-800e-81de-fa5ea2432d62",
+        "deep_research_pdf_url": "https://drive.google.com/file/d/1cyiroXqx4r6FTTil2BqdZKdlDVNzHq0v/view?usp=drive_link",
+        "prior_solution": true,
+        "solution_manually_verified": true,
+        "solution_formally_verified": true,
+        "author": "Neel Somani"
+    },
+    {
         "number": 413,
         "solution_share_url": "https://chatgpt.com/share/696b000b-0598-800c-9f99-f562b77c53c7",
         "deep_research_share_url": "https://chatgpt.com/share/696b0024-2cd4-800c-b01a-92937c6a710f",
