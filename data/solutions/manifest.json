@@ -505,7 +505,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696bfce7-1108-800e-8daf-fb3d99ae9d68",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1MonEZpJiF5Mv31TkjK7VvZzH5lJ3bdtP/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -515,7 +515,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c1b5a-9788-800e-8332-19d38c16b9dd",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1jGX8LGqlWoJqIk8AJXCmgQ_Jnzxg3pbm/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -785,7 +785,9 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c064f-ff44-800b-9dda-df6f2548db77",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1iRPyVj1347Y7JGCQ9-P-370-XHk_TRbp/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": true,
+        "solution_manual_review_reason": "Another operator of ChatGPT solved this problem, and their solution was posted to the forum before ours.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -814,8 +816,9 @@
         "solution_share_url": "https://chatgpt.com/share/696c0883-f830-800b-8981-b91be659738d",
         "deep_research_share_url": "https://chatgpt.com/share/696c08c1-9200-800b-ad81-e47b48cf3072",
         "deep_research_pdf_url": "https://drive.google.com/file/d/14Jdecoxa9uQ9C5-Wm85Is0hlJBMbiEvR/view?usp=drive_link",
-        "prior_solution": false,
-        "solution_manually_verified": false,
+        "prior_solution": true,
+        "solution_manually_verified": true,
+        "solution_manual_review_reason": "The solution is correct, but it is the same solution that Hunter gives on the Erdos problems website.",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1336,6 +1339,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1h_MUewL2DJ7YhvxhngW96fvySjcjbUMr/view?usp=drive_link",
         "prior_solution": true,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Both bounds are already reflected on the Erdos problems website.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
@@ -1354,7 +1359,7 @@
         "solution_share_url": "https://chatgpt.com/share/696d6f8e-b1b8-8011-a569-5c66f748f3f5",
         "deep_research_share_url": "https://chatgpt.com/share/696d6f9a-8a88-8011-8ac9-626cb6e11775",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1OWackPDCv67LBJ7Fk0nnSXrtbme9BwN4/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Johnny Yu"
@@ -1821,7 +1826,7 @@
     },
     {
         "number": 876,
-        "solution_share_url": "https://chatgpt.com/share/696c8e26-6c80-800e-82ae-574adcfd2b6b (",
+        "solution_share_url": "https://chatgpt.com/share/696c8e26-6c80-800e-82ae-574adcfd2b6b",
         "deep_research_share_url": "https://chatgpt.com/share/696c8edf-6fdc-800e-a6b0-5632b14dbb4f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1kFxjrLTw6rrAIn9QPXMu9dYCdDIx9I33/view?usp=drive_link",
         "prior_solution": false,
@@ -1835,7 +1840,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c9133-c418-800e-861c-95ed9a7d33c0",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1Edoub-ishpnuqKKDPSheFAinfZJPAYvK/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },

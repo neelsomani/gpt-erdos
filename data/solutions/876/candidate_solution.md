@@ -34,9 +34,9 @@ So the sequence is sum‑free and has infinitely many gaps equal to $1$.
 ## If you mean “(a_{n+1}-a_n<n) for all large $n$”: this is essentially the quadratic-growth boundary
 
 The inequality
-[
+$
 a_{n+1}-a_n<n \quad\text{for all }n
-]
+$
 would force a **quadratic upper bound** on (a_n), since telescoping gives
 [
 a_n \le a_1+\sum_{k=1}^{n-1}k = a_1+\frac{n(n-1)}2.
@@ -51,7 +51,7 @@ What is known about how slowly (a_n) can grow?
   a_n = O(n^{2+\varepsilon}),
   ]
   and they also proved that the exponent $2$ is a genuine barrier in the sense that you cannot beat $2$ by any fixed amount [[nomath]](no $O(n^{2-\varepsilon})$)[[/nomath]]. ([RivMat][3])
-  [[nomath]](See also their paper reference page. $[Math Institute PAS][4]$)[[/nomath]]
+  [[nomath]](See also their paper reference page. ([Math Institute PAS][4]))[[/nomath]]
 
 So “(a_{n+1}-a_n<n) eventually” would be asking for a **very strong** form of “quadratic-type” growth [[nomath]](certainly $a_n=O(n^2)$)[[/nomath]], right at the critical exponent boundary highlighted by Łuczak–Schoen. ([RivMat][3])
 

@@ -53,7 +53,7 @@ for some absolute (c>0). ([arXiv][2])
 
 ---
 
-## Upper bound: cannot beat ((1/3+o(1))n)
+## Upper bound: cannot beat $(1/3+o(1))n$
 
 Let (\sigma=\lim_{n\to\infty} f(n)/n); this limit exists because $f$ is subadditive [[nomath]](roughly $f(m+n)\le f(m)+f(n)$)[[/nomath]]. ([Annals of Mathematics][1])
 

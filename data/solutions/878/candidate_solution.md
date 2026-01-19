@@ -1,21 +1,21 @@
 Let me rewrite the two objects in a way that makes the size questions transparent.
 
 For a prime (p\mid n) put
-[
+$
 \ell_p(n):=\bigl\lfloor \log_p n\bigr\rfloor,\qquad P_p(n):=p^{\ell_p(n)}\le n<p^{\ell_p(n)+1}.
-]
+$
 Then
-[
+$
 f(n)=\sum_{p\mid n}P_p(n).
-]
+$
 Also, if $S$ is a set of primes, let
-[
+$
 M_S(n):=\max{m\le n:\ \text{all prime factors of }m\text{ lie in }S},
-]
+$
 the largest $S$-smooth integer (\le n). If $P(n)$ denotes the set of primes dividing $n$, then your $F(n)$ is exactly the “best partition” of $P(n)$:
-[
-F(n)=\max_{\text{partitions }P(n)=S_1\sqcup\cdots\sqcup S_r}\ \sum_{j=1}^r M_{S_j}(n);+;\bigl(|P(n)|-r\bigr),
-]
+$
+F(n)=\max_{\text{partitions }P(n)=S_1\sqcup\cdots\sqcup S_r}\ \sum_{j=1}^r M_{S_j}(n);+;(|P(n)|-r),
+$
 because the remaining (|P(n)|-r) of the (a_i)’s can be $1$.
 
 Two trivial but very useful inequalities are

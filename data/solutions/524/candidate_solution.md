@@ -3,7 +3,7 @@ Let
 a_k(t):=(-1)^{\epsilon_k(t)}\in{\pm1},\qquad P_n(x):=\sum_{k=1}^n a_k(t),x^k,
 \qquad M_n(t)=\sup_{x\in[-1,1]}|P_n(x)|.
 ]
-For Lebesgue-a.e. (t\in(0,1)), the bits (\epsilon_k(t)) are i.i.d. Bernoulli((1/2)), hence ((a_k(t))) are i.i.d. Rademacher [[nomath]]($\pm1$ with prob. $1/2$)[[/nomath]]. (We ignore the dyadic rationals, a null set, where the binary expansion is not unique.)
+For Lebesgue-a.e. (t\in(0,1)), the bits (\epsilon_k(t)) are i.i.d. Bernoulli($1/2$), hence ((a_k(t))) are i.i.d. Rademacher [[nomath]]($\pm1$ with prob. $1/2$)[[/nomath]]. (We ignore the dyadic rationals, a null set, where the binary expansion is not unique.)
 
 ## Step 1: Reduce the supremum over $x$ to random-walk partial sums
 
