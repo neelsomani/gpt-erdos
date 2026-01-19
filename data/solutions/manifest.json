@@ -1091,6 +1091,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1RmRrDImZTdvud5FNtktajJTUHir8ZEkC/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The comments note that the question could be interpreted in multiple ways. In any case, the intended proof is likely a general statement about k.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1663,6 +1665,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1QX1p2mbGG5fI4hyiX0Qjpu1FicjRjcFu/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "I've requested an edit to the website to clarify that they intend positive integers.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },
@@ -1842,7 +1846,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c8edf-6fdc-800e-a6b0-5632b14dbb4f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1kFxjrLTw6rrAIn9QPXMu9dYCdDIx9I33/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -1893,6 +1897,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1TjFmz6pZud9zpGjbfZFY53jecnpqH8HL/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The trivial example is noted on the website. The website speculates that f must be transcendental.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },
