@@ -1283,6 +1283,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1lMjdZRCeYujhyz9FWRXQ0MFChuYRK5j1/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "When |A| -> inf with n, you cannot replace the exact inclusion-exclusion formula by the product \\prod{1 - 1/a}.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
