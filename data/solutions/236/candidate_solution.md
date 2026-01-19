@@ -5,9 +5,10 @@ A few things that *are* known (and help calibrate what one can reasonably expect
 ### Basic bounds and reformulation
 
 For fixed $n$,
-[
+$$
 f(n)=|\\{k\ge 0:\ n-2^k\ \texttext{is prime}\\}|.
-]
+$$
+
 Since (2^k\le n) forces (k\le \log_2 n), one has the trivial pointwise bound
 [
 f(n)\le \lfloor \log_2 n\rfloor+1 = O(\log n).
@@ -18,7 +19,7 @@ Erdős asked whether this can be improved to the little‑$o$ statement
 ]
 i.e. whether $f(n)$ is **always** a vanishing fraction of the (\asymp \log n) available exponents.
 
-### $f(n)$ is unbounded (so it’s not $O(1)$)
+### $f(n)$ is unbounded [[nomath]](so it’s not $O(1)$)[[/nomath]]
 
 Erdős proved that there are infinitely many $n$ with
 [
@@ -28,7 +29,7 @@ so $f(n)$ definitely grows without bound along some subsequence. ([Erdős Proble
 
 So the conjecture, if true, is genuinely about ruling out growth as large as a *positive proportion* of (\log n), not about boundedness.
 
-### Typical size is constant (average (\approx 1/\log 2))
+### Typical size is constant [[nomath]](average (\approx 1/\log 2))[[/nomath]]
 
 Let (r(n)=f(n)). A standard “count representations by $k$” computation using the prime number theorem gives
 [

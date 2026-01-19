@@ -37,16 +37,16 @@ f(N)\ \le\ \left(\frac{7}{2}\right)^{1/3}N^{1/3}(1+o(1))
 ]
 ([People Mathematics Oxford][2])
 
-More recently, E. P. White (2024) improved the relevant underlying autoconvolution constant slightly, yielding a marginally better leading constant for (\sigma_3(1)) (hence for $f(N)$ in this setting); numerically this gives about
+More recently, E. P. White (2024) improved the relevant underlying autoconvolution constant slightly, yielding a marginally better leading constant for (\sigma_3(1)) [[nomath]](hence for $f(N)$ in this setting)[[/nomath]]; numerically this gives about
 [
-f(N)\ \le\ (1.5155+o(1)),N^{1/3}.
+f(N)\ \le\ (1.5155+o(1))N^{1/3}.
 ]
 ([Cambridge University Press & Assessment][1])
 
 ### Current state in one line
 
 [
-(1+o(1)),N^{1/3}\ \le\ f(N)\ \le\ (1.5155+o(1)),N^{1/3},
+(1+o(1))N^{1/3}\ \le\ f(N)\ \le\ (1.5155+o(1))N^{1/3},
 ]
 and whether the constant on the right can be pushed all the way down to $1$ [[nomath]](equivalently $f(N)\sim N^{1/3}$)[[/nomath]] is **not known**. ([Cambridge University Press & Assessment][1])
 
