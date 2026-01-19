@@ -361,7 +361,15 @@
       <table id="table" aria-live="polite">
         <thead>
           <tr>
-            <th style="width: 120px;">Number</th>
+            <th style="width: 120px;">
+              <div>Number</div>
+              <input
+                id="filterNumber"
+                type="text"
+                placeholder="Search #"
+                aria-label="Filter problem number"
+              />
+            </th>
             <th class="problem-col">Problem</th>
             <th class="additional-col">Additional</th>
             <th class="hide-on-mobile" style="width: 70px;">
@@ -440,6 +448,10 @@
           <button class="modal-close" type="button" id="filterModalClose">✕</button>
         </div>
         <div class="filter-modal-body">
+          <div class="filter-group">
+            <label for="filterNumberMobile">Problem Number</label>
+            <input id="filterNumberMobile" type="text" placeholder="Search #" />
+          </div>
           <div class="filter-group">
             <label for="filterPriorSolutionMobile">Prior solution found</label>
             <select id="filterPriorSolutionMobile">
@@ -522,6 +534,7 @@
       const reviewToastClose = document.getElementById("reviewToastClose");
       const tbody = document.querySelector("#table tbody");
       const manifestFilter = document.getElementById("manifestFilter");
+      const filterNumber = document.getElementById("filterNumber");
       const filterPriorSolution = document.getElementById("filterPriorSolution");
       const filterManualReview = document.getElementById("filterManualReview");
       const filterPrompter = document.getElementById("filterPrompter");
@@ -848,6 +861,13 @@
         return true;
       }
 
+      function matchesNumberFilter(value, filterValue) {
+        if (!filterValue) return true;
+        const query = filterValue.trim().toLowerCase();
+        if (!query) return true;
+        return normalizeString(value).toLowerCase().includes(query);
+      }
+
       function matchesPrompterFilter(value, filterValue) {
         if (!filterValue) return true;
         const query = filterValue.trim().toLowerCase();
@@ -867,6 +887,11 @@
         let filtered = records;
         if (manifestFilter?.checked) {
           filtered = filtered.filter((record) => !record.in_manifest);
+        }
+        if (filterNumber?.value) {
+          filtered = filtered.filter((record) =>
+            matchesNumberFilter(record.number, filterNumber.value),
+          );
         }
         if (filterPriorSolution?.value) {
           filtered = filtered.filter((record) =>
@@ -1172,6 +1197,7 @@
       const filterModal = document.getElementById("filterModal");
       const filterModalClose = document.getElementById("filterModalClose");
       const mobileFilterButton = document.getElementById("mobileFilterButton");
+      const filterNumberMobile = document.getElementById("filterNumberMobile");
       const filterPriorSolutionMobile = document.getElementById("filterPriorSolutionMobile");
       const filterManualReviewMobile = document.getElementById("filterManualReviewMobile");
       const filterPrompterMobile = document.getElementById("filterPrompterMobile");
@@ -1498,6 +1524,9 @@
       }
 
       function syncFiltersToMobile() {
+        if (filterNumberMobile) {
+          filterNumberMobile.value = filterNumber?.value ?? "";
+        }
         if (filterPriorSolutionMobile) {
           filterPriorSolutionMobile.value = filterPriorSolution?.value ?? "";
         }
@@ -1513,6 +1542,9 @@
       }
 
       function syncFiltersFromMobile() {
+        if (filterNumber && filterNumberMobile) {
+          filterNumber.value = filterNumberMobile.value;
+        }
         if (filterPriorSolution && filterPriorSolutionMobile) {
           filterPriorSolution.value = filterPriorSolutionMobile.value;
         }
@@ -1902,6 +1934,11 @@
           applyFiltersAndRender();
         });
       }
+      if (filterNumber) {
+        filterNumber.addEventListener("input", () => {
+          applyFiltersAndRender();
+        });
+      }
       if (filterPriorSolution) {
         filterPriorSolution.addEventListener("change", () => {
           applyFiltersAndRender();
@@ -1919,6 +1956,12 @@
       }
       if (filterAristotle) {
         filterAristotle.addEventListener("change", () => {
+          applyFiltersAndRender();
+        });
+      }
+      if (filterNumberMobile) {
+        filterNumberMobile.addEventListener("input", () => {
+          syncFiltersFromMobile();
           applyFiltersAndRender();
         });
       }
