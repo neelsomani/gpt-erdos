@@ -1,7 +1,7 @@
 Write, for each distance value $d$,
-[
-\mu(d)=#{{p,q}\subset A:\ |p-q|=d},
-]
+$$
+\mu(d)=|\\{{p,q}\subset A:\ |p-q|=d\\}|,
+$$
 the number of unordered pairs at distance $d$. Your question asks if there must be **at least two** different $d$’s with
 [
 1\le \mu(d)\le n.
