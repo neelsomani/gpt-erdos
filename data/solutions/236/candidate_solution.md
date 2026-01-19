@@ -6,7 +6,7 @@ A few things that *are* known (and help calibrate what one can reasonably expect
 
 For fixed $n$,
 [
-f(n)=#{k\ge 0:\ n-2^k\ \texttext{is prime}}.
+f(n)=|\\{k\ge 0:\ n-2^k\ \texttext{is prime}\\}|.
 ]
 Since (2^k\le n) forces (k\le \log_2 n), one has the trivial pointwise bound
 [

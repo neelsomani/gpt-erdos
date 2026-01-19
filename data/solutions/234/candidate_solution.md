@@ -5,9 +5,11 @@ Let (d_n := p_{n+1}-p_n). The statement you wrote is asking for a **limiting dis
 in the following very strong sense:
 
 Define (if it exists)
-[
-f(c)\ :=\ \lim_{N\to\infty}\frac{1}{N}#\Bigl{1\le n\le N:\ \frac{d_n}{\log n}<c\Bigr},\qquad c\ge 0.
-]
+
+$$
+f(c)\ :=\ \lim_{N\to\infty}\frac{1}{N}|\\{1\le n\le N:\ \frac{d_n}{\log n}<c\\}|,\qquad c\ge 0.
+$$
+
 Erdős asked whether **this limit exists for every (c\ge 0)** and whether the resulting function $f(c)$ is **continuous**.
 
 ### Status: open
@@ -38,7 +40,7 @@ Even though the full density/continuity statement is open, several nontrivial pa
 
 Goldston–Pintz–Yıldırım define, for (\eta>0),
 [
-P(x,\eta)\ :=\ \frac{1}{\pi(x)}#{p_n\le x:\ d_n\le \eta \log p_n}.
+P(x,\eta)\ :=\ \frac{1}{\pi(x)}|\\{p_n\le x:\ d_n\le \eta \log p_n\\}|.
 ]
 They prove that for every fixed (\eta>0),
 [
@@ -58,10 +60,10 @@ What this **doesn’t** give is the existence of a limit (P(\infty,\eta)) [[noma
 
 Let (\mathbb{L}) be the set of limit points of ({d_n/\log p_n}). Merikoski (building on earlier work of Banks–Freiberg–Maynard and Pintz) proves strong results about how large (\mathbb{L}) is, including:
 
-* (\mu(\mathbb{L}\cap [0,T]) \ge T/3) for all (T\ge 0) (Lebesgue measure (\mu)), and
-* (\mathbb{L}) is **syndetic**: every interval ([T,T+C]) meets (\mathbb{L}) for some absolute (C). ([arXiv][4])
+* (\mu(\mathbb{L}\cap [0,T]) \ge T/3) for all (T\ge 0) [[nomath]](Lebesgue measure $\mu$)[[/nomath]], and
+* (\mathbb{L}) is **syndetic**: every interval $[T,T+C]$ meets (\mathbb{L}) for some absolute $C$. ([arXiv][4])
 
-This says that normalized gaps hit a “large” set of values infinitely often, but it does **not** control *frequencies* well enough to produce a limiting distribution (f(c)).
+This says that normalized gaps hit a “large” set of values infinitely often, but it does **not** control *frequencies* well enough to produce a limiting distribution $f(c)$.
 
 ---
 
@@ -74,7 +76,7 @@ But the *existence of the limits* is the hard part: it requires showing the prop
 
 ## A quick note on (\log n) vs (\log p_n)
 
-Many papers normalize by (\log p_n) (the local average gap), while your statement uses (\log n). Since (p_n \sim n\log n), one has (\log p_n = \log n + \log\log n + o(1)), so (\log p_n/\log n \to 1). In the *expected* limiting distribution picture (and especially if $f$ is continuous), this distinction should not matter—but making that fully rigorous at the level of pointwise limiting densities is delicate.
+Many papers normalize by (\log p_n) (the local average gap), while your statement uses (\log n). Since (p_n \sim n\log n), one has (\log p_n = \log n + \log\log n + o(1)), so (\log p_n/\log n \to 1). In the *expected* limiting distribution picture [[nomath]](and especially if $f$ is continuous)[[/nomath]], this distinction should not matter—but making that fully rigorous at the level of pointwise limiting densities is delicate.
 
 ---
 
