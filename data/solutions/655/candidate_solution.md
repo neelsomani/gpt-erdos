@@ -30,7 +30,7 @@ So the condition forces at least (\sim n/2) distances, but this argument alone c
 
 Take the $n$ points to be the vertices of a regular $n$-gon.
 
-* **Condition holds:** From any vertex (x_i), for each (k=1,2,\dots,\lfloor n/2\rfloor), there are at most two vertices at “step” $k$ $clockwise/counterclockwise$ and they are at the same distance from (x_i). Thus every distance from (x_i) occurs at most twice [[nomath]](except when $n$ is even, the opposite vertex occurs once)[[/nomath]]. So no circle centered at (x_i) passes through three other vertices.
+* **Condition holds:** From any vertex (x_i), for each (k=1,2,\dots,\lfloor n/2\rfloor), there are at most two vertices at “step” $k$ (clockwise/counterclockwise) and they are at the same distance from (x_i). Thus every distance from (x_i) occurs at most twice [[nomath]](except when $n$ is even, the opposite vertex occurs once)[[/nomath]]. So no circle centered at (x_i) passes through three other vertices.
 
 * **Number of distinct distances:** The distance between two vertices depends only on the step $k$, and equals the chord length
   [
