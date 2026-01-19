@@ -1375,6 +1375,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1OWackPDCv67LBJ7Fk0nnSXrtbme9BwN4/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The content of the answer is already reflected on the website and comments.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
@@ -1801,6 +1803,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1niBFdX85ONkrZhK99SH0qZiDG66R1nl7/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The b_i are assumed to be distinct.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
