@@ -32,7 +32,7 @@ The only coprime pairs not covered by the above density‑$1$ conclusion are the
 
 ### Infinitely many **coprime** non‑representables?
 
-Interpreting “coprime non‑representable” as [[nomath]](\gcd$n,pq$=1)[[/nomath]]: Yu and Chen proved that there are **infinitely many** such $n$ [[nomath]](coprime to $pq$ and non‑representable)[[/nomath]] for every pair except
+Interpreting “coprime non‑representable” as $\gcd(n,pq)=1$: Yu and Chen proved that there are **infinitely many** such $n$ [[nomath]](coprime to $pq$ and non‑representable)[[/nomath]] for every pair except
 [
 {p,q}\in\\{{2,3},{2,5},{2,9},{3,5}\\}.
 ]

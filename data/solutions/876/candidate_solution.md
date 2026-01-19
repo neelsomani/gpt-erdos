@@ -1,71 +1,73 @@
-What you call an “infinite sum‑free set” is usually studied as a **sum‑free sequence**: an increasing sequence (a_1<a_2<\cdots) such that no term is a sum of **distinct** earlier terms. ([Wikipedia][1])
+Your condition is exactly what Erdős called a **sum‑free sequence**: an increasing sequence (a_1 < a_2 < \cdots) such that **no** term is a sum of **distinct** smaller terms. ([Libra][1])
 
-## The gap (a_{n+1}-a_n) can be as small as $1$ (infinitely often)
+### What must happen in general
 
-It’s not just that (a_{n+1}-a_n\ge 1) trivially; one can make the gap **equal to 1 infinitely many times** in a genuinely sum‑free sequence.
+* **The gaps cannot stay bounded.** Erdős proved every such sequence has **zero asymptotic density**, so in particular the gaps $a_{n+1}-a_n$ must be unbounded (otherwise the density would be positive). ([Libra][1])
 
-Here is an explicit construction:
+So the right question is how *slowly* the gaps can grow.
 
-* Set (a_1=2).
-* For (k\ge 1), define
-  [
-  a_{2k}=a_{2k-1}+1,\qquad
-  a_{2k+1}=1+\sum_{i=1}^{2k} a_i.
-  ]
+### Best-known “global” bounds (via the counting function)
 
-Then
-[
-a_{2k}-a_{2k-1}=1\quad\text{for every }k,
-]
-so the sequence has infinitely many consecutive pairs.
+Let $A(N)=|A\cap[1,N]|$. The strongest general quantitative bounds currently on record are due to Łuczak–Schoen:
 
-**Why it is sum‑free.**
+* **Upper bound (all sequences):**
+  $$
+  A(N)\ll (N\log N)^{1/2}\quad (N\ \text{large}),
+  $$
+  so $n=A(a_n)\ll \sqrt{a_n\log a_n}$, hence
+  $$
+  a_n \gg \frac{n^2}{\log n}
+  $$
+  (up to constants). ([Erdős Problems][2])
 
-* For odd indices $2k+1$: by definition (a_{2k+1}=1+\sum_{i=1}^{2k}a_i), so (a_{2k+1}) is **bigger than the sum of all earlier terms**. Hence it cannot equal a sum of distinct earlier terms.
-* For even indices (2k): we have (a_{2k}=a_{2k-1}+1).
+* **Lower bound (existence):** there exists a sum‑free set $B$ with
+  $$
+  |B\cap[1,N]|\gg \frac{N^{1/2}}{(\log N)^{1/2+o(1)}},
+  $$
+  which inverts to something like
+  $$
+  a_n \ll n^2(\log n)^{1+o(1)}.
+  $$
+  ([Erdős Problems][2])
 
-  * If a representation of (a_{2k}) used (a_{2k-1}), the remaining summands would have to sum to $1$, impossible since all terms are (\ge 2).
-  * If it did **not** use (a_{2k-1}), then the sum of any subset of ({a_1,\dots,a_{2k-2}}) is at most (\sum_{i=1}^{2k-2}a_i=a_{2k-1}-1), so it cannot reach (a_{2k}=a_{2k-1}+1).
+These show the “right” scale for $a_n$ is essentially quadratic (up to logs), hence the “right” scale for gaps is essentially linear (up to logs).
 
-So the sequence is sum‑free and has infinitely many gaps equal to $1$.
+A related formulation (also standard in the literature) is: for every $\delta>0$ there exist sum‑free sequences with $a_n\sim n^{2+\delta}$, and the exponent $2$ cannot be beaten in the sense that you cannot have $a_n \ll n^{2-\varepsilon}$ for any fixed $\varepsilon>0$. 
 
-**Consequence:** If you only mean “does (a_{n+1}-a_n<n) happen infinitely often?”, then **yes** [[nomath]](because $a_{2k}-a_{2k-1}=1<2k-1$ for all $k\ge 2$)[[/nomath]].
+### Best-known *gap* upper bound
 
-## If you mean “(a_{n+1}-a_n<n) for all large $n$”: this is essentially the quadratic-growth boundary
+Erdős reported that Graham proved the existence of a sum‑free sequence with
+$$
+a_{n+1}-a_n < n^{1+o(1)},
+$$
+and that Melfi had a weaker result. ([Erdős Problems][2])
 
-The inequality
-$
-a_{n+1}-a_n<n \quad\text{for all }n
-$
-would force a **quadratic upper bound** on (a_n), since telescoping gives
-[
-a_n \le a_1+\sum_{k=1}^{n-1}k = a_1+\frac{n(n-1)}2.
-]
-So it would imply (a_n = O(n^2)).
+So we can get gaps “almost linear” [[nomath]](linear times a subpower factor, e.g. $n(\log n)^{O(1)}$ would be consistent with $n^{1+o(1)}$)[[/nomath]].
 
-What is known about how slowly (a_n) can grow?
+### Your specific question: can (a_{n+1}-a_n<n)?
 
-* Deshouillers–Erdős–Melfi constructed sum‑free sequences of **polynomial growth** and even with multiplicative gaps tending to $1$ [[nomath]](their “no gap” property is about $a_{n+1}/a_n\to 1$)[[/nomath]]. ([Academia][2])
-* Łuczak and Schoen improved the polynomial-growth constructions to show that for every (\varepsilon>0) there exist sum‑free sequences with
-  [
-  a_n = O(n^{2+\varepsilon}),
-  ]
-  and they also proved that the exponent $2$ is a genuine barrier in the sense that you cannot beat $2$ by any fixed amount [[nomath]](no $O(n^{2-\varepsilon})$)[[/nomath]]. ([RivMat][3])
-  [[nomath]](See also their paper reference page. ([Math Institute PAS][4]))[[/nomath]]
+This is a well-known Erdős problem (it appears explicitly as Erdős Problem #876) and is currently listed as **open**. ([Erdős Problems][2])
 
-So “(a_{n+1}-a_n<n) eventually” would be asking for a **very strong** form of “quadratic-type” growth [[nomath]](certainly $a_n=O(n^2)$)[[/nomath]], right at the critical exponent boundary highlighted by Łuczak–Schoen. ([RivMat][3])
+It’s helpful to rephrase what $a_{n+1}-a_n<n$ would mean:
 
-### Status
+* If $a_{n+1}-a_n < n$ for all $n\ge 1$, then summing gives
+  $$
+  a_n \le a_1 + \sum_{k=1}^{n-1} k = a_1+\frac{n(n-1)}2,
+  $$
+  so $a_n = O(n^2)$ with leading constant $\le \tfrac12$.
+* Equivalently, this would force a very strong lower bound on the counting function:
+  roughly $A(N)\gtrsim \sqrt{2N}$ for large $N$.
 
-From the standard references above, the best general constructions are still of the form (a_n=O(n^{2+\varepsilon})) [[nomath]](any fixed $\varepsilon>0$)[[/nomath]], and the theory shows you can’t do $O(n^{2-\varepsilon})$. ([RivMat][3])
-Whether one can achieve a uniform **quadratic** bound strong enough to force (a_{n+1}-a_n<n) for all large $n$ is not settled in those sources; I do not see a known construction or impossibility result there.
+Existing constructions (e.g. Łuczak–Schoen’s density lower bound) are still off from this by logarithmic factors, and existing general upper bounds also have logarithmic slack, so neither direction currently settles the strict inequality (a_{n+1}-a_n<n). ([Erdős Problems][2])
 
-## Bottom line
+### What you *can* say cleanly today
 
-* The gap (a_{n+1}-a_n) can be **as small as 1**, infinitely often (explicit construction above).
-* If your question is the stronger one—can we have (a_{n+1}-a_n<n) for **all sufficiently large $n$**—that would essentially require “quadratic-scale” growth (a_n=O(n^2)), and the classical results place this at the critical boundary: we can get (n^{2+\varepsilon}) for every fixed (\varepsilon>0) but not (n^{2-\varepsilon}). ([RivMat][3])
+* Gaps must be unbounded (density zero). ([Libra][1])
+* There are constructions with **very small relative gaps**, even (a_{n+1}/a_n\to 1) (Deshouillers–Erdős–Melfi), though those particular examples are extremely sparse in absolute terms. ([Libra][1])
+* The best-known “near-optimal” gap size is (a_{n+1}-a_n < n^{1+o(1)}) (Graham, as reported by Erdős). ([Erdős Problems][2])
+* Whether one can push this all the way down to **(a_{n+1}-a_n<n)** [[nomath]](eventually, or even for all $n$)[[/nomath]] is **still open**. ([Erdős Problems][2])
 
-[1]: https://en.wikipedia.org/wiki/Sum-free_sequence?utm_source=chatgpt.com "Sum-free sequence"
-[2]: https://www.academia.edu/917204/On_a_question_about_sum_free_sequences?utm_source=chatgpt.com "(PDF) On a question about sum-free sequences"
-[3]: https://www.rivmat.unipr.it/fulltext/2004-3s/pdf/16.pdf "https://www.rivmat.unipr.it/fulltext/2004-3s/pdf/16.pdf"
-[4]: https://old.impan.pl/en/publishing-house/journals-and-series/acta-arithmetica/all/95/3/111910/on-the-maximal-density-of-sum-free-sets "On the maximal density of sum-free setsAll"
+If you want, I can also unpack how the block/modular constructions in Deshouillers–Erdős–Melfi work (they’re very instructive for thinking about what would be needed to force genuinely linear additive gaps). ([Libra][1])
+
+[1]: https://libra.unine.ch/bitstreams/142bfa87-1d9c-44b6-8269-2b2903cdc132/download "PII: S0012-365X(98)00322-7"
+[2]: https://www.erdosproblems.com/forum/thread/876 "https://www.erdosproblems.com/forum/thread/876"

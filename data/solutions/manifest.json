@@ -226,6 +226,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1WqDUgCBBNHziKS1ljoxtQuJ0mdIx6VAJ/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The trivial solution is already reflected on the website. There are additional constraints not explicitly noted.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -1317,7 +1319,7 @@
         "solution_share_url": "https://chatgpt.com/share/696d6cf2-07ac-8011-b166-d2486eef00c2",
         "deep_research_share_url": "https://chatgpt.com/share/696d6cff-d1f8-8011-a93a-52a1773f41bf",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1BNsUNCRWujeam4R8o-7PJE5ZVLpxbA70/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Johnny Yu"
@@ -1816,7 +1818,7 @@
     },
     {
         "number": 875,
-        "solution_share_url": "https://chatgpt.com/share/696c8e26-6c80-800e-82ae-574adcfd2b6b",
+        "solution_share_url": "https://chatgpt.com/share/696c8f83-286c-800e-ba6e-e31b7bb0482c",
         "deep_research_share_url": "https://chatgpt.com/share/696c8edf-6fdc-800e-a6b0-5632b14dbb4f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1wFsiiHwm-o1cmpguwDElA7Uz3F1PT4zO/view?usp=drive_link",
         "prior_solution": false,
@@ -1826,7 +1828,7 @@
     },
     {
         "number": 876,
-        "solution_share_url": "https://chatgpt.com/share/696c8e26-6c80-800e-82ae-574adcfd2b6b",
+        "solution_share_url": "https://chatgpt.com/share/696de90e-5f98-8012-9061-cfec6d328ee4",
         "deep_research_share_url": "https://chatgpt.com/share/696c8edf-6fdc-800e-a6b0-5632b14dbb4f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1kFxjrLTw6rrAIn9QPXMu9dYCdDIx9I33/view?usp=drive_link",
         "prior_solution": false,
@@ -2060,7 +2062,9 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c6ad8-6bd0-800c-97c4-d5f98956a17b",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1iRuJ1_RDfTTlH9FzvL6JWxllSwwsduw3/view?usp=drive_link",
         "prior_solution": true,
-        "solution_manually_verified": false,
+        "solution_manually_verified": true,
+        "solution_manual_review_reason": "Solution is found in literature search.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
     },
@@ -2110,7 +2114,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c7d68-c524-800c-b4c2-4458abb1709f",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1IFR44WWOhEepY0kaKHpsQMVI06psuqYB/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Neil Tripathi"
     },
