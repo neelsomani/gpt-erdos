@@ -37,9 +37,9 @@ This already disproves the proposed universal upper bound “(\le f(t))” with 
 ## If you meant the *total number of pairs* with distance (\le t)
 
 If your intended quantity is the number of pairs
-[
+$$
 |\\{,{i,j}: i<j,\ d(x_i,x_j)\le t,\\}|,
-]
+$$
 then the same square-lattice construction beats the triangular lattice [[nomath]](for $t\in(\sqrt2,\sqrt3)$)[[/nomath]] by a linear factor.
 
 Take an (m\times m) grid

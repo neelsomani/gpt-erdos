@@ -498,6 +498,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1MQNxE1YLoR0iyQKWC-45vIGm0btbC-Up/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The intended target is a function f(n) describing a lower-envelope behavior.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -768,6 +770,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1n5-CTn57wlzvFay4--4Km3KjbrvzISBh/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The hard part of the problem is proving the assumption that for n > 24 you can find m < n with m + \tau(m) >= n + 3.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -861,6 +865,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1OjqSdj0MoTIx5SlbFnegXv-lc5d4hYMO/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The website notes that the problem must have a typo or error as written.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -881,6 +887,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1TFx0HJ7Xwa3ksRWVcGpznxaUiZsThUkf/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The website has been updated to restrict the problem to a pairwise balanced design.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1040,7 +1048,9 @@
         "deep_research_share_url": "https://chatgpt.com/share/696d59f8-ea18-800b-86ef-44ed8946afdb",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1E4ngoo1QEoz9VkKzKLwY0_dFaRxDh93-/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": true,
+        "solution_manual_review_reason": "The solution works if negative m,n are allowed. I've asked for clarification on the forum.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1081,6 +1091,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1RmRrDImZTdvud5FNtktajJTUHir8ZEkC/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The question is asking about sufficiently large k. GPT's answer is reflected on the website.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
