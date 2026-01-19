@@ -770,7 +770,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1n5-CTn57wlzvFay4--4Km3KjbrvzISBh/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
-        "solution_manual_review_reason": "The hard part of the problem is proving the assumption that for n > 24 you can find m < n with m + \tau(m) >= n + 3.",
+        "solution_manual_review_reason": "The hard part of the problem is proving the assumption that for n > 24 you can find m < n with m + \\tau(m) >= n + 3.",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
@@ -1091,8 +1091,6 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1RmRrDImZTdvud5FNtktajJTUHir8ZEkC/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
-        "solution_manual_review_reason": "The question is asking about sufficiently large k. GPT's answer is reflected on the website.",
-        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -2443,7 +2441,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1fxrqNG9p32pfScXqm4tUtwc-5_1I-um3/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
-        "solution_manual_review_reason": "For each G, Lamken-Wilson gives existence for all n >= n_0(G). But since G changes with n, you can't conclude \"for all sufficiently large n\" without some additional bound. Maybe the proof can be repaired?",
+        "solution_manual_review_reason": "For each G, Lamken-Wilson gives existence for all n >= n_0(G). But since G changes with n, you can't conclude \"for all sufficiently large n\" without some additional bound.",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
