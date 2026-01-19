@@ -15,7 +15,7 @@ So your statement is the conjecture in a common “Egyptian fraction / distinct 
 
 ## What *is* known: explicit constructions for large families of $n$
 
-Even though the full statement is open, there are clean identities that prove it for many infinite classes of $n$. Here are some classic, fully explicit ones (and they already give (x<y<z)).
+Even though the full statement is open, there are clean identities that prove it for many infinite classes of $n$. Here are some classic, fully explicit ones [[nomath]](and they already give $x<y<z$)[[/nomath]].
 
 ### 1) $n$ even
 
@@ -28,7 +28,7 @@ So one valid choice is
 [
 x=m,\quad y=m+1,\quad z=m(m+1).
 ]
-These are distinct and satisfy (m<m+1<m(m+1)) for (m\ge2) (i.e. (n\ge4)).
+These are distinct and satisfy (m<m+1<m(m+1)) for (m\ge2) [[nomath]](i.e. $n\ge4$)[[/nomath]].
 
 ### 2) (n\equiv 3\pmod 4)
 
@@ -87,7 +87,7 @@ x=a=\frac{n+3}{4},\quad y=\frac{na}{2},\quad z=na.
 
 ## Why this doesn’t settle “every (n>2)”
 
-All the identities above together cover *most* integers (n), but not all. The remaining cases (in particular, the “hardest” ones are closely related to primes (n\equiv 1\pmod{24})) are exactly where the conjecture is still open. ([Wikipedia][1])
+All the identities above together cover *most* integers (n), but not all. The remaining cases [[nomath]](in particular, the “hardest” ones are closely related to primes $n\equiv 1\pmod{24}$)[[/nomath]] are exactly where the conjecture is still open. ([Wikipedia][1])
 
 ### Computational evidence
 
