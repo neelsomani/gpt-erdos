@@ -2658,10 +2658,10 @@
         "deep_research_share_url": "https://chatgpt.com/share/696d6926-88dc-8011-9040-c5221cb9fb9c",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1BWkDjg8PJ-yNwib1LPo_Eys1xonUpK5O/view?usp=drive_link",
         "prior_solution": true,
-        "solution_manually_verified": null,
+        "solution_manually_verified": true,
         "solution_manual_review_reason": "The prior result from Alon-Pham is provided by 5.2 Pro. It is a tighter bound than what is recorded on the Erdos problems website.",
         "solution_manual_reviewer": "Neel Somani",
-        "solution_formally_verified": null,
+        "solution_formally_verified": true,
         "author": "Johnny Yu"
     },
     {
