@@ -175,9 +175,6 @@
         padding: 6px;
         font-size: 14px;
       }
-      .filter-group input[type="checkbox"] {
-        margin-right: 8px;
-      }
       .details-list {
         display: flex;
         flex-direction: column;
@@ -299,10 +296,6 @@
     </p>
     <div class="controls">
       <div class="controls-row">
-        <label class="nowrap">
-          <input type="checkbox" id="manifestFilter" />
-          Show only missing from manifest
-        </label>
         <button type="button" class="mobile-filter-button" id="mobileFilterButton">
           Filters
         </button>
@@ -312,7 +305,7 @@
           Problems YAML:
           <a
             class="small"
-            href="https://github.com/teorth/erdosproblems/"
+            href="https://github.com/teorth/erdosproblems/blob/main/data/problems.yaml"
             target="_blank"
             rel="noreferrer"
           >
@@ -336,7 +329,7 @@
           Solutions manifest:
           <a
             class="small"
-            href="https://github.com/neelsomani/gpt-erdos"
+            href="https://github.com/neelsomani/gpt-erdos/blob/main/data/solutions/manifest.json"
             target="_blank"
             rel="noreferrer"
           >
@@ -347,7 +340,7 @@
           Candidate solutions:
           <a
             class="small"
-            href="https://github.com/neelsomani/gpt-erdos"
+            href="https://github.com/neelsomani/gpt-erdos/tree/main/data/solutions"
             target="_blank"
             rel="noreferrer"
           >
@@ -533,7 +526,6 @@
       const reviewToastBody = document.getElementById("reviewToastBody");
       const reviewToastClose = document.getElementById("reviewToastClose");
       const tbody = document.querySelector("#table tbody");
-      const manifestFilter = document.getElementById("manifestFilter");
       const filterNumber = document.getElementById("filterNumber");
       const filterPriorSolution = document.getElementById("filterPriorSolution");
       const filterManualReview = document.getElementById("filterManualReview");
@@ -664,12 +656,9 @@
 
       function updateStatus() {
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
-        const filterStatus = manifestFilter?.checked
-          ? "Showing only problems missing from manifest."
-          : "";
         const loadingStatus = "";
         setStatus(
-          `${baseStatus} ${filterStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+          `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
         if (toastStatusEl) {
           toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
@@ -885,9 +874,6 @@
 
       function applyFilters(records) {
         let filtered = records;
-        if (manifestFilter?.checked) {
-          filtered = filtered.filter((record) => !record.in_manifest);
-        }
         if (filterNumber?.value) {
           filtered = filtered.filter((record) =>
             matchesNumberFilter(record.number, filterNumber.value),
@@ -1818,7 +1804,6 @@
             merged.push({
               number,
               state,
-              in_manifest: solutionsMap.has(number),
               latex: record.latex ?? "",
               additional_text: record.additional_text ?? "",
               prior_solution_found: solution?.priorSolutionFound ?? "",
@@ -1929,11 +1914,6 @@
         renderNextBatch();
       }
 
-      if (manifestFilter) {
-        manifestFilter.addEventListener("change", () => {
-          applyFiltersAndRender();
-        });
-      }
       if (filterNumber) {
         filterNumber.addEventListener("input", () => {
           applyFiltersAndRender();
