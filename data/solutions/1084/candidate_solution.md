@@ -19,7 +19,7 @@ E(X)=\frac12\sum_{p\in X}\deg(p)\le \frac12,k(d),n.
 ]
 So
 [
-\boxed{f_d(n)\le \frac{k(d)}{2},n.}
+\boxed{f_d(n)\le \frac{k(d)}{2}n.}
 ]
 In particular (f_d(n)=O_d(n)).
 
@@ -35,7 +35,7 @@ E(X)=d(m-1)m^{d-1}=d,n-d,m^{d-1}=d,n-O(n^{(d-1)/d}).
 ]
 Thus
 [
-\boxed{f_d(n)\ge d,n-O!\left(n^{(d-1)/d}\right).}
+\boxed{f_d(n)\ge dn-O\left(n^{(d-1)/d}\right).}
 ]
 Combining with the kissing-number upper bound gives the clean growth rate
 [
@@ -46,7 +46,7 @@ Combining with the kissing-number upper bound gives the clean growth rate
 
 Let (\delta_d) be the maximal (infinite) packing density of congruent balls in (\mathbb{R}^d). Bezdek–Khan survey a general upper bound [[nomath]](for $d\ge 3$)[[/nomath]] of the form
 [
-\boxed{f_d(n)=c(n,d);<;\frac12,k(d),n-\frac12,d,\delta_d^{-(d-1)/d},n^{(d-1)/d}.}
+\boxed{f_d(n)=c(n,d)<\frac12k(d)n-\frac12d\delta_d^{-(d-1)/d}n^{(d-1)/d}.}
 ]
 So the leading term is (\tfrac12k(d)n), with a *boundary loss* of order (n^{(d-1)/d}). ([arXiv][1])
 
@@ -78,6 +78,6 @@ For each fixed dimension $d$,
 [
 \boxed{f_d(n)=\Theta(n).}
 ]
-More precisely, it’s bounded above by (\frac12k(d)n) (kissing-number bound) and in fact admits general upper bounds of the form (\frac12k(d)n-\Theta(n^{(d-1)/d})), while simple grid/lattice constructions give (\Omega(n)) unit-distance pairs [[nomath]](indeed $d,n-O(n^{(d-1)/d})$)[[/nomath]].
+More precisely, it’s bounded above by (\frac12k(d)n) (kissing-number bound) and in fact admits general upper bounds of the form (\frac12k(d)n-\Theta(n^{(d-1)/d})), while simple grid/lattice constructions give (\Omega(n)) unit-distance pairs [[nomath]](indeed $dn-O(n^{(d-1)/d})$)[[/nomath]].
 
 [1]: https://arxiv.org/pdf/1601.00145 "arXiv:1601.00145v2  [math.MG]  22 Jan 2016"
