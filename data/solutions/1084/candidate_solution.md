@@ -62,7 +62,7 @@ so (f_2(n)=3n-\Theta(\sqrt n)). ([arXiv][1])
 
 One has
 [
-\boxed{f_3(n)=c(n,3)<6n-0.926,n^{2/3}}
+\boxed{f_3(n)=c(n,3)<6n-0.926n^{2/3}}
 ]
 and there are matching lattice-based constructions (fcc clusters) giving (6n-O(n^{2/3})), so the correct second-order term is (\Theta(n^{2/3})) (constant not pinned down). ([arXiv][1])
 
