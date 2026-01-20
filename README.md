@@ -1,6 +1,6 @@
 # GPT-Erdos
 
-GPT-Erdos is a collection of autoformalized Erdős problems and candidate solutions, using LLM-driven proof search. Erdős problems provide a compact testbed for studying how LLMs handle open-ended mathematical reasoning. We produce candidate solutions with corresponding Lean proof attempts, to surface successes, failures, and limitations of current approaches.
+GPT-Erdos is a collection of Erdős problems and candidate solutions, using LLM-driven proof search and (when possible) autoformalization. Erdős problems provide a compact testbed for studying how LLMs handle open-ended mathematical reasoning. We produce candidate solutions with corresponding Lean proof attempts, to surface successes, failures, and limitations of current approaches.
 
 This project uses data from the Erdos Problems repository:
 Teorth et al., *Erdos Problems*, GitHub repository.
