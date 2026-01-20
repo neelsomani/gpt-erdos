@@ -24,13 +24,9 @@ R(T,G)\le (\chi(G)-1),(r-1)+m_1.
 A theorem of Chvátal–Rödl–Szemerédi–Trotter (settling Burr’s conjecture for trees) says:
 
 > For every fixed graph $H$, there exists (n_0(H)) such that for every tree $T$ on (n\ge n_0(H)) vertices,
-> [
-> R(T,H)=$n-1$(\chi(H)-1)+\sigma$H$.
-> ]
+> $ R(T,H)=(n-1)(\chi(H)-1)+\sigma(H) $
 > In particular,
-> [
-> R(T,H)\le $n-1$(\chi(H)-1)+\sigma$H$.
-> ]
+> $R(T,H)\le (n-1)(\chi(H)-1)+\sigma(H)$
 
 Apply this with $H=G$. Since (\chi(G)=k) and (\sigma(G)=m_1), for $n$ sufficiently large we get
 [

@@ -6,7 +6,7 @@ N(x):=|\\{(i,j): i\le j,\ a_i+a_j\le x\\}|.
 ]
 Fix (k\ge 2) and look at (x=a_k). Since (a_k) is the **smallest** integer $n$ such that
 [
-|\\{(i,j): i\le j\le k-1,\ a_i+a_j\le n\\}|;<;n-(k-1),
+|\\{(i,j): i\le j\le k-1,\ a_i+a_j\le n\\}|<n-(k-1),
 ]
 we have two facts:
 
@@ -47,7 +47,7 @@ a_k\le \frac{k(k+1)}2.
 ]
 Thus (k\ge \sqrt{2a_k}-\tfrac12), i.e. along (x=a_k),
 [
-|N(x)-x|=k ;\gg; \sqrt{x}.
+|N(x)-x|=k \gg \sqrt{x}.
 ]
 
 Since (\sqrt{x}) is much larger than (x^{1/4+o(1)}), the estimate

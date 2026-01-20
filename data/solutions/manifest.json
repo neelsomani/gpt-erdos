@@ -644,8 +644,8 @@
         "solution_share_url": "https://chatgpt.com/share/696db3f6-83c8-800e-ac4d-765612882fad",
         "deep_research_share_url": "https://chatgpt.com/share/696db478-ee80-800e-9cc9-2b18e735046e",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1s3pzdvQ0JcoTD-PAmBw_KosWdfOQZrW6/view?usp=drive_link",
-        "prior_solution": true,
-        "solution_manually_verified": false,
+        "prior_solution": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -654,7 +654,7 @@
         "solution_share_url": "https://chatgpt.com/share/696db4bd-a014-800e-adaf-3eeea3821836",
         "deep_research_share_url": "https://chatgpt.com/share/696db4e2-2d6c-800e-a9c1-432eb20450a9",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1xF9dxrP4Wa4INYbZJsQ99lP8Uf68cHDZ/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
@@ -725,7 +725,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696dc604-3ff4-800e-ab3a-3762b8c78183",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1CIKmjs35WA8zKa2vxDCIVB5bGQEzrpT7/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": false,
+        "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -744,7 +744,7 @@
         "solution_share_url": "https://chatgpt.com/share/696dc7ff-9914-800e-9d19-fd0c845ba057",
         "deep_research_share_url": "https://chatgpt.com/share/696dc830-faec-800e-a0f4-d548ad19d8ea",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1ekyLAPAeBGIrrCptjG898g1INOAnZ_b5/view?usp=drive_link",
-        "prior_solution": true,
+        "prior_solution": false,
         "solution_manually_verified": null,
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
@@ -846,6 +846,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1h3wexjRLjB7Q1X9DdGAVLpv-Se1orms7/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "In this context of this problem, * refers to additive convolution, not Dirichlet convolution.",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
     },
@@ -1016,6 +1017,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1DtprM9sHHJkf4TA_KwUmQp7CIKBrWhal/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The prime number theorem implies o(1/2), but the Erdos problems page already gives a tighter bound.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },

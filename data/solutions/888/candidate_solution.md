@@ -3,11 +3,11 @@
 Let
 
 * (\pi(n)) = number of primes (\le n),
-* (S(n)) = number of integers (\le n) that are the product of **two distinct primes** (i.e. squarefree semiprimes).
+* $S(n)$ = number of integers (\le n) that are the product of **two distinct primes** (i.e. squarefree semiprimes).
 
 Then the largest possible size of a set (A\subseteq{1,\dots,n}) satisfying:
 
-> whenever (a\le b\le c\le d\in A) and (abcd) is a perfect square, then (ad=bc),
+> whenever (a\le b\le c\le d\in A) and $abcd$ is a perfect square, then (ad=bc),
 
 is:
 
@@ -37,7 +37,7 @@ Equivalently:
 
 * For (n\ge 15): the maximum size is the number of integers (\le n) that are either
   ✅ prime, or ✅ a product of two **distinct** primes.
-* For (n\le 14): you can additionally include (1).
+* For (n\le 14): you can additionally include $1$.
 
 ---
 
@@ -49,7 +49,7 @@ For (n\ge 15), take:
 A={\text{primes }\le n}\ \cup\ {pq\le n:\ p,q\text{ distinct primes}}.
 ]
 
-For (n\le 14), add (1) to this set.
+For (n\le 14), add $1$ to this set.
 
 This set satisfies the condition because every element has at most two prime factors (squarefree), and any time four such numbers multiply to a square, the prime-factor parity forces them to come from a “4-cycle” pattern where automatically (ad=bc).
 

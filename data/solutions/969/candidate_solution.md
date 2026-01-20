@@ -17,7 +17,7 @@ Q(x)=\sum_{n\le x}\ \sum_{d^2\mid n}\mu(d)
 Now split off the main term by replacing (\lfloor x/d^2\rfloor) with (x/d^2):
 [
 Q(x)=\sum_{d\le\sqrt x}\mu(d)\left(\frac{x}{d^2}+O(1)\right)
-= x\sum_{d\le\sqrt x}\frac{\mu(d)}{d^2};+;O!\left(\sum_{d\le\sqrt x}1\right).
+= x\sum_{d\le\sqrt x}\frac{\mu(d)}{d^2}+O!\left(\sum_{d\le\sqrt x}1\right).
 ]
 The error from the floors is $O(\sqrt x)$.
 
