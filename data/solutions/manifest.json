@@ -249,7 +249,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696f6b68-70c8-8007-9357-54e3d5ac42f2",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1dhvUaDaK15nUkhRSZBr66_aDJNfta1nv/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_manual_review_reason": "There is discussion on the Erdos problems forum on how to rectify this problem.",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
@@ -532,6 +532,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1eZK0SaGZuaf_r7-V2CQqg8L34e0IVYsH/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The Rodl construction is noted on the website. The exact growth rate is needed, and there might be dependence on r.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
