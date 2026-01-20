@@ -792,7 +792,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1iRPyVj1347Y7JGCQ9-P-370-XHk_TRbp/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": true,
-        "solution_manual_review_reason": "Another operator of ChatGPT solved this problem, and their solution was posted to the forum before ours.",
+        "solution_manual_review_reason": "Another operator of ChatGPT solved this problem, and their solution was posted to the forum before ours. Daniel Litt notes that the solution is basically literature search, but Terence Tao places the result as a Section 1 proof (full AI automation with no prior solution).",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Charlie Karoubi"
@@ -1313,8 +1313,10 @@
         "solution_share_url": "https://chatgpt.com/share/696d68ee-8ea4-8011-829f-8b66d59e904c",
         "deep_research_share_url": "https://chatgpt.com/share/696d6926-88dc-8011-9040-c5221cb9fb9c",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1BWkDjg8PJ-yNwib1LPo_Eys1xonUpK5O/view?usp=drive_link",
-        "prior_solution": false,
-        "solution_manually_verified": false,
+        "prior_solution": true,
+        "solution_manually_verified": null,
+        "solution_manual_review_reason": "The prior result from Alon-Pham is provided by 5.2 Pro. It is a tighter bound than what is recorded on the Erdos problems website.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
@@ -2090,8 +2092,8 @@
         "deep_research_share_url": "https://chatgpt.com/share/696c6ad8-6bd0-800c-97c4-d5f98956a17b",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1iRuJ1_RDfTTlH9FzvL6JWxllSwwsduw3/view?usp=drive_link",
         "prior_solution": true,
-        "solution_manually_verified": true,
-        "solution_manual_review_reason": "Solution is found in literature search.",
+        "solution_manually_verified": false,
+        "solution_manual_review_reason": "Thomas Bloom notes: \"The result by Yuan addresses the case of paths only, and is already in the remarks. The references in that chat about the case of cycles are new.\" The literature search does not fully close the problem.",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Neil Tripathi"

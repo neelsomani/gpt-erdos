@@ -865,7 +865,7 @@
         if (!filterValue) return true;
         const query = filterValue.trim().toLowerCase();
         if (!query) return true;
-        return normalizeString(value).toLowerCase().includes(query);
+        return normalizeString(value).toLowerCase() === query;
       }
 
       function matchesPrompterFilter(value, filterValue) {
