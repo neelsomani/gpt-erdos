@@ -295,7 +295,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696e0b3f-5170-8007-b88c-405f95f20655",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1K9BWw65A6cMKECslVx76afO_34mGXPdA/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -305,7 +305,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696e0b60-5710-8007-a320-95774e370a14",
         "deep_research_pdf_url": "https://drive.google.com/file/d/19fA1r_UzFJz9ELn4vrpfoBzby7rGbyVA/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -325,7 +325,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696e17c1-23d0-8007-a8d0-d6795fea1b26",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1_rPEu6aNG8VtIz4SlGZH1Eo0_kJ-9kTN/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -355,7 +355,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696e0c22-afe8-8007-b635-286c5f6c0cf3",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1WP-MMXoFM48Mbz4Rs03akXO-FG3JWF0g/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -365,7 +365,7 @@
         "deep_research_share_url": "https://chatgpt.com/share/696e0c42-17c4-8007-87ff-c0c7df74f04a",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1OgrdbRW1npDtr5XajUQHpGWvEoBFQwye/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -745,7 +745,8 @@
         "deep_research_share_url": "https://chatgpt.com/share/696dc830-faec-800e-a0f4-d548ad19d8ea",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1ekyLAPAeBGIrrCptjG898g1INOAnZ_b5/view?usp=drive_link",
         "prior_solution": false,
-        "solution_manually_verified": null,
+        "solution_manually_verified": false,
+        "solution_manual_review_reason": "The Kovac-Luca result is already mentioned on the Erdos problems page.",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -4172,7 +4173,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1NESwR9etZkesaPijZ7Ob7Fx3nAU7iSdU/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
-        "solution_manual_review_reason": "The counterexample is already noted on the Erdos Problems website.",
+        "solution_manual_review_reason": "The counterexample is already noted on the Erdos problems website.",
         "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"

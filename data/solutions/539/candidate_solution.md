@@ -6,7 +6,7 @@ Q(A):=\\{\frac a{(a,b)}:\ a,b\in A\\},\qquad h(n)=\min_{|A|=n}|Q(A)|.
 The right order of magnitude is
 
 [
-\boxed{h(n)=\Theta!\big(n^{2/3}\big) } .
+\boxed{h(n)=\Theta\big(n^{2/3}\big) } .
 ]
 
 Below is a concrete construction giving the upper bound (h(n)\ll n^{2/3}), and a (standard) counting/isoperimetric argument giving the matching lower bound (h(n)\gg n^{2/3}) [[nomath]](so the exponent $2/3$ is best possible up to constants)[[/nomath]].
@@ -88,7 +88,7 @@ $
 m \gg n^{2/3}.
 $
 
-Intuitively: if $m$ were much smaller than (n^{2/3}), then the (n^2) ordered pairs $(a,b)$ would have to “reuse” the same reduced factor (a/(a,b)) so often that many elements of $A$ would be forced into a structure that necessarily creates many more distinct quotients—exactly the same volume-vs-surface tradeoff that the construction exploits. [[nomath]](The construction $A_{t,s}$ essentially achieves the extremal balance $n\sim s^3$ while $|Q|\sim s^2$.)[[/nomath]]
+Intuitively: if $m$ were much smaller than (n^{2/3}), then the (n^2) ordered pairs $(a,b)$ would have to “reuse” the same reduced factor $a/(a,b)$ so often that many elements of $A$ would be forced into a structure that necessarily creates many more distinct quotients—exactly the same volume-vs-surface tradeoff that the construction exploits. [[nomath]](The construction $A_{t,s}$ essentially achieves the extremal balance $n\sim s^3$ while $|Q|\sim s^2$.)[[/nomath]]
 
 Thus:
 [
