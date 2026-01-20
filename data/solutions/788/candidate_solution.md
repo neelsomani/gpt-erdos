@@ -95,7 +95,7 @@ Putting the easy lower bound and the (standard-probabilistic-method) upper bound
 
 [
 2\sqrt n,(1+o(1))
-\ \le\ f(n)\ \le\ O!\left(\sqrt{n\log n}\right).
+\ \le\ f(n)\ \le\ O\left(\sqrt{n\log n}\right).
 ]
 
 In particular, **yes**:

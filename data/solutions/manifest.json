@@ -362,6 +362,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1WP-MMXoFM48Mbz4Rs03akXO-FG3JWF0g/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The upper bound provided on the largest possible fiber sum is incorrect.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
