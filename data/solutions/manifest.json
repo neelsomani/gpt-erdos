@@ -296,6 +296,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1K9BWw65A6cMKECslVx76afO_34mGXPdA/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The Boas result is already noted on the page. The question remains open due to the further questions specified.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -306,6 +308,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/19fA1r_UzFJz9ELn4vrpfoBzby7rGbyVA/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Murai's construction does not imply that g*(z) = 0 has only finitely many solutions (and does not imply that 0 is omitted). So the proposed counterexample doesn't apply.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -326,6 +330,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1_rPEu6aNG8VtIz4SlGZH1Eo0_kJ-9kTN/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The claimed counterexample violates the known result mentioned on the Erdos problems page, so it cannot be right.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -366,6 +372,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1OgrdbRW1npDtr5XajUQHpGWvEoBFQwye/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The claimed lower bound is not established in the literature.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -416,6 +424,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1D1RnkFzFif2bnYiI2J1bzyyV7dS68GY_/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The equality attributed to CRST is not true for arbitrary trees.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -696,6 +706,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1ZVcamWvCDhL8SQeiSpLMs8wfyxgzrJnk/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The squarefree-kernel manipulation does not preserve the necessary ordering and does not preserve the square condition in the needed way.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
@@ -928,6 +940,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1S_TH77WO-HxsexOBnUnFXwX_cL_iI76X/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "Erdos is referring to the variant where a_0 = 0 and you count solutions with 0 allowed.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Andrew Xue"
     },
@@ -1140,6 +1154,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/10WXAA52d2f9uVbh93eJ2ipH2XtEIRjNA/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "The proof assumes a lower bound that is not proven for k >= 4.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Johnny Yu"
     },
@@ -1290,6 +1306,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/19rKQb3fnsNtck_LGGzNhld04vRGOTzjc/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "v_p(n choose k) can be much larger than 1 even when p^2 > k, because the numerator block can contain a large power p^a (with a >> 1) and the denominator only subtracts v_p(k!).",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Gabriella Susanteo"
     },
