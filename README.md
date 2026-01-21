@@ -19,7 +19,7 @@ We scrape publicly available metadata from https://www.erdosproblems.com.
 
 ## Methodology
 
-Each problem was submitted to GPT 5.2 Pro and Deep Research with an identical prompt. We indicate if a proof for the Erdős problem as stated exists in the literature. We also indicate whether GPT 5.2 Pro gives a purported solution (whether correct or not). Reviewer feedback is provided for each proof.
+Each problem was submitted to GPT 5.2 Pro and Deep Research with an identical prompt. We indicate if a proof for the Erdős problem as stated exists in the literature. We also indicate whether GPT 5.2 Pro gives a purported solution (whether correct or not). Reviewer feedback is provided for each proof. When possible, we submit the proof to Aristotle (Harmonic) for autoformalization.
 
 ## Findings
 
