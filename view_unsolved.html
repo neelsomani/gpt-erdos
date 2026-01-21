@@ -310,11 +310,12 @@
           Problems YAML:
           <a
             class="small"
+            id="problemsSourceLink"
             href="https://github.com/teorth/erdosproblems/blob/main/data/problems.yaml"
             target="_blank"
             rel="noreferrer"
           >
-            Loaded from GitHub
+            <span id="problemsSourceText">Loaded from GitHub</span>
           </a>
         </label>
         <label class="nowrap">
@@ -518,6 +519,8 @@
     <script>
       const problemsUrl =
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
+      const fallbackProblemsUrl =
+        "https://raw.githubusercontent.com/neelsomani/erdosproblems/refs/heads/patch-1/data/problems.yaml";
       const unsolvedUrl = "https://www.ocf.berkeley.edu/~neel/unsolved.jsonl";
       const githubToken = "REDACTED";
       const githubOwner = "neelsomani";
@@ -530,6 +533,8 @@
       const reviewToast = document.getElementById("reviewToast");
       const reviewToastBody = document.getElementById("reviewToastBody");
       const reviewToastClose = document.getElementById("reviewToastClose");
+      const problemsSourceLink = document.getElementById("problemsSourceLink");
+      const problemsSourceText = document.getElementById("problemsSourceText");
       const tbody = document.querySelector("#table tbody");
       const filterNumber = document.getElementById("filterNumber");
       const filterPriorSolution = document.getElementById("filterPriorSolution");
@@ -548,6 +553,7 @@
       let jsonlStatusText = "";
       let manifestStatusText = "";
       let candidateStatusText = "";
+      let problemsStatusText = "";
       const candidateCache = new Map();
       let toastTimeoutId = null;
 
@@ -567,6 +573,30 @@
         toastTimeoutId = setTimeout(() => {
           updateStatus();
         }, 1600);
+      }
+
+      async function loadProblemsYaml() {
+        const urls = [problemsUrl, fallbackProblemsUrl];
+        for (let index = 0; index < urls.length; index += 1) {
+          const url = urls[index];
+          const response = await fetch(url);
+          if (!response.ok) {
+            continue;
+          }
+          const yamlText = await response.text();
+          try {
+            const parsed = window.jsyaml.load(yamlText);
+            if (Array.isArray(parsed)) {
+              return {
+                problems: parsed,
+                usedFallback: index > 0,
+              };
+            }
+          } catch (error) {
+            console.warn("Failed to parse problems.yaml", error);
+          }
+        }
+        return null;
       }
 
       function showReviewToast(message) {
@@ -663,7 +693,7 @@
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
         const loadingStatus = "";
         setStatus(
-          `${baseStatus} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+          `${baseStatus} ${problemsStatusText} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
         if (toastStatusEl) {
           toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
@@ -1757,17 +1787,12 @@
             toastStatusEl.classList.add("is-visible");
           }
           await new Promise((resolve) => requestAnimationFrame(resolve));
-          const response = await fetch(problemsUrl);
-          if (!response.ok) {
+          const problemsPayload = await loadProblemsYaml();
+          if (!problemsPayload) {
             setStatus("Failed to load problems.yaml.");
             return;
           }
-          const yamlText = await response.text();
-          const problems = window.jsyaml.load(yamlText);
-          if (!Array.isArray(problems)) {
-            setStatus("problems.yaml did not parse to a list.");
-            return;
-          }
+          const { problems, usedFallback } = problemsPayload;
 
           const unsolvedResponse = await fetch(unsolvedUrl);
           if (!unsolvedResponse.ok) {
@@ -1840,6 +1865,17 @@
           jsonlStatusText = jsonlStatus;
           manifestStatusText = manifestStatus;
           candidateStatusText = candidateStatus;
+          problemsStatusText = usedFallback ? "Loaded from GitHub backup" : "";
+          if (problemsSourceText) {
+            problemsSourceText.textContent = usedFallback
+              ? "Loaded from GitHub backup"
+              : "Loaded from GitHub";
+          }
+          if (problemsSourceLink) {
+            problemsSourceLink.href = usedFallback
+              ? "https://github.com/neelsomani/erdosproblems/blob/patch-1/data/problems.yaml"
+              : "https://github.com/teorth/erdosproblems/blob/main/data/problems.yaml";
+          }
           updateStatus();
           await renderNextBatch();
         } catch (error) {
