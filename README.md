@@ -1,5 +1,7 @@
 # GPT-Erdos
 
+*Last updated: January 2026*
+
 GPT-Erdos is a collection of Erdős problems and candidate proofs, using LLM-driven proof search and (when possible) autoformalization. Erdős problems provide a compact testbed for studying how LLMs handle open-ended mathematical reasoning. We produce candidate proofs with corresponding Lean proof attempts, to surface successes, failures, and limitations of current approaches.
 
 We view GPT-Erdos as both a benchmark of mathematical ability and as a controlled environment for studying how LLMs:
@@ -39,3 +41,5 @@ Notes:
 \*\* Terence Tao classifies 652 as a Section 1 result, but Daniel Litt notes it is arguably literature search.
 
 \*\*\* Proof still under review.
+
+For the remainder of the open problems, GPT 5.2 Pro recites the existing literature on the problem, but does not claim to output a solution. When such outputs are presented in proof form rather than as literature summaries, we classify them as "valid but non-improving proofs."
