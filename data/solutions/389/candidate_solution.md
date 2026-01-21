@@ -35,7 +35,7 @@ So (A\mid B) is equivalent to
 =\frac{(n+2k-1)!,(n-1)!}{(n+k-1)!^2}\in \mathbb{Z}.
 ]
 
-Equivalently (factoring out $k!$):
+Equivalently [[nomath]](factoring out $k!$)[[/nomath]]:
 
 [
 A=k!\binom{n+k-1}{k},\qquad
@@ -48,7 +48,7 @@ so the divisibility is equivalent to
 \boxed{\binom{n+k-1}{k}\ \Big|\ \binom{n+2k-1}{k}.}
 ]
 
-This is often the easiest way to attack the problem (e.g., via $p$-adic valuations / Kummer’s theorem).
+This is often the easiest way to attack the problem [[nomath]](e.g., via $p$-adic valuations / Kummer’s theorem)[[/nomath]].
 
 ---
 
