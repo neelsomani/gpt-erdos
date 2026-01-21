@@ -238,8 +238,10 @@
         "solution_share_url": "https://chatgpt.com/share/696f75b8-e3a4-8007-8946-a16eae58757f",
         "deep_research_share_url": "https://chatgpt.com/share/696f6b40-ae68-8007-add2-01d4367b34fb",
         "deep_research_pdf_url": "https://drive.google.com/file/d/1s1bbCC724exLbX9BSTkmcris-D86Prox/view?usp=drive_link",
-        "prior_solution": false,
-        "solution_manually_verified": false,
+        "prior_solution": true,
+        "solution_manually_verified": true,
+        "solution_manual_review_reason": "The explicit c_k identified in the literature by GPT 5.2 Pro looks sufficient to me. I have posted this to the Erdos problems forum.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
@@ -462,6 +464,8 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1kOhlSumiVyt1Q8POuLMLRlq5lOuRhp8z/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": false,
+        "solution_manual_review_reason": "These bounds are tighter than what is mentioned on the Erdos problems website, but don't fully close the problem. I've posted them as a comment.",
+        "solution_manual_reviewer": "Neel Somani",
         "solution_formally_verified": null,
         "author": "Francis Kangethe"
     },
