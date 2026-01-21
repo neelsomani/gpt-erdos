@@ -5027,7 +5027,7 @@
         "deep_research_pdf_url": "https://drive.google.com/file/d/1Z3G0oLP6I0RHmpMPl4U0r8Cm9aR9u9j9/view?usp=drive_link",
         "prior_solution": false,
         "solution_manually_verified": true,
-        "solution_formally_verified": null,
+        "solution_formally_verified": true,
         "author": "Francis Kangethe"
     },
     {

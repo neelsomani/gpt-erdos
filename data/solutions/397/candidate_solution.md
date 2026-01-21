@@ -33,8 +33,7 @@ B_a,B_{2a+2},B_c ;=; B_{a+1},B_{2a},B_{c+1},
 i.e.
 [
 \binom{2a}{a}\binom{4a+4}{2a+2}\binom{2c}{c}
-============================================
-
+=
 \binom{2a+2}{a+1}\binom{4a}{2a}\binom{2c+2}{c+1}.
 ]
 
@@ -81,8 +80,7 @@ This completes the proof of (2).
 So for every (a\ge2) we get a distinct solution with all indices distinct:
 [
 \boxed{\binom{2a}{a}\binom{4a+4}{2a+2}\binom{2(8a^2+8a+1)}{8a^2+8a+1}
-=====================================================================
-
+=
 \binom{2a+2}{a+1}\binom{4a}{2a}\binom{2(8a^2+8a+2)}{8a^2+8a+2}}
 ]
 and hence there are **infinitely many** solutions.
@@ -90,8 +88,7 @@ and hence there are **infinitely many** solutions.
 Example (a=2):
 [
 \binom{4}{2}\binom{12}{6}\binom{98}{49}
-=======================================
-
+=
 \binom{6}{3}\binom{8}{4}\binom{100}{50},
 ]
 i.e. (6\cdot924\cdot\binom{98}{49}=20\cdot70\cdot\binom{100}{50}), with indices ({2,6,49,3,4,50}) all distinct.
