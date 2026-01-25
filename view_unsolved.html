@@ -322,11 +322,12 @@
           Unsolved JSONL:
           <a
             class="small"
-            href="https://www.ocf.berkeley.edu/~neel/unsolved.jsonl"
+            id="unsolvedSourceLink"
+            href="https://github.com/neelsomani/gpt-erdos/blob/main/data/unsolved.jsonl"
             target="_blank"
             rel="noreferrer"
           >
-            Loaded from server
+            Loaded from GitHub
           </a>
         </label>
       </div>
@@ -521,12 +522,9 @@
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
       const fallbackProblemsUrl =
         "https://raw.githubusercontent.com/neelsomani/erdosproblems/refs/heads/patch-1/data/problems.yaml";
-      const unsolvedUrl = "https://www.ocf.berkeley.edu/~neel/unsolved.jsonl";
-      const githubToken = "REDACTED";
-      const githubOwner = "neelsomani";
-      const githubRepo = "gpt-erdos";
-      const githubRef = "main";
-      const manifestPath = "data/solutions/manifest.json";
+      const rawGithubBase = "https://raw.githubusercontent.com/neelsomani/gpt-erdos/refs/heads/main";
+      const unsolvedUrl = `${rawGithubBase}/data/unsolved.jsonl`;
+      const manifestUrl = `${rawGithubBase}/data/solutions/manifest.json`;
       const solutionsBasePath = "data/solutions";
       const statusEl = document.getElementById("status");
       const toastStatusEl = document.getElementById("toastStatus");
@@ -629,34 +627,13 @@
         return success;
       }
 
-      function buildGithubHeaders() {
-        if (!githubToken) return null;
-        return {
-          Authorization: `Bearer ${githubToken}`,
-          Accept: "application/vnd.github+json",
-          "X-GitHub-Api-Version": "2022-11-28",
-        };
-      }
-
-      async function fetchGithubJson(path) {
-        const url = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${path}?ref=${githubRef}`;
-        const response = await fetch(url, {
-          headers: buildGithubHeaders() ?? undefined,
-        });
+      async function fetchGithubText(path) {
+        const url = `${rawGithubBase}/${path}`;
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`${response.status}: ${await response.text()}`);
         }
-        return response.json();
-      }
-
-      async function fetchGithubText(path) {
-        const payload = await fetchGithubJson(path);
-        if (!payload?.content) {
-          throw new Error("GitHub API response missing content.");
-        }
-        const b64 = String(payload.content).replace(/\n/g, "");
-        const bytes = Uint8Array.from(atob(b64), (char) => char.charCodeAt(0));
-        return new TextDecoder("utf-8").decode(bytes);
+        return response.text();
       }
 
       function clearTable() {
@@ -1796,7 +1773,7 @@
 
           const unsolvedResponse = await fetch(unsolvedUrl);
           if (!unsolvedResponse.ok) {
-            setStatus("Failed to load unsolved.jsonl from server.");
+            setStatus("Failed to load unsolved.jsonl from GitHub.");
             return;
           }
           const jsonlText = await unsolvedResponse.text();
@@ -1805,18 +1782,21 @@
           const jsonlTotal = parsed.total;
 
           let manifestEntries = [];
-          const solutionsDir = await fetchGithubJson(solutionsBasePath);
-          const solutionNumbers = new Set(
-            Array.isArray(solutionsDir)
-              ? solutionsDir
-                  .filter((entry) => entry?.type === "dir")
-                  .map((entry) => String(entry.name))
-              : [],
-          );
-
-          const manifestText = await fetchGithubText(manifestPath);
+          const manifestResponse = await fetch(manifestUrl);
+          if (!manifestResponse.ok) {
+            throw new Error(`Failed to fetch manifest: ${manifestResponse.status}`);
+          }
+          const manifestText = await manifestResponse.text();
           const manifestData = JSON.parse(manifestText);
           manifestEntries = parseManifestEntries(manifestData);
+
+          const solutionNumbers = new Set(
+            manifestEntries
+              .map((entry) => normalizeNumber(
+                pickValue(entry, ["number", "problem_number", "problem", "id"])
+              ))
+              .filter((num) => num)
+          );
           const solutionsMap = buildSolutionsMap(manifestEntries);
 
           const problemsMap = new Map(
@@ -1858,7 +1838,7 @@
           allRecords = merged;
           mergedRecords = applyFilters(allRecords);
           renderRows([]);
-          const jsonlStatus = `Loaded from server (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
+          const jsonlStatus = `Loaded from GitHub (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
           const candidateStatus =
             "Candidate solutions load from GitHub when you click View.";
