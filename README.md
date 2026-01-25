@@ -12,7 +12,7 @@ We view GPT-Erdos as both a benchmark of mathematical ability and as a controlle
 - interact with formal verification systems.
 
 This project uses data from the Erdos Problems repository:
-Teorth et al., *Erdos Problems*, GitHub repository.
+Tao et al., *Erdos Problems*, GitHub repository.
 https://github.com/teorth/erdosproblems/tree/main/data
 
 We scrape publicly available metadata from https://www.erdosproblems.com.
