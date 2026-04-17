@@ -336,6 +336,7 @@
           Solutions manifest:
           <a
             class="small"
+            id="manifestSourceLink"
             href="https://github.com/neelsomani/gpt-erdos/blob/main/data/solutions/manifest.json"
             target="_blank"
             rel="noreferrer"
@@ -347,6 +348,7 @@
           Candidate solutions:
           <a
             class="small"
+            id="candidateSolutionsSourceLink"
             href="https://github.com/neelsomani/gpt-erdos/tree/main/data/solutions"
             target="_blank"
             rel="noreferrer"
@@ -394,6 +396,7 @@
               </select>
             </th>
             <th class="hide-on-mobile" style="width: 160px;">5.2 Pro</th>
+            <th class="hide-on-mobile" style="width: 120px;">Grok Response</th>
             <th class="hide-on-mobile" style="width: 140px;">
               <div>Prompter</div>
               <input
@@ -522,7 +525,14 @@
         "https://raw.githubusercontent.com/teorth/erdosproblems/refs/heads/main/data/problems.yaml";
       const fallbackProblemsUrl =
         "https://raw.githubusercontent.com/neelsomani/erdosproblems/refs/heads/patch-1/data/problems.yaml";
-      const rawGithubBase = "https://raw.githubusercontent.com/neelsomani/gpt-erdos/refs/heads/main";
+      const urlParams = new URLSearchParams(window.location.search);
+      const requestedBranch =
+        urlParams.get("branch") || urlParams.get("github_branch") || "main";
+      const githubBranch = /^[A-Za-z0-9._\/-]+$/.test(requestedBranch)
+        ? requestedBranch
+        : "main";
+      const rawGithubBase = `https://raw.githubusercontent.com/neelsomani/gpt-erdos/refs/heads/${githubBranch}`;
+      const githubWebBase = `https://github.com/neelsomani/gpt-erdos`;
       const unsolvedUrl = `${rawGithubBase}/data/unsolved.jsonl`;
       const manifestUrl = `${rawGithubBase}/data/solutions/manifest.json`;
       const solutionsBasePath = "data/solutions";
@@ -533,6 +543,9 @@
       const reviewToastClose = document.getElementById("reviewToastClose");
       const problemsSourceLink = document.getElementById("problemsSourceLink");
       const problemsSourceText = document.getElementById("problemsSourceText");
+      const unsolvedSourceLink = document.getElementById("unsolvedSourceLink");
+      const manifestSourceLink = document.getElementById("manifestSourceLink");
+      const candidateSolutionsSourceLink = document.getElementById("candidateSolutionsSourceLink");
       const tbody = document.querySelector("#table tbody");
       const filterNumber = document.getElementById("filterNumber");
       const filterPriorSolution = document.getElementById("filterPriorSolution");
@@ -552,8 +565,19 @@
       let manifestStatusText = "";
       let candidateStatusText = "";
       let problemsStatusText = "";
+      const branchStatusText = `Using gpt-erdos branch: ${githubBranch}.`;
       const candidateCache = new Map();
       let toastTimeoutId = null;
+
+      if (unsolvedSourceLink) {
+        unsolvedSourceLink.href = `${githubWebBase}/blob/${githubBranch}/data/unsolved.jsonl`;
+      }
+      if (manifestSourceLink) {
+        manifestSourceLink.href = `${githubWebBase}/blob/${githubBranch}/data/solutions/manifest.json`;
+      }
+      if (candidateSolutionsSourceLink) {
+        candidateSolutionsSourceLink.href = `${githubWebBase}/tree/${githubBranch}/data/solutions`;
+      }
 
       function setStatus(message) {
         if (statusEl) {
@@ -670,7 +694,7 @@
         const baseStatus = `Showing ${renderedCount} of ${mergedRecords.length} problems.`;
         const loadingStatus = "";
         setStatus(
-          `${baseStatus} ${problemsStatusText} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
+          `${baseStatus} ${branchStatusText} ${problemsStatusText} ${jsonlStatusText} ${manifestStatusText} ${candidateStatusText}`,
         );
         if (toastStatusEl) {
           toastStatusEl.textContent = `${baseStatus.replace(/\.$/, "")}${loadingStatus}.`;
@@ -848,6 +872,9 @@
             aristotleProofUrl: solutionFormallyVerified
               ? `${solutionsBasePath}/${number}/candidate_solution.lean`
               : "",
+            grokOutputUrl: normalizeString(
+              pickValue(entry, ["grok_output_url", "grok_response_url"]),
+            ),
           });
         }
         return map;
@@ -980,6 +1007,25 @@
             url,
             `Aristotle formal proof for problem ${number}`,
             "Aristotle formal proof",
+          );
+        });
+        return link;
+      }
+
+      function buildGrokLink(number, url, onBeforeOpen) {
+        if (!url || !number) return null;
+        const link = document.createElement("button");
+        link.type = "button";
+        link.textContent = "View";
+        link.addEventListener("click", async () => {
+          if (typeof onBeforeOpen === "function") {
+            onBeforeOpen();
+          }
+          await openFileModalFromUrl(
+            number,
+            url,
+            `Grok response for problem ${number}`,
+            "Grok response",
           );
         });
         return link;
@@ -1477,6 +1523,23 @@
         list.appendChild(
           buildDetailsItem("5.2 Pro", proLinks.childNodes.length ? proLinks : ""),
         );
+        const grokLinks = document.createElement("div");
+        if (record.grok_output_url && numberText) {
+          const grokButton = buildGrokLink(
+            numberText,
+            record.grok_output_url,
+            closeDetailsModal,
+          );
+          if (grokButton) {
+            grokLinks.appendChild(grokButton);
+          }
+        }
+        list.appendChild(
+          buildDetailsItem(
+            "Grok Response",
+            grokLinks.childNodes.length ? grokLinks : "",
+          ),
+        );
         list.appendChild(buildDetailsItem("Prompter", record.prompter ?? ""));
         list.appendChild(
           buildDetailsItem(
@@ -1691,6 +1754,16 @@
           appendLinkGroup(proResponseCell, proLinks);
           row.appendChild(proResponseCell);
 
+          const grokResponseCell = document.createElement("td");
+          grokResponseCell.className = "hide-on-mobile";
+          if (record.grok_output_url && numberText) {
+            const grokButton = buildGrokLink(numberText, record.grok_output_url);
+            if (grokButton) {
+              grokResponseCell.appendChild(grokButton);
+            }
+          }
+          row.appendChild(grokResponseCell);
+
           const prompterCell = document.createElement("td");
           prompterCell.className = "hide-on-mobile";
           prompterCell.textContent = record.prompter ?? "";
@@ -1829,6 +1902,8 @@
               prompter: solution?.prompter ?? "",
               aristotle_status: solution?.aristotleStatus ?? "",
               aristotle_proof_url: solution?.aristotleProofUrl ?? "",
+              grok_output_url:
+                solution?.grokOutputUrl || `${solutionsBasePath}/${number}/grok_output.md`,
               candidate_solution_url: solutionNumbers.has(number)
                 ? solution?.candidateSolutionUrl ?? ""
                 : "",
@@ -1841,7 +1916,7 @@
           const jsonlStatus = `Loaded from GitHub (${jsonlRecords.length} of ${jsonlTotal} JSONL rows).`;
           const manifestStatus = `Loaded ${manifestEntries.length} manifest entries from GitHub.`;
           const candidateStatus =
-            "Candidate solutions load from GitHub when you click View.";
+            "Candidate and Grok responses load from GitHub when you click View.";
           jsonlStatusText = jsonlStatus;
           manifestStatusText = manifestStatus;
           candidateStatusText = candidateStatus;
