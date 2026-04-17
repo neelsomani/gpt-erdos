@@ -62,7 +62,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--timeout",
         type=float,
-        default=120.0,
+        default=1800.0,
         help="HTTP timeout in seconds.",
     )
     parser.add_argument(
@@ -200,7 +200,9 @@ def call_grok(
             if attempt < retries:
                 wait_seconds = min(60, 2**attempt)
                 print(
-                    f"Transient error. Retrying in {wait_seconds}s ({attempt}/{retries})...",
+                    "Transient error "
+                    f"({type(exc).__name__}: {exc}). "
+                    f"Retrying in {wait_seconds}s ({attempt}/{retries})...",
                     file=sys.stderr,
                 )
                 time.sleep(wait_seconds)
@@ -244,6 +246,8 @@ def main() -> None:
     total = len(records)
     processed = 0
     skipped = 0
+    failed = 0
+    failed_numbers: list[str] = []
 
     for index, record in enumerate(records, start=1):
         number = str(record.get("number", "")).strip()
@@ -260,26 +264,40 @@ def main() -> None:
 
         prompt = build_user_prompt(record)
         print(f"[{index}/{total}] Requesting Grok response for {number}...", file=sys.stderr)
-        response_text = call_grok(
-            api_base=args.api_base,
-            api_key=api_key,
-            model=args.model,
-            system_prompt=args.system_prompt,
-            user_prompt=prompt,
-            temperature=args.temperature,
-            timeout=args.timeout,
-            retries=args.retries,
-        )
-        write_output(output_path, number, response_text)
-        processed += 1
+        try:
+            response_text = call_grok(
+                api_base=args.api_base,
+                api_key=api_key,
+                model=args.model,
+                system_prompt=args.system_prompt,
+                user_prompt=prompt,
+                temperature=args.temperature,
+                timeout=args.timeout,
+                retries=args.retries,
+            )
+            write_output(output_path, number, response_text)
+            processed += 1
+        except Exception as exc:
+            failed += 1
+            failed_numbers.append(number)
+            print(
+                f"[{index}/{total}] Failed {number}: {type(exc).__name__}: {exc}. Continuing...",
+                file=sys.stderr,
+            )
+            continue
 
         if args.delay > 0 and index < total:
             time.sleep(args.delay)
 
     print(
-        f"Done. Processed={processed}, Skipped={skipped}, Total={total}.",
+        f"Done. Processed={processed}, Skipped={skipped}, Failed={failed}, Total={total}.",
         file=sys.stderr,
     )
+    if failed_numbers:
+        print(
+            "Failed problem numbers: " + ", ".join(failed_numbers),
+            file=sys.stderr,
+        )
 
 
 if __name__ == "__main__":
