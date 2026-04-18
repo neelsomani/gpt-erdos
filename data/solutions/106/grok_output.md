@@ -1,0 +1,25 @@
+# Grok Response for Problem 106
+
+**Is \(f(k^2 + 1) = k\)?**
+
+The squares are assumed to be axis-aligned, as suggested by the form of the query (non-axis-aligned packings lack the natural grid interpretation underlying the \(k^2\) threshold). Thus, \(f(n)\) is the supremum of \(\sum_{i=1}^n s_i\) over all collections of \(n\) axis-aligned squares of side lengths \(s_i > 0\) whose interiors are pairwise disjoint and contained in \([0, 1]^2\).
+
+First, \(f(n) \geq \lfloor \sqrt{n} \rfloor\) holds by partitioning \([0, 1]^2\) into a grid of equal squares (padding with degenerate squares of side 0 if needed, though the supremum is unaffected). In particular, \(f(k^2) = k\) and hence \(f(k^2 + 1) \geq k\).
+
+To decide equality, note that any such packing yields two integral identities obtained by sweeping. For the \(x\)-projections (intervals of lengths \(s_i\)): at each fixed \(x \in [0, 1]\), the squares whose \(x\)-projections contain \(x\) must have pairwise disjoint \(y\)-projections (otherwise a pair would share interior points). Their side lengths therefore sum to at most 1. Integrating over \(x \in [0, 1]\) produces
+\[
+\sum_i s_i^2 \leq 1.
+\]
+Symmetry in \(y\) yields the same bound. Cauchy–Schwarz then implies the weak upper bound \(f(n) \leq \sqrt{n}\), consistent with the grid construction but insufficient to force \(f(k^2 + 1) = k\).
+
+The non-overlap condition is equivalent to: for every pair, the \(x\)-projections are disjoint or the \(y\)-projections are disjoint (up to measure-zero boundary touching). Define the \(x\)-overlap graph \(G\): vertices are the squares, with an edge if the \(x\)-projections overlap on a positive-length interval. Then \(G\) is an interval graph (hence perfect), and any clique in \(G\) corresponds to squares whose \(y\)-projections are pairwise disjoint, so the sum of their sides is at most 1. Thus the clique number \(\omega(G) \leq \lfloor 1 / \min s_i \rfloor\), but more usefully, \(\chi(G) = \omega(G)\). Each color class is an independent set (no two \(x\)-overlap), so the projections are disjoint and the sides in each class sum to at most 1. Therefore the total sum is at most \(\chi(G)\).
+
+For small cases this machinery yields equality.
+
+- For \(k = 1\), \(n = 2\): At most one \(s_i > 1/2\) (two intervals longer than \(1/2\) on \([0, 1]\) must overlap in \(x\), forcing disjoint \(y\)-intervals longer than \(1/2\), which is impossible). If both \(s_i \leq 1/2\) and both \(> 1/3\), then \(\omega(G) \leq 2\) (three sides \(> 1/3\) cannot fit in a unit-length \(y\)-interval), so \(\chi(G) \leq 2\) and \(\sum s_i \leq 2\), but the target is 1; the direct argument is simpler. Any two squares have either disjoint \(x\)-projections or disjoint \(y\)-projections (else interiors intersect), forcing \(s_1 + s_2 \leq 1\). Thus \(f(2) = 1\).
+
+- For \(k = 2\), \(n = 5\), exhaustive case analysis on the ordered sides \(s_1 \geq \cdots \geq s_5\) shows \(\sum s_i \leq 2\). At most one \(s_i > 1/2\). If \(s_1 > 1/2\), every other square must lie in a margin of width \(w = 1 - s_1\) (if its \(x\)-projection overlaps that of the large square then its \(y\)-projection cannot, and vice versa), and explicit placement in the resulting L-shaped region (pushing the large square to a corner without loss of optimality) yields at most three squares of side \(w\) and two of side \(2s_1 - 1\) (when \(1/2 < s_1 < 2/3\)) or equivalent recombinations; all configurations sum exactly to 2 (or less). If all \(s_i \leq 1/2\) but all \(> 1/3\), then \(\omega(G) \leq 2\) (three sides \(> 1/3\) cannot fit disjointly in a unit \(y\)-interval), so \(\chi(G) \leq 2\) and \(\sum s_i \leq 2\), a contradiction to \(> 2\). The remaining case (some \(s_5 \leq 1/3\)) forces the first four sides (each in \((1/3, 1/2]\)) to sum \(> 2 - 1/3 > 1.666\). These four again satisfy \(\omega(G) \leq 2\), so can be 2-colored with each class summing to at most 1; achieving nearly 2 requires the classes to nearly cover \([0, 1]\) in \(x\)-measure. All attempted geometric realizations (2×2 grids shrunk to open a gap, diagonal placement of two sides \(\approx 0.5\) leaving two orthogonal 0.5×0.5 rectangles, staggered alignments) either cannot accommodate a fifth side \(\approx 1/3\) or require shrinking the large sides by a total at least as large as the added side, returning the sum to at most 2. Combined with \(\sum s_i^2 \leq 1\), no numerical choice of sides summing above 2 fits geometrically.
+
+The pattern suggests a general affirmative answer: any attempt to insert a \((k^2 + 1)\)-st square into a \(k \times k\) grid forces a net decrease (or zero change) in the sum of sides. However, extending the case analysis or coloring argument to arbitrary \(k\) requires controlling how the extra square interacts with multiple color classes simultaneously while respecting the quadratic constraint \(\sum s_i^2 \leq 1\), and no such global proof was obtained despite exhaustive examination of threshold values (e.g., \(1/(k+1)\), \(1/k\)) and recursive application of the \(\chi(G)\) bound. Thus the equality cannot be settled in full generality.
+
+I could not solve it.

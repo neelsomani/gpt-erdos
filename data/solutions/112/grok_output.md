@@ -1,0 +1,13 @@
+# Grok Response for Problem 112
+
+I couldn't solve it.
+
+**Lower bound construction.** Consider the directed graph on \((n-1)(m-1)\) vertices consisting of the disjoint union of \(n-1\) transitive tournaments, each of order \(m-1\). (Here a directed graph means an oriented graph: at most one directed edge between any pair of vertices.) Any set with no directed edge between any pair of its vertices can include at most one vertex from each transitive tournament (since every pair within one has a directed edge). Thus there is no independent set of size \(n\). Any set inducing a tournament must lie entirely within one component (otherwise there are pairs with no directed edge), so there is no transitive tournament of size \(m\).
+
+This shows \(k(n,m) \geq (n-1)(m-1)+1\), but the bound is not tight in general. For instance, when \(n=2\) and \(m=3\), the directed 3-cycle has neither an independent set of size 2 nor a transitive tournament of size 3, so \(k(2,3) \geq 4 > (2-1)(3-1)+1\).
+
+**Upper bounds.** When \(n=2\), the problem reduces to finding the smallest \(k\) such that every tournament on \(k\) vertices contains a transitive subtournament on \(m\) vertices (if the underlying undirected graph is not complete, there is immediately an independent set of size 2). Standard probabilistic arguments on random tournaments show that there exist tournaments on \(2^{\Omega(m)}\) vertices with no transitive subtournament of size \(m\), so \(k(2,m) \geq 2^{\Omega(m)}\). Known upper bounds on this special case are exponential in \(O(m^2 \log m)\) (via repeated application of the median order and Ramsey arguments on subtournaments), but these do not match the lower bound.
+
+For general \(n\) and \(m\), if the underlying undirected graph \(G\) of a directed graph \(D\) on \(k\) vertices satisfies \(\alpha(G) \geq n\), there is an independent set of size \(n\) in \(D\). Otherwise \(\alpha(G) \leq n-1\), so \(G\) is the union of \(n-1\) cliques (by the complement of Dilworth's theorem applied to the complement graph). One can then attempt to find a transitive tournament of size \(m\) by iteratively extracting vertices of high out-degree within these cliques and applying induction on the links, but the presence of arbitrary orientations (including cycles spanning multiple cliques) prevents the induction from closing tightly. The resulting upper bound is at most \((n-1) \cdot t(m) + 1\), where \(t(m)\) is the upper bound on the transitive tournament Ramsey number in the \(n=2\) case above, but again this is far from tight or explicit.
+
+No simple closed-form expression for \(k(n,m)\) is apparent from the above, and matching the exponential lower bound (in \(m\), for fixed \(n\)) with a matching upper bound appears to require new ideas.

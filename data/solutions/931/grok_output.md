@@ -1,0 +1,13 @@
+# Grok Response for Problem 931
+
+I was unable to solve this problem.
+
+**Reasoning.** The condition requires that the two products of consecutive integers (of fixed lengths \(k_1 \geq k_2 \geq 3\)) have identical sets of prime divisors. Both products are always divisible by all primes at most \(k_2\), while the longer product is always divisible by all primes at most \(k_1\). For the sets to agree when \(k_1 > k_2\), the second product must thus be divisible by each prime in \((k_2, k_1]\) (a fixed finite set). This imposes simultaneous congruence conditions on the starting point of the second interval, which hold on a positive-density set of candidates (by the Chinese remainder theorem).
+
+For large enough starting points, both intervals necessarily introduce prime factors larger than \(k_1\) (equivalently, not all terms in either interval can be smooth with respect to the fixed set of primes \(\leq k_1\)). This follows from the theory of \(S\)-unit equations: if all terms in an interval of length at least 2 were smooth over a fixed finite set \(S\) of primes, then pairs of them would be \(S\)-units differing by a fixed positive integer, but the equation \(x - y = f\) (with \(x, y\) positive \(S\)-units and \(f\) fixed) has only finitely many solutions.
+
+The extra primes \(> k_1\) appearing in the factorizations of terms from the first interval must then match exactly those appearing from the second interval (and vice versa). Each such prime \(p > k_1\) divides at most one term in each interval. If a term in the first interval is itself a prime \(p > k_1\), then \(p\) must divide a term in the second interval (hence that term is at least \(2p\)); this is impossible for \(n_2\) too close to \(n_1\) (since the second interval then lies below \(2p\)), but \(n_2\) may be taken much larger than \(n_1\). Similar considerations apply if terms are composite with a large prime factor \(q > k_1\) (necessarily \(q \leq \sqrt{n_1 + k_1}\) or the term is a prime power). Letting \(q\) be the largest prime in the common set and tracing the multiples of \(q\) in both intervals leads to constraints on the cofactors, but these do not appear to yield an effective bound precluding infinitely many solutions (or a proof of finiteness).
+
+No examples suggest an obvious infinite family, but the constraints do not rigorously force only finitely many solutions either. The problem thus appears to require substantially deeper tools from Diophantine approximation or arithmetic geometry (e.g., subspace theorems applied to varying \(S\)) that do not yield to the above approach.
+
+**Conclusion.** I could not resolve whether only finitely many such \(n_2 \geq n_1 + k_1\) exist.
