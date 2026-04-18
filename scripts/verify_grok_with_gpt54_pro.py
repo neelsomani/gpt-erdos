@@ -35,6 +35,7 @@ FAILURE_PHRASES = (
     "could not prove",
     "remains open",
     "remains elusive",
+    "remains unsolved",
 )
 
 VERDICT_RE = re.compile(r"^Verdict:\s*(Correct|Reparable|False)\s*$", re.IGNORECASE)
@@ -118,13 +119,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--timeout",
         type=float,
-        default=1800.0,
+        default=7200.0,
         help="HTTP timeout in seconds.",
     )
     parser.add_argument(
         "--retries",
         type=int,
-        default=4,
+        default=2,
         help="Maximum retries per request on transient failures.",
     )
     parser.add_argument(

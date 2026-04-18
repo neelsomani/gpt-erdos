@@ -47,6 +47,7 @@ def main() -> None:
         "could not prove",
         "remains open",
         "remains elusive",
+        "remains unsolved",
     )
 
     if not args.solutions_dir.exists():
