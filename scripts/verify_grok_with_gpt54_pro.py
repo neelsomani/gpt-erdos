@@ -112,7 +112,7 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--reasoning-effort",
-        default="xhigh",
+        default="high",
         choices=["medium", "high", "xhigh"],
         help="Reasoning effort for GPT-5.4 Pro.",
     )
