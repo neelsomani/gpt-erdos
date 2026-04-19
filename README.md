@@ -43,3 +43,40 @@ Notes:
 \*\*\* Proof still under review.
 
 For the remainder of the open problems, GPT 5.2 Pro recites the existing literature on the problem, but does not claim to output a solution. When such outputs are presented in proof form rather than as literature summaries, we classify them as "valid but non-improving proofs."
+
+## Background-mode GPT-5.4 Pro runner
+
+Use `scripts/run_gpt54_pro_background.py` to submit all LaTeX problems in `data/unsolved.jsonl` as OpenAI Responses background jobs, then monitor and save results to disk.
+
+Submit jobs:
+
+```bash
+python3 scripts/run_gpt54_pro_background.py submit
+```
+
+Run a live terminal dashboard until all jobs finish (polls status, marks over-time jobs failed, writes completed outputs):
+
+```bash
+python3 scripts/run_gpt54_pro_background.py dashboard --until-done
+```
+
+Run a local web dashboard to view job states and open saved result files:
+
+```bash
+python3 scripts/run_gpt54_pro_background.py web-dashboard
+```
+
+Defaults:
+
+- Model: `gpt-5.4-pro`
+- Reasoning effort: `xhigh`
+- Max runtime per background job before timeout failure: `14400` seconds
+- Web dashboard host/port: `127.0.0.1:8765`
+- State file: `data/gpt54_pro_background_jobs.json`
+- Per-problem output: `data/solutions/<number>/gpt54_pro_background.md`
+
+Each model response is prompted to end with exactly one line:
+
+- `Status: Solved`
+- `Status: Proof Sketch`
+- `Status: Failed`
