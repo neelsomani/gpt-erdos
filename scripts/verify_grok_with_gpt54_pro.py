@@ -137,7 +137,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--concurrency",
         type=int,
-        default=30,
+        default=10,
         help="Number of problems to verify in parallel.",
     )
     parser.add_argument(
@@ -272,9 +272,16 @@ def call_responses_api(
     }
     body = json.dumps(payload).encode("utf-8")
 
+    request_started_at = datetime.now(timezone.utc)
+    request_started_monotonic = time.monotonic()
     last_error: Exception | None = None
     for attempt in range(1, retries + 1):
-        log_stderr(f"{request_label} Waiting for API response (attempt {attempt}/{retries})...")
+        attempt_started_at = datetime.now(timezone.utc)
+        attempt_started_monotonic = time.monotonic()
+        log_stderr(
+            f"{request_label} Waiting for API response (attempt {attempt}/{retries}, "
+            f"started_at={attempt_started_at.isoformat()}, timeout={timeout:.1f}s)..."
+        )
         request = Request(
             url,
             data=body,
@@ -287,12 +294,19 @@ def call_responses_api(
         try:
             with urlopen(request, timeout=timeout) as response:
                 response_data = json.loads(response.read().decode("utf-8"))
+            attempt_elapsed = time.monotonic() - attempt_started_monotonic
+            total_elapsed = time.monotonic() - request_started_monotonic
+            log_stderr(
+                f"{request_label} API response received in {attempt_elapsed:.1f}s "
+                f"(total_elapsed={total_elapsed:.1f}s)."
+            )
         except HTTPError as exc:
+            attempt_elapsed = time.monotonic() - attempt_started_monotonic
             if exc.code in {408, 409, 429, 500, 502, 503, 504} and attempt < retries:
                 wait_seconds = min(60, 2**attempt)
                 log_stderr(
                     f"{request_label} HTTP {exc.code}. Retrying in {wait_seconds}s "
-                    f"({attempt}/{retries})..."
+                    f"({attempt}/{retries}, elapsed={attempt_elapsed:.1f}s)..."
                 )
                 time.sleep(wait_seconds)
                 continue
@@ -303,12 +317,14 @@ def call_responses_api(
                 detail = ""
             raise RuntimeError(f"Responses API HTTP {exc.code}: {detail}") from exc
         except (URLError, TimeoutError, json.JSONDecodeError) as exc:
+            attempt_elapsed = time.monotonic() - attempt_started_monotonic
             last_error = exc
             if attempt < retries:
                 wait_seconds = min(60, 2**attempt)
                 log_stderr(
                     f"{request_label} Transient error ({type(exc).__name__}: {exc}). "
-                    f"Retrying in {wait_seconds}s ({attempt}/{retries})..."
+                    f"Retrying in {wait_seconds}s ({attempt}/{retries}, "
+                    f"elapsed={attempt_elapsed:.1f}s)..."
                 )
                 time.sleep(wait_seconds)
                 continue
@@ -324,7 +340,12 @@ def call_responses_api(
         return text, verdict, usage if isinstance(usage, dict) else None
 
     if last_error is not None:
-        raise RuntimeError(f"Responses API request failed: {last_error}") from last_error
+        total_elapsed = time.monotonic() - request_started_monotonic
+        request_started_iso = request_started_at.isoformat()
+        raise RuntimeError(
+            f"Responses API request failed after {total_elapsed:.1f}s "
+            f"(request_started_at={request_started_iso}): {last_error}"
+        ) from last_error
     raise RuntimeError("Responses API request failed")
 
 
