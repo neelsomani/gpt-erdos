@@ -307,6 +307,9 @@ def extract_output_text(response_data: dict[str, Any]) -> str:
             if not isinstance(item, dict):
                 continue
             content = item.get("content")
+            if isinstance(content, str) and content.strip():
+                chunks.append(content.strip())
+                continue
             if not isinstance(content, list):
                 continue
             for block in content:
@@ -615,6 +618,31 @@ def run_dashboard(args: argparse.Namespace, api_key: str) -> None:
             if status not in NON_TERMINAL and status in TERMINAL:
                 if status == "completed" and not bool(job.get("output_saved", False)):
                     text = str(job.get("response_text", "")).strip()
+                    if not text:
+                        try:
+                            data = retrieve_response(
+                                api_base=args.api_base,
+                                api_key=api_key,
+                                response_id=response_id,
+                                timeout=args.request_timeout,
+                            )
+                            text = extract_output_text(data)
+                            if text:
+                                job["response_text"] = text
+                            input_tokens, output_tokens, total_tokens = usage_counts(data)
+                            if input_tokens > 0 or output_tokens > 0 or total_tokens > 0:
+                                if int(job.get("usage_input_tokens", 0) or 0) != input_tokens:
+                                    job["usage_input_tokens"] = input_tokens
+                                if int(job.get("usage_output_tokens", 0) or 0) != output_tokens:
+                                    job["usage_output_tokens"] = output_tokens
+                                if int(job.get("usage_total_tokens", 0) or 0) != total_tokens:
+                                    job["usage_total_tokens"] = total_tokens
+                            job["last_polled_at"] = now_iso()
+                            state_changed = True
+                        except Exception as exc:
+                            job["last_error"] = f"retrieve_failed: {exc}"
+                            state_changed = True
+                            continue
                     if text:
                         model_status = extract_model_status(text)
                         output_path = Path(str(job.get("output_path", "")).strip())
