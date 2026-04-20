@@ -788,6 +788,34 @@ def run_dashboard(args: argparse.Namespace, api_key: str) -> None:
         time.sleep(max(0.5, args.interval))
 
 
+def resolve_model_status(job: dict[str, Any], output_exists: bool) -> str:
+    model_status = str(job.get("model_status", "")).strip()
+    if model_status:
+        return model_status
+
+    response_text = str(job.get("response_text", "")).strip()
+    if response_text:
+        inferred = extract_model_status(response_text)
+        if inferred:
+            return inferred
+
+    if output_exists:
+        output_path_value = str(job.get("output_path", "")).strip()
+        if output_path_value:
+            output_path = Path(output_path_value)
+            try:
+                with output_path.open("r", encoding="utf-8", errors="replace") as handle:
+                    sample = handle.read(8192)
+            except OSError:
+                sample = ""
+            if sample:
+                inferred = extract_model_status(sample)
+                if inferred:
+                    return inferred
+
+    return ""
+
+
 def jobs_for_web(state: dict[str, Any]) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     jobs = [job for job in state.get("jobs", []) if isinstance(job, dict)]
@@ -799,6 +827,7 @@ def jobs_for_web(state: dict[str, Any]) -> list[dict[str, Any]]:
         if output_path:
             output_exists = Path(output_path).is_file()
         output_saved = bool(job.get("output_saved", False)) or output_exists
+        model_status = resolve_model_status(job, output_exists)
         rows.append(
             {
                 "number": number,
@@ -810,7 +839,7 @@ def jobs_for_web(state: dict[str, Any]) -> list[dict[str, Any]]:
                 "cancelled_at": str(job.get("cancelled_at", "")).strip(),
                 "timeout_exceeded_at": str(job.get("timeout_exceeded_at", "")).strip(),
                 "failure_reason": str(job.get("failure_reason", "")).strip(),
-                "model_status": str(job.get("model_status", "")).strip(),
+                "model_status": model_status,
                 "output_path": output_path,
                 "output_saved": output_saved,
                 "output_exists": output_exists,
@@ -856,6 +885,11 @@ def web_index_html(refresh_seconds: float) -> str:
     .status-failed {{ color: #8e1010; }}
     .status-cancelled {{ color: #5d0d6e; }}
     .status-incomplete {{ color: #555; }}
+    .model-badge {{ border-radius: 999px; padding: 2px 8px; font-size: 12px; border: 1px solid #ddd; display: inline-block; }}
+    .model-solved {{ color: #0a6b1c; border-color: #9ed7a8; background: #edf9ef; }}
+    .model-proof {{ color: #7a5200; border-color: #e6ce8a; background: #fff8e8; }}
+    .model-failed {{ color: #8e1010; border-color: #e5aaaa; background: #fff0f0; }}
+    .model-unknown {{ color: #555; border-color: #ddd; background: #f8f8f8; }}
     .mono {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }}
     .muted {{ color: #666; }}
   </style>
@@ -924,6 +958,13 @@ def web_index_html(refresh_seconds: float) -> str:
 
       rowsEl.innerHTML = jobs.map(job => {{
         const statusClass = `status-${{job.response_status || 'unknown'}}`;
+        const modelStatus = String(job.model_status || '').trim();
+        const modelLower = modelStatus.toLowerCase();
+        const modelClass = modelLower === 'solved'
+          ? 'model-solved'
+          : (modelLower === 'proof sketch'
+              ? 'model-proof'
+              : (modelLower === 'failed' ? 'model-failed' : 'model-unknown'));
         const stamps = [
           ['submitted', job.submitted_at],
           ['terminal', job.terminal_at],
@@ -941,7 +982,7 @@ def web_index_html(refresh_seconds: float) -> str:
         return `<tr>
           <td class=\"mono\">${{esc(job.number)}}</td>
           <td><span class=\"${{statusClass}}\">${{esc(job.response_status)}}</span></td>
-          <td>${{esc(job.model_status || '—')}}</td>
+          <td><span class=\"model-badge ${{modelClass}}\">${{esc(modelStatus || '—')}}</span></td>
           <td>${{stamps || '<span class=\"muted\">—</span>'}}</td>
           <td>${{resultCell}}</td>
           <td class=\"mono\">${{esc(job.response_id)}}</td>
