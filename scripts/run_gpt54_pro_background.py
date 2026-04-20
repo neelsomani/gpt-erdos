@@ -1024,16 +1024,27 @@ def run_web_dashboard(args: argparse.Namespace) -> None:
                     self.send_error(404, "result file not found")
                     return
                 text = output_path.read_text(encoding="utf-8", errors="replace")
+                latex = str(job.get("latex", "")).strip()
+                problem_url = f"https://www.erdosproblems.com/{number}" if number else "https://www.erdosproblems.com"
                 title = f"Problem {html.escape(number)} result"
+                latex_block = (
+                    f"<pre>{html.escape(latex)}</pre>"
+                    if latex
+                    else "<div class='muted'>LaTeX unavailable in state file.</div>"
+                )
                 rendered = (
                     "<!doctype html><html><head><meta charset='utf-8'>"
                     f"<title>{title}</title>"
                     "<style>body{font-family:system-ui,-apple-system,sans-serif;margin:20px;}"
                     "pre{white-space:pre-wrap;border:1px solid #ddd;padding:12px;background:#fafafa;}"
-                    "a{color:#0056b3;}</style></head><body>"
+                    ".muted{color:#666;}a{color:#0056b3;}</style></head><body>"
                     "<p><a href='/'>← Back to dashboard</a></p>"
                     f"<h2>{title}</h2>"
                     f"<div><code>{html.escape(str(output_path))}</code></div>"
+                    f"<p><a href='{html.escape(problem_url)}' target='_blank' rel='noopener noreferrer'>Open on erdosproblems.com ↗</a></p>"
+                    "<h3>Problem (LaTeX)</h3>"
+                    f"{latex_block}"
+                    "<h3>Model Result</h3>"
                     f"<pre>{html.escape(text)}</pre>"
                     "</body></html>"
                 ).encode("utf-8")
