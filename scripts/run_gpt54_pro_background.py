@@ -420,6 +420,26 @@ def run_submit(args: argparse.Namespace, api_key: str) -> None:
                     new_status = str(data.get("status", previous_status)).strip() or previous_status
                     if new_status != previous_status:
                         job["response_status"] = new_status
+                    input_tokens, output_tokens, total_tokens = usage_counts(data)
+                    if input_tokens > 0 or output_tokens > 0 or total_tokens > 0:
+                        if int(job.get("usage_input_tokens", 0) or 0) != input_tokens:
+                            job["usage_input_tokens"] = input_tokens
+                        if int(job.get("usage_output_tokens", 0) or 0) != output_tokens:
+                            job["usage_output_tokens"] = output_tokens
+                        if int(job.get("usage_total_tokens", 0) or 0) != total_tokens:
+                            job["usage_total_tokens"] = total_tokens
+                    if new_status == "completed" and not bool(job.get("output_saved", False)):
+                        text = extract_output_text(data)
+                        if text:
+                            job["response_text"] = text
+                            model_status = extract_model_status(text)
+                            job["model_status"] = model_status
+                            output_path = Path(str(job.get("output_path", "")).strip())
+                            number = str(job.get("number", "")).strip()
+                            write_markdown_output(output_path, number, text, model_status)
+                            job["output_saved"] = True
+                        else:
+                            job["failure_reason"] = "completed_without_output_text"
                     job["last_polled_at"] = now_iso()
                     if new_status in TERMINAL and not str(job.get("terminal_at", "")).strip():
                         job["terminal_at"] = now_iso()
@@ -613,6 +633,12 @@ def run_dashboard(args: argparse.Namespace, api_key: str) -> None:
                 continue
             response_id = str(job.get("response_id", "")).strip()
             status = str(job.get("response_status", "")).strip()
+            output_path_value = str(job.get("output_path", "")).strip()
+            output_path = Path(output_path_value) if output_path_value else None
+            output_exists = bool(output_path and output_path.is_file())
+            if output_exists and not bool(job.get("output_saved", False)):
+                job["output_saved"] = True
+                state_changed = True
             if not response_id:
                 continue
             if status not in NON_TERMINAL and status in TERMINAL:
@@ -651,6 +677,10 @@ def run_dashboard(args: argparse.Namespace, api_key: str) -> None:
                         job["output_saved"] = True
                         job["model_status"] = model_status
                         state_changed = True
+                    else:
+                        if str(job.get("failure_reason", "")).strip() != "completed_without_output_text":
+                            job["failure_reason"] = "completed_without_output_text"
+                            state_changed = True
                 continue
 
             submitted_ts = parse_time_or_zero(job.get("submitted_at"))
@@ -768,6 +798,7 @@ def jobs_for_web(state: dict[str, Any]) -> list[dict[str, Any]]:
         output_exists = False
         if output_path:
             output_exists = Path(output_path).is_file()
+        output_saved = bool(job.get("output_saved", False)) or output_exists
         rows.append(
             {
                 "number": number,
@@ -781,7 +812,7 @@ def jobs_for_web(state: dict[str, Any]) -> list[dict[str, Any]]:
                 "failure_reason": str(job.get("failure_reason", "")).strip(),
                 "model_status": str(job.get("model_status", "")).strip(),
                 "output_path": output_path,
-                "output_saved": bool(job.get("output_saved", False)),
+                "output_saved": output_saved,
                 "output_exists": output_exists,
                 "usage_input_tokens": int(job.get("usage_input_tokens", 0) or 0),
                 "usage_output_tokens": int(job.get("usage_output_tokens", 0) or 0),
