@@ -21,14 +21,13 @@ from urllib.request import Request, urlopen
 
 SYSTEM_PROMPT = (
     "You are an expert mathematician working on an Erdős problem. "
-    "Try to solve the problem fully. If a complete solution is not reached, produce the best "
-    "viable proof sketch you can. As soon as you have a viable proof sketch, stop and output it "
-    "instead of continuing to explore. "
+    "Try to solve the problem fully with a correct proof. If a complete correct solution is not "
+    "reached, do not output a proof sketch; explicitly report that you could not solve it. "
     "Output in Markdown. The final line must be exactly one of: "
-    "Status: Solved or Status: Proof Sketch or Status: Failed"
+    "Status: Solved or Status: Could Not Solve"
 )
 
-STATUS_RE = re.compile(r"^Status:\s*(Solved|Proof Sketch|Failed)\s*$", re.IGNORECASE)
+STATUS_RE = re.compile(r"^Status:\s*(Solved|Could Not Solve|Failed|Proof Sketch)\s*$", re.IGNORECASE)
 NON_TERMINAL = {"queued", "in_progress"}
 TERMINAL = {"completed", "failed", "cancelled", "incomplete"}
 
@@ -219,10 +218,10 @@ def build_user_prompt(number: str, latex: str) -> str:
         f"Problem number: {number}\n\n"
         "Problem statement (LaTeX):\n"
         f"{latex}\n\n"
-        "Task: Solve this problem. If you cannot complete a full solution, provide the best viable "
-        "proof sketch and stop there.\n"
+        "Task: Solve this problem fully with a correct proof. If you cannot complete a full correct "
+        "solution, do not provide a proof sketch and instead state that you could not solve it.\n"
         "Remember: your final line must be exactly one of: "
-        "Status: Solved or Status: Proof Sketch or Status: Failed"
+        "Status: Solved or Status: Could Not Solve"
     )
 
 
@@ -329,6 +328,23 @@ def extract_model_status(text: str) -> str | None:
             value = match.group(1).lower()
             if value == "solved":
                 found = "Solved"
+            elif value == "could not solve":
+                found = "Could Not Solve"
+            elif value in {"failed", "proof sketch"}:
+                found = "Could Not Solve"
+    return found
+
+
+def extract_model_status_for_display(text: str) -> str | None:
+    found: str | None = None
+    for line in text.splitlines():
+        match = STATUS_RE.match(line.strip())
+        if match:
+            value = match.group(1).lower()
+            if value == "solved":
+                found = "Solved"
+            elif value == "could not solve":
+                found = "Could Not Solve"
             elif value == "proof sketch":
                 found = "Proof Sketch"
             elif value == "failed":
@@ -795,7 +811,7 @@ def resolve_model_status(job: dict[str, Any], output_exists: bool) -> str:
 
     response_text = str(job.get("response_text", "")).strip()
     if response_text:
-        inferred = extract_model_status(response_text)
+        inferred = extract_model_status_for_display(response_text)
         if inferred:
             return inferred
 
@@ -809,7 +825,7 @@ def resolve_model_status(job: dict[str, Any], output_exists: bool) -> str:
             except OSError:
                 sample = ""
             if sample:
-                inferred = extract_model_status(sample)
+                inferred = extract_model_status_for_display(sample)
                 if inferred:
                     return inferred
 
@@ -887,7 +903,6 @@ def web_index_html(refresh_seconds: float) -> str:
     .status-incomplete {{ color: #555; }}
     .model-badge {{ border-radius: 999px; padding: 2px 8px; font-size: 12px; border: 1px solid #ddd; display: inline-block; }}
     .model-solved {{ color: #0a6b1c; border-color: #9ed7a8; background: #edf9ef; }}
-    .model-proof {{ color: #7a5200; border-color: #e6ce8a; background: #fff8e8; }}
     .model-failed {{ color: #8e1010; border-color: #e5aaaa; background: #fff0f0; }}
     .model-unknown {{ color: #555; border-color: #ddd; background: #f8f8f8; }}
     .mono {{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }}
@@ -962,9 +977,9 @@ def web_index_html(refresh_seconds: float) -> str:
         const modelLower = modelStatus.toLowerCase();
         const modelClass = modelLower === 'solved'
           ? 'model-solved'
-          : (modelLower === 'proof sketch'
-              ? 'model-proof'
-              : (modelLower === 'failed' ? 'model-failed' : 'model-unknown'));
+          : ((modelLower === 'could not solve' || modelLower === 'failed' || modelLower === 'proof sketch')
+              ? 'model-failed'
+              : 'model-unknown');
         const stamps = [
           ['submitted', job.submitted_at],
           ['terminal', job.terminal_at],

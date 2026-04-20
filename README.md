@@ -78,5 +78,4 @@ Defaults:
 Each model response is prompted to end with exactly one line:
 
 - `Status: Solved`
-- `Status: Proof Sketch`
-- `Status: Failed`
+- `Status: Could Not Solve`
