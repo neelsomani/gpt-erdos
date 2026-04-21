@@ -386,6 +386,8 @@ def run_submit(args: argparse.Namespace, api_key: str) -> None:
             continue
         filtered.append({"number": number, "latex": latex})
 
+    submitted_or_existing_numbers = set(existing_numbers)
+
     filtered.sort(key=lambda item: problem_sort_key(item["number"]))
     if args.max_problems > 0:
         filtered = filtered[: args.max_problems]
@@ -411,6 +413,9 @@ def run_submit(args: argparse.Namespace, api_key: str) -> None:
         number = item["number"]
         latex = item["latex"]
         output_path = args.solutions_dir / number / args.output_filename
+
+        if not args.force_submit and number in submitted_or_existing_numbers:
+            continue
 
         while args.max_active_jobs > 0:
             active_jobs = [
@@ -450,9 +455,9 @@ def run_submit(args: argparse.Namespace, api_key: str) -> None:
                             job["response_text"] = text
                             model_status = extract_model_status(text)
                             job["model_status"] = model_status
-                            output_path = Path(str(job.get("output_path", "")).strip())
-                            number = str(job.get("number", "")).strip()
-                            write_markdown_output(output_path, number, text, model_status)
+                            job_output_path = Path(str(job.get("output_path", "")).strip())
+                            job_number = str(job.get("number", "")).strip()
+                            write_markdown_output(job_output_path, job_number, text, model_status)
                             job["output_saved"] = True
                         else:
                             job["failure_reason"] = "completed_without_output_text"
@@ -508,6 +513,7 @@ def run_submit(args: argparse.Namespace, api_key: str) -> None:
                     }
                 )
                 submitted += 1
+                submitted_or_existing_numbers.add(number)
                 print(
                     f"[{index}/{total}] Submitted problem {number}: id={response_id}, status={response_status}",
                     file=sys.stderr,
